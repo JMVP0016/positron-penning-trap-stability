@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Positron Confinement Stability in a Penning Trap"
+abstract: "Monte Carlo simulation of single-positron confinement stability in an idealised Penning trap at 4 K and 0.1 K, with patch potentials modelled as an Ornstein-Uhlenbeck stochastic transverse field driving E x B guiding-centre transport."
+authors:
+  - family-names: "Vázquez Pacurucu"
+    given-names: "Jonnathan Marcelo"
+    orcid: "https://orcid.org/0009-0000-2384-2583"
+    affiliation: "Escuela Superior Politécnica de Chimborazo"
+  - family-names: "Manobanda Muzo"
+    given-names: "Henry David"
+    affiliation: "Escuela Superior Politécnica de Chimborazo"
+version: "1.0.0"
+date-released: "2026-09-07"
+repository-code: "https://github.com/JVP0015/positron-penning-trap-stability"
+keywords:
+  - computational physics
+  - antimatter
+  - positron
+  - Penning trap
+  - Monte Carlo
+  - stochastic modelling
