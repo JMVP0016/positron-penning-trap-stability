@@ -13,7 +13,7 @@ authors:
     affiliation: "Escuela Superior Politécnica de Chimborazo"
 version: "1.0.0"
 date-released: "2026-09-07"
-repository-code: "https://github.com/JVP0015/positron-penning-trap-stability"
+repository-code: "https://github.com/JMVP0016/positron-penning-trap-stability"
 keywords:
   - computational physics
   - antimatter
