@@ -86,6 +86,8 @@ for both regimes.
 | 4 K (classical) | **78.20 h** |
 | 0.1 K (quantum modal) | **12.37 h** |
 
+![Survival comparison at 4 K and 0.1 K](figures/fig4_14_comparacion_supervivencia.png)
+
 Lower temperature **reduces** confinement stability, in agreement with the scaling relation
 `t_conf ∝ √T` **derived from the model**.
 
