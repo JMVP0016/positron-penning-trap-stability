@@ -1,5 +1,7 @@
 # Positron Confinement Stability in a Penning Trap
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22652850.svg)](https://doi.org/10.5281/zenodo.22652850)
+
 Monte Carlo simulation of the dynamic stability of a **single positron** confined in an
 idealised Penning trap at **4 K** and **0.1 K**, including effective perturbations
 associated with **patch potentials**.
