@@ -2,6 +2,7 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22652850.svg)](https://doi.org/10.5281/zenodo.22652850)
 
+
 Monte Carlo simulation of the dynamic stability of a **single positron** confined in an
 idealised Penning trap at **4 K** and **0.1 K**, including effective perturbations
 associated with **patch potentials**.
@@ -90,6 +91,7 @@ for both regimes.
 
 ![Survival comparison at 4 K and 0.1 K](figures/fig4_14_comparacion_supervivencia.png)
 
+
 Lower temperature **reduces** confinement stability, in agreement with the scaling relation
 `t_conf ∝ √T` **derived from the model**.
 
@@ -138,7 +140,7 @@ and a parameter table `tabla_control_parametros_*.csv`.
 
 ## Authors
 
-- **Jonnathan Marcelo Vázquez Pacurucu** — ORCID [0009-0000-2384-2583](https://orcid.org/0009-0000-2384-2583)
+- **Jonnathan Marcelo Vazquez Pacurucu** — ORCID [0009-0000-2384-2583](https://orcid.org/0009-0000-2384-2583)
   *Contribution (CRediT): Software, Methodology, Formal analysis, Investigation, Writing – original draft.*
   **Simulation code in this repository implemented by this author.**
 - **Henry David Manobanda Muzo** — co-author of the thesis.
@@ -147,7 +149,15 @@ and a parameter table `tabla_control_parametros_*.csv`.
 
 ## Citation
 
-> Vázquez Pacurucu, J. M., & Manobanda Muzo, H. D. (2026). *Análisis del efecto de la
+**Software (this repository):**
+
+> Vazquez Pacurucu, J. M., & Manobanda Muzo, H. D. (2026). *Positron Confinement
+> Stability in a Penning Trap* (v1.0.0) [Software]. Zenodo.
+> https://doi.org/10.5281/zenodo.22652851
+
+**Underlying thesis:**
+
+> Vazquez Pacurucu, J. M., & Manobanda Muzo, H. D. (2026). *Análisis del efecto de la
 > temperatura en la estabilidad de positrones en trampas de Penning mediante simulación en
 > Python* [Undergraduate thesis, Escuela Superior Politécnica de Chimborazo].
 
