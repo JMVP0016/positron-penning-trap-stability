@@ -1,0 +1,42 @@
+# estilo.mplstyle — estilo común de las figuras (tesis y artículo para IOP / Physica Scripta).
+# Guía de IOP: ancho 8,5 cm (una columna) o 15 cm (dos columnas); texto de 8 a 12 pt
+# al tamaño final; letras de las familias estándar (Times, Helvetica, Courier, Symbol);
+# PDF vectorial; la información no puede depender solo del color.
+figure.figsize: 5.9, 3.7          # 15 cm de ancho; para una columna usa figuras.tamano(1)
+figure.dpi: 110
+figure.constrained_layout.use: True
+savefig.dpi: 300
+savefig.bbox: tight
+pdf.fonttype: 42                   # letras incrustadas como TrueType
+ps.fonttype: 42
+
+# STIX para texto y matemáticas (diseñada como Times). Para usar Times New Roman,
+# cambia la línea font.serif a: Times New Roman, STIXGeneral
+font.family: serif
+font.serif: STIXGeneral, Times New Roman, Times
+mathtext.fontset: stix
+font.size: 10
+axes.titlesize: 10
+axes.labelsize: 10
+legend.fontsize: 9
+xtick.labelsize: 9
+ytick.labelsize: 9
+
+# Colores por entidad: azul (4 K), rojo vino (0,1 K), verde agua (tercera serie).
+axes.prop_cycle: cycler('color', ['2a78d6', '9b1b30', '1baf7a'])
+lines.linewidth: 1.6
+lines.markersize: 3
+
+axes.edgecolor: 52514e
+axes.linewidth: 0.8
+axes.labelcolor: 0b0b0b
+axes.spines.top: False
+axes.spines.right: False
+axes.axisbelow: True
+axes.grid: True
+grid.color: e1e0d9
+grid.linewidth: 0.6
+xtick.color: 52514e
+ytick.color: 52514e
+text.color: 0b0b0b
+legend.frameon: False
