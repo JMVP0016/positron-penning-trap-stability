@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
     sigma = 1 / np.sqrt(2)
     print("1) D con rotación magnetrón: simulación frente a fórmula (semillas independientes)")
-    xs, ratios, errores, ejemplo = (0.3, 1.0, 3.0, 10.0), [], [], None
+    xs, ratios, errores, rel, rel_err, ejemplo = (0.3, 1.0, 3.0, 10.0), [], [], [], [], None
     for i, x in enumerate(xs):
         tau = x / W_M
         t, R2, D_sim, D_err = simular_difusion(tau, sigma, semilla=1000 + i)
@@ -162,6 +162,8 @@ if __name__ == "__main__":
         D_blanco = sigma**2 * tau / B0**2
         ratios.append(D_sim / D_blanco)
         errores.append(D_err / D_blanco)
+        rel.append(D_sim / D_th)
+        rel_err.append(D_err / D_th)
         if x == 1.0:
             ejemplo = (t, R2, D_th)
         print(f"   omega_- tau = {x:5.1f}:  D_sim/D_teoría = {D_sim/D_th:.3f} ± {D_err/D_th:.3f}"
@@ -190,24 +192,37 @@ if __name__ == "__main__":
         print(f"   T = {T:>3} K: S_E = {S:.2e} -> media = {tiempo_medio(D_desde_SE(S))/UN_ANIO:.0f} años")
 
     # Figura de control
+    # Panel central en escala log-log: la supresión llega a 0,01 y en escala lineal esos puntos
+    # quedarían pegados al cero con barras invisibles. Debajo, el cociente simulación/teoría
+    # con sus barras de error, que es donde se ve si la simulación coincide con la fórmula.
     usar_estilo()
-    fig, ax = plt.subplots(1, 3, figsize=tamano(2, 5.6))
+    fig = plt.figure(figsize=tamano(2, 6.2))
+    gs = fig.add_gridspec(2, 3, height_ratios=(2.2, 1))
+    a0 = fig.add_subplot(gs[:, 0])
+    a1 = fig.add_subplot(gs[0, 1])
+    a1r = fig.add_subplot(gs[1, 1], sharex=a1)
+    a2 = fig.add_subplot(gs[:, 2])
     t, R2, D_th = ejemplo
-    ax[0].plot(t * 1e3, R2 * 1e6, color=COLOR["4K"], ls="-", label="simulación")
-    ax[0].plot(t * 1e3, 4 * D_th * t * 1e6, color=COLOR["teoria"], **LINEA["teoria"], label=r"$4Dt$")
-    ax[0].set_xlabel(r"$t$ (ms)"); ax[0].set_ylabel(r"$\langle |Z|^2\rangle$ (mm$^2$)")
-    ax[0].legend(loc="upper left", fontsize=8)
-    xx = np.logspace(-2, 2, 200)
-    ax[1].semilogx(xx, 1 / (1 + xx**2), color=COLOR["teoria"], **LINEA["teoria"], label="teoría")
-    ax[1].errorbar(xs, ratios, yerr=errores, color=COLOR["4K"], ls="none", marker="o",
-                   capsize=2, label="simulación")
-    ax[1].set_xlabel(r"$\omega_-\tau_s$"); ax[1].set_ylabel(r"$D/D_{\mathrm{blanco}}$")
-    ax[1].legend(loc="lower left", fontsize=8)
+    a0.plot(t * 1e3, R2 * 1e6, color=COLOR["4K"], ls="-", label="simulación")
+    a0.plot(t * 1e3, 4 * D_th * t * 1e6, color=COLOR["teoria"], **LINEA["teoria"], label=r"$4Dt$")
+    a0.set_xlabel(r"$t$ (ms)"); a0.set_ylabel(r"$\langle |Z|^2\rangle$ (mm$^2$)")
+    a0.legend(loc="upper left", fontsize=8)
+    xx = np.logspace(-1.3, 1.3, 200)
+    a1.loglog(xx, 1 / (1 + xx**2), color=COLOR["teoria"], **LINEA["teoria"], label="teoría")
+    a1.plot(xs, ratios, color=COLOR["4K"], ls="none", marker="o", ms=4, label="simulación")
+    a1.set_ylabel(r"$D/D_{\mathrm{blanco}}$")
+    a1.legend(loc="lower left", fontsize=8)
+    plt.setp(a1.get_xticklabels(), visible=False)
+    a1r.axhline(1.0, color=COLOR["teoria"], ls=":", lw=1.2)
+    a1r.errorbar(xs, rel, yerr=rel_err, color=COLOR["4K"], ls="none", marker="o", ms=4,
+                 elinewidth=1, capsize=2.5, capthick=1)
+    a1r.set_ylim(0.9, 1.1)
+    a1r.set_xlabel(r"$\omega_-\tau_s$"); a1r.set_ylabel(r"$D_{\mathrm{sim}}/D_{\mathrm{teo}}$")
     tt = np.linspace(0, 3, 400)              # en unidades de la media
-    ax[2].plot(tt, _S_adim(tt / 4), color=COLOR["4K"], ls="-")
-    ax[2].axvline(4 * C50, color=COLOR["secundario"], ls="--", lw=1)
-    ax[2].axvline(1.0, color=COLOR["teoria"], ls=":", lw=1.2)
-    ax[2].text(4 * C50 - 0.05, 0.92, "mediana", ha="right", fontsize=8)
-    ax[2].text(1.05, 0.92, "media", fontsize=8)
-    ax[2].set_xlabel(r"$t/\bar t$"); ax[2].set_ylabel(r"$S(t)$")
+    a2.plot(tt, _S_adim(tt / 4), color=COLOR["4K"], ls="-")
+    a2.axvline(4 * C50, color=COLOR["secundario"], ls="--", lw=1)
+    a2.axvline(1.0, color=COLOR["teoria"], ls=":", lw=1.2)
+    a2.text(4 * C50 - 0.05, 0.92, "mediana", ha="right", fontsize=8)
+    a2.text(1.05, 0.92, "media", fontsize=8)
+    a2.set_xlabel(r"$t/\bar t$"); a2.set_ylabel(r"$S(t)$")
     guardar(fig, "control_ruido")
