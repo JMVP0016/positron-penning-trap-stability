@@ -20,6 +20,13 @@ MODELO (2D: cilindro de radio a con potencial de pared aleatorio V(theta))
 El cilindro aproxima la trampa hiperbólica. En 3D el patrón también varía a lo largo de z y se
 promedia más, así que el campo de este modelo es una COTA SUPERIOR.
 
+QUÉ DICEN LAS MEDICIONES: ALPHA (Baker et al., Phys. Rev. Research 6, L012008, 2024) midió en su
+trampa a 4 K campos de parche en el eje del orden de 10 mV/cm (~1 V/m), compatibles con
+variaciones de potencial de 1 a 100 mV a escala de centímetros. Ese campo lo dominan las
+estructuras GRANDES de la superficie (l comparable con el radio), no las de 100 nm: los parches
+pequeños se apantallan y casi no llegan al centro. Por eso el valor realista del campo estático
+se toma de la medición (~1 V/m) y este módulo se usa para entender de qué escala viene.
+
 Uso:  python superficie.py
 """
 import numpy as np
