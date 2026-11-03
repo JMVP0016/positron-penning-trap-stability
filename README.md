@@ -1,47 +1,113 @@
-# Positrones en una trampa de Penning: efecto de la temperatura (código de la tesis, V12)
+# Positron Confinement Stability in a Penning Trap
 
-Código en Python de la tesis «Análisis del efecto de la temperatura en la estabilidad de positrones en trampas de
-Penning mediante simulación en Python» (Jonnathan Vazquez y Henry Manobanda, Física, ESPOCH, 2026). Calcula cuánto
-tiempo permanece un positrón en la trampa (B₀ = 0,5 T, U₀ = 2×10⁴ V/m², pared a 5 mm) cuando el ruido eléctrico
-de los electrodos hace difundir el radio del magnetrón, entre 4 K y 0,1 K.
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22652850.svg)](https://doi.org/10.5281/zenodo.22652850)
 
-## Instalación
+Python code of the undergraduate thesis *"Análisis del efecto de la temperatura en la estabilidad de positrones en
+trampas de Penning mediante simulación en Python"* (Escuela Superior Politécnica de Chimborazo, Faculty of Sciences,
+Physics Programme, 2026). It computes how long a single positron stays confined in an idealised Penning trap
+(B₀ = 0.5 T, U₀ = 2×10⁴ V/m², loss radius 5 mm) between 4 K and 0.1 K, when electric-field noise at the electrodes
+makes the magnetron radius diffuse.
 
-Entorno de referencia: Python 3.11.3 con las versiones fijadas en `requirements.txt`.
+Versión en español: [README_es.md](README_es.md).
+
+## What is new in version 2.0.0
+
+Version 1.0.0 modelled patch potentials as an Ornstein–Uhlenbeck field whose correlation time was set by the
+positron's thermal transit, which gave `D ∝ 1/√T` and shorter confinement at lower temperature. Version 2 tests that
+hypothesis numerically and rules it out: a static patch only shifts the magnetron orbit, which stays bounded, and the
+radius grows only under field noise at the magnetron frequency `f₋`. Version 2 therefore
+
+- computes the mean loss time from realistic noise sources: the electrode filter (Johnson noise plus BASE-like
+  interference), fluctuating surface patches and the axial channel;
+- includes the dissipation that the fluctuation–dissipation theorem attaches to every thermal noise source;
+- treats the three modes as quantum oscillators (Bose–Einstein occupations and amplitudes with zero point);
+- covers four temperatures (4, 1, 0.3 and 0.1 K) and a continuous sweep from 0.05 to 10 K;
+- compares the model with experimental references (ALPHA, Peil and Gabrielse, BASE).
+
+The version 1 scripts are kept in `v11/` for reference only; no module uses them.
+
+## Model in brief
+
+| Ingredient | Relation |
+|---|---|
+| Guiding-centre diffusion | `D = S_E(f₋)/(4B₀²)`, mean loss time `t̄ = r_wall² B₀² / S_E(f₋)` |
+| Static patch | bounded magnetron orbit; immediate loss only above 50–100 V/m |
+| Dissipation of thermal sources | `t̄ = Ein(U)/(2λ)`, with `U = |E₋(r_wall)|/(k_B T)` |
+| Quantum modes | `n̄ = 1/(e^{ħω/k_BT} − 1)`, `A = √(2ħ(n̄ + ½)/(m ω_eff))` |
+
+## Installation
+
+Reference environment: Python 3.11.3 with the versions pinned in `requirements.txt`.
 
     python3 -m pip install -r requirements.txt
 
-## Uso
+## Usage
 
-| Orden | Qué hace | Salida |
+| Command | What it does | Output |
 |---|---|---|
-| `python3 -m pytest -q` | pruebas automáticas | — |
-| `python3 figuras_tesis.py` | figuras del capítulo 4, unos 2 min (`python3 figuras_tesis.py 5 7`: solo la 5 y la 7) | `figures/`, `datos/` |
-| `python3 trayectorias.py` | trayectorias del positrón a 4; 1; 0,3 y 0,1 K (Ilustración 4-7) | `figures/fig4_06b_trayectorias.*` |
-| `python3 contraste_experimental.py` | contraste con ALPHA y con Peil (Ilustración 4-10) | `figures/fig4_10_alpha.*` |
-| `python3 temperaturas.py` | tablas de las cuatro temperaturas y barrido del anexo | `datos/temperaturas_*.csv`, `tablas/` |
+| `python3 -m pytest -q` | 79 automated tests | — |
+| `python3 figuras_tesis.py` | figures of chapter 4 (≈ 4 min; `python3 figuras_tesis.py 5 7` makes only figures 5 and 7) | `figures/`, `datos/` |
+| `python3 trayectorias.py` | positron trajectories at 4, 1, 0.3 and 0.1 K | `figures/fig4_06b_trayectorias.*` |
+| `python3 contraste_experimental.py` | comparison with ALPHA and with Peil and Gabrielse | `figures/fig4_10_alpha.*` |
+| `python3 temperaturas.py` | tables for the four temperatures and for the 0.05–10 K sweep | `datos/temperaturas_*.csv`, `tablas/` |
+| `python3 fig_disipacion.py` | loss time with and without dissipation | `figures/figF_disipacion.*` |
+| `python3 cifras_canonicas.py` | every number quoted in the thesis, with the script that produces it | `datos/cifras_canonicas.csv` |
+| `python3 make_figures_article.py --slow` | analyses for the article (≈ 4 min) | `datos_articulo/`, `figures_articulo/` |
 
-Con `FIG_IDIOMA=en FIG_CARPETA=figures/en` delante de la orden, las figuras salen con las etiquetas en inglés.
-Con `SOURCE_DATE_EPOCH=1798761600`, los PDF llevan una fecha interna fija y, en el entorno de referencia, se
-regeneran idénticos (mismo md5).
+Prefix a command with `FIG_IDIOMA=en FIG_CARPETA=figures/en` to get the same figures with English labels. With
+`SOURCE_DATE_EPOCH=1798761600`, the PDFs carry a fixed internal date and are regenerated byte for byte in the
+reference environment.
 
-## Módulos
+## Modules
 
-| Módulo | Contenido |
+| Module | Content |
 |---|---|
-| `params.py` | constantes y parámetros de la trampa; única fuente para todos los módulos |
-| `centro_guia.py` | órbita del centro guía con un campo de parche fijo y umbral de pérdida |
-| `transito.py` | prueba numérica de la hipótesis de tránsito de la V11 |
-| `ruido.py` | difusión del centro guía por ruido eléctrico y tiempo medio de pérdida |
-| `superficie.py` | qué parte del campo de los parches llega al positrón (apantallamiento) |
-| `parches_fluctuantes.py` | parches que cambian en el tiempo |
-| `cuantico.py` | ocupaciones y amplitudes de los tres modos, con el punto cero |
-| `figuras.py`, `estilo.mplstyle` | estilo y paleta comunes de las figuras |
+| `params.py` | constants and trap parameters (single source for every module) |
+| `centro_guia.py` | guiding-centre orbit under a static patch field and the loss threshold |
+| `transito.py` | numerical test of the transit hypothesis of version 1 (`chequeo_transito.py` repeats it for other `ω_z/ω₋`) |
+| `ruido.py` | guiding-centre diffusion driven by field noise and the mean loss time |
+| `superficie.py` | how much of the patch field reaches the positron (screening) |
+| `parches_fluctuantes.py` | fluctuating surface patches |
+| `cuantico.py` | occupations and amplitudes of the three modes, with zero point |
+| `disipacion.py` | fluctuation–dissipation: anti-damping of the magnetron and the factor `Ein(U)/U` |
+| `orbita_completa.py` | full Lorentz-force orbit (Boris integrator and exact propagator) to validate the guiding-centre model |
+| `figuras.py`, `estilo.mplstyle` | common style and colour palette of the figures |
+| `articulo/` | analyses for the article, run by `make_figures_article.py` |
 
-La carpeta `v11/` guarda los guiones de la versión anterior (V11) solo como referencia: ningún módulo los usa.
+## Reproducibility
 
-## Reproducibilidad
+All Monte Carlo simulations use fixed seeds. In the reference environment, regenerating the data reproduces the CSV
+files in `datos/` bit for bit (the last column of `datos_articulo/m1_sesgo_mediana.csv` records run times and changes
+on every run). The tag `v12-tesis-cifras` marks the code version behind every number in the thesis; `v2.0.0` is this
+release.
 
-Todas las simulaciones Monte Carlo usan semillas fijas: en el entorno de referencia, regenerar los datos reproduce bit
-a bit los CSV de `datos/`. El tag `v12-tesis-cifras` marca la versión del código con la que se escribieron las cifras
-de la tesis.
+## Authors
+
+- **Jonnathan Marcelo Vazquez Pacurucu** — ORCID [0009-0000-2384-2583](https://orcid.org/0009-0000-2384-2583)
+  *Contribution (CRediT): Software, Methodology, Formal analysis, Investigation, Writing – original draft.*
+- **Henry David Manobanda Muzo** — co-author of the thesis.
+  *Contribution (CRediT): Software, Validation.*
+  **Experimental-comparison module (`contraste_experimental.py`) and its tests implemented by this author.**
+
+**Thesis director:** Biof. Azucena Nataly Bonilla, MSc.
+
+## Citation
+
+**Software (this repository, all versions):**
+
+> Vazquez Pacurucu, J. M., & Manobanda Muzo, H. D. (2026). *Positron Confinement Stability in a Penning Trap*
+> [Software]. Zenodo. https://doi.org/10.5281/zenodo.22652850
+
+Zenodo gives each release its own DOI; version 1.0.0 is https://doi.org/10.5281/zenodo.22652851.
+
+**Underlying thesis:**
+
+> Vazquez Pacurucu, J. M., & Manobanda Muzo, H. D. (2026). *Análisis del efecto de la temperatura en la estabilidad
+> de positrones en trampas de Penning mediante simulación en Python* [Undergraduate thesis, Escuela Superior
+> Politécnica de Chimborazo].
+
+## License and notice
+
+The code is released under the Apache License 2.0 (`LICENSE`). Intellectual property of the underlying work belongs
+to the Escuela Superior Politécnica de Chimborazo. Reproduction, in whole or in part, is authorised **for academic
+purposes**, by any means, **provided that authorship is acknowledged**.

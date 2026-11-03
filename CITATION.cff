@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+type: software
+title: "Positron Confinement Stability in a Penning Trap"
+abstract: "Python model of the confinement of a single positron in an idealised Penning trap between 4 K and 0.1 K. The loss time follows from the diffusion of the magnetron radius driven by electric-field noise at the magnetron frequency, computed for realistic noise sources (filter Johnson noise with interference, fluctuating surface patches and the axial channel) and including the dissipation required by the fluctuation-dissipation theorem. Version 2 tests and rules out the thermal-transit hypothesis of version 1."
+authors:
+  - family-names: "Vazquez Pacurucu"
+    given-names: "Jonnathan Marcelo"
+    orcid: "https://orcid.org/0009-0000-2384-2583"
+    affiliation: "Escuela Superior Politécnica de Chimborazo"
+  - family-names: "Manobanda Muzo"
+    given-names: "Henry David"
+    affiliation: "Escuela Superior Politécnica de Chimborazo"
+version: "2.0.0"
+date-released: "2026-11-03"
+license: Apache-2.0
+repository-code: "https://github.com/JMVP0016/positron-penning-trap-stability"
+doi: "10.5281/zenodo.22652850"
+keywords:
+  - computational physics
+  - antimatter
+  - positron
+  - Penning trap
+  - Monte Carlo
+  - guiding-centre diffusion
+  - electric-field noise
+  - fluctuation-dissipation theorem
