@@ -12,11 +12,13 @@ en la tesis y en las diapositivas. Los colores pasan la comprobación para dalto
 IOP pide que la información no dependa solo del color (la figura debe leerse impresa en
 gris), así que cada entidad lleva además su tipo de línea y su marcador:
     4 K: línea continua, círculos   0,1 K: línea discontinua, cuadrados   teoría: punteada
-Papel de cada color en TODA la tesis (también en contraste_experimental.py y fig_disipacion.py). Las figuras
+Papel de cada color en TODA la tesis (también en contraste_experimental.py, fig_disipacion.py y
+articulo/fig_regimes_extended.py). Las figuras
 nuevas usan solo estas claves, nunca códigos #rrggbb sueltos, para que un color no cambie de significado:
     COLOR["4K"]          azul    4 K, solo cuando la figura compara temperaturas
     COLOR["01K"]         vino    0,1 K, ídem
     COLOR["positron"]    morado  la vía de la temperatura del positrón (fig4_07_canales_temperatura, panel b = Ilustr. 4-8 b)
+                                 y el canal axial, que depende de su oscilación axial (mapa de regímenes, Ilustr. 4-11)
     COLOR["serie3"]      verde   la simulación o el escenario principal de la tesis (simulación, Monte Carlo,
                                  trampa simulada, filtro de tres etapas)
     COLOR["teoria"]      negro   teoría, solución analítica o referencia experimental (p. ej. ALPHA)

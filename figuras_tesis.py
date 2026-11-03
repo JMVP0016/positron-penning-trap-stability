@@ -391,10 +391,12 @@ def fig8_mapa():
 
 
 def fig9_parches_fluctuantes():
+    from matplotlib.lines import Line2D
+    from matplotlib.patches import Patch
     from parches_fluctuantes import (SE_cota_BASE, banda_superficie, simular_parches_fluctuantes)
     from ruido import D_desde_SE, escenarios, tiempo_medio
 
-    fig, (a, b) = plt.subplots(1, 2, figsize=tamano(2, 7.5))
+    fig, (a, b) = plt.subplots(1, 2, figsize=tamano(2, 9.0))
     # (a) Monte Carlo de parches reales que fluctúan, frente a la difusión predicha
     xs, rel, err = (0.3, 1.0, 3.0), [], []
     for i, x in enumerate(xs):
@@ -404,37 +406,53 @@ def fig9_parches_fluctuantes():
         if x == 1.0:
             ej = (t, R2, D_th)
     t, R2, D_th = ej
-    a.plot(t * 1e3, R2 * 1e12, color=COLOR["serie3"], ls="-", label=L("200 parches que fluctúan", "200 fluctuating patches"))
+    a.plot(t * 1e3, R2 * 1e12, color=COLOR["serie3"], ls="-",
+           label=L("Monte Carlo, 200 parches\n" r"que fluctúan ($\omega_-\tau_s = 1$)",
+                   "Monte Carlo, 200 patches\n" r"that fluctuate ($\omega_-\tau_s = 1$)"))
     a.plot(t * 1e3, 4 * D_th * t * 1e12, color=COLOR["teoria"], **LINEA["teoria"],
-           label=L(r"$4Dt$ (fórmula)", r"$4Dt$ (formula)"))
-    a.set_xlabel(r"$t$ (ms)"); a.set_ylabel(r"$\langle |Z|^2\rangle$ (µm$^2$)")
-    a.legend(loc="upper left", fontsize=8)
+           label=L(r"fórmula de la difusión, $4Dt$", r"diffusion formula, $4Dt$"))
+    a.set_xlabel(L(r"tiempo $t$ (ms)", r"time $t$ (ms)"))
+    a.set_ylabel(L("desplazamiento cuadrático medio\n" r"del centro guía $\langle |Z|^2\rangle$ (µm$^2$)",
+                   "mean squared displacement\n" r"of the guiding centre $\langle |Z|^2\rangle$ (µm$^2$)"))
+    a.legend(loc="upper left", fontsize=7.5)
     txt = "\n".join(f"$\\omega_-\\tau_s$ = {x:g}: {r:.3f} ± {e:.3f}" for x, r, e in zip(xs, rel, err))
-    a.text(0.97, 0.05, L("$D_{sim}/D_{teo}$\n", "$D_{sim}/D_{th}$\n") + num(txt), transform=a.transAxes,
-           ha="right", va="bottom", fontsize=7.5)
+    a.text(0.97, 0.05, L("$D$ simulado / $D$ teórico\n($\\tau_s$: correlación de los parches)\n",
+                         "simulated $D$ / theoretical $D$\n($\\tau_s$: patch correlation time)\n") + num(txt),
+           transform=a.transAxes, ha="right", va="bottom", fontsize=7.5)
     a.set_title("(a)", loc="left", fontsize=10)
     # (b) tiempo medio por parches que fluctúan, escenarios A y B, frente a la temperatura
     T = np.logspace(np.log10(0.05), 1, 150)
-    for esc, c, txt in (("A", COLOR["secundario"], L("A: los parches fluctúan igual", "A: patch noise unchanged")),
-                        ("B", COLOR["serie3"], L("B: los parches se congelan", "B: patch noise freezes out"))):
+    manejadores, etiquetas = [], []
+    for esc, c, ls, txt in (("A", COLOR["secundario"], "--", L("A: los parches fluctúan igual a toda temperatura",
+                                                                "A: patch noise independent of temperature")),
+                            ("B", COLOR["serie3"], "-", L("B: los parches se congelan al enfriar",
+                                                          "B: patch noise freezes out on cooling"))):
         lo, hi = banda_superficie(T, esc)
         b.fill_between(T, tiempo_medio(D_desde_SE(hi)) / UN_ANIO, tiempo_medio(D_desde_SE(lo)) / UN_ANIO,
-                       color=c, alpha=0.25, lw=0, label=txt)
+                       color=c, alpha=0.25, lw=0)
         b.loglog(T, np.sqrt(tiempo_medio(D_desde_SE(hi)) * tiempo_medio(D_desde_SE(lo))) / UN_ANIO,
-                 color=c, ls="-" if esc == "B" else "--", lw=1.4)
+                 color=c, ls=ls, lw=1.4)
+        manejadores.append((Patch(facecolor=c, alpha=0.25, lw=0), Line2D([], [], color=c, ls=ls, lw=1.4)))
+        etiquetas.append(txt)
     b.axhline(tiempo_medio(D_desde_SE(SE_cota_BASE(1.43))) / UN_ANIO, color=COLOR["teoria"], ls=":", lw=1.2)
-    b.text(0.055, tiempo_medio(D_desde_SE(SE_cota_BASE(1.43))) / UN_ANIO * 0.25,
-           L("mínimo compatible con BASE", "minimum compatible with BASE"), fontsize=7.5)
+    manejadores.append(Line2D([], [], color=COLOR["teoria"], ls=":", lw=1.2))
+    etiquetas.append(L("mínimo compatible con BASE", "minimum compatible with BASE"))
     for k, Tk in (("4K", T_4K), ("01K", T_01K)):
-        b.plot(Tk, tiempo_medio(D_TRANSITO[k]) / UN_ANIO, color=COLOR[k], ls="none",
-               marker=LINEA[k]["marker"], ms=5, label=L("tránsito", "transit") + f", {etiqueta_T(k)}")
+        h, = b.plot(Tk, tiempo_medio(D_TRANSITO[k]) / UN_ANIO, color=COLOR[k], ls="none",
+                    marker=LINEA[k]["marker"], ms=5)
+        manejadores.append(h); etiquetas.append(L("modelo de tránsito", "transit model") + f", {etiqueta_T(k)}")
     b.set_xscale("log"); b.set_yscale("log")
     b.set_ylim(1e-4, 1e9)
     b.set_xlabel(L(r"temperatura del sistema $T$ (K)", r"system temperature $T$ (K)"))
     b.set_ylabel(L(r"tiempo medio de pérdida $\bar t$ (años)", r"mean loss time $\bar t$ (years)"))
-    b.legend(loc="center left", fontsize=7, bbox_to_anchor=(0.0, 0.35))
     b.set_title("(b)", loc="left", fontsize=10)
     marcar_temperaturas(b)
+    # leyenda del panel (b) fuera de los paneles, como en las Ilustr. 4-8 y 4-10
+    fig.legend(manejadores, etiquetas, loc="outside lower center",   # franja y línea superpuestas en cada entrada
+               ncol=2, fontsize=7, frameon=False, columnspacing=1.6, handlelength=2.4,
+               title=L("Panel (b), ruido de superficie: la franja es el rango posible y la línea, su valor central",
+                       "Panel (b), surface noise: the band is the possible range and the line its central value"),
+               title_fontsize=7)
     guardar(fig, "fig4_09_parches_fluctuantes", CARPETA)
     lo_A, hi_A = banda_superficie(T, "A"); lo_B, hi_B = banda_superficie(T, "B")
     guardar_datos("fig4_09_parches", "T_K,SE_min_A,SE_max_A,SE_min_B,SE_max_B", T, lo_A, hi_A, lo_B, hi_B)
