@@ -131,7 +131,11 @@ def fig2_apantallamiento():
     from superficie import A_CIL, A1_montecarlo, E_centro_rms
 
     ells = np.logspace(-7, -2.3, 80)
-    fig, ax = plt.subplots(figsize=tamano(1.5 if False else 2, 7.5))
+    # panel principal y, debajo, el cociente Monte Carlo / analítico: con ±3,5 % las barras de error no se ven
+    # en cinco décadas (quedan dentro del punto), pero sí en el cociente
+    fig = plt.figure(figsize=tamano(2, 9.0))
+    gs = fig.add_gridspec(2, 1, height_ratios=(3, 1))
+    ax = fig.add_subplot(gs[0]); r = fig.add_subplot(gs[1], sharex=ax)
     for Vr, ls in ((1e-3, "-"), (1e-2, "--")):
         ax.loglog(ells * 1e3, [E_centro_rms(Vr, l) for l in ells], color=COLOR["teoria"], ls=ls,
                   label=L("analítico", "analytic") + f", $V_{{\\mathrm{{rms}}}}$ = {Vr*1e3:.0f} mV")
@@ -139,18 +143,28 @@ def fig2_apantallamiento():
     mc = [A1_montecarlo(1e-3, l, semilla=300 + i) for i, l in enumerate(ell_mc)]
     E_mc = np.array([np.sqrt(2) * m / A_CIL for m, _ in mc])
     E_err = np.array([np.sqrt(2) * e / A_CIL for _, e in mc])
-    ax.errorbar(ell_mc * 1e3, E_mc, yerr=E_err, color=COLOR["serie3"], ls="none", marker="o",
-                ms=4, capsize=2, label=L("Monte Carlo, 1 mV (400 electrodos)", "Monte Carlo, 1 mV (400 electrodes)"))
+    E_an = np.array([E_centro_rms(1e-3, l) for l in ell_mc])
+    ax.plot(ell_mc * 1e3, E_mc, color=COLOR["serie3"], ls="none", marker="o", ms=4,
+            label=L("Monte Carlo, 1 mV (400 electrodos)", "Monte Carlo, 1 mV (400 electrodes)"))
+    r.errorbar(ell_mc * 1e3, E_mc / E_an, yerr=E_err / E_an, color=COLOR["serie3"], ls="none", marker="o",
+               ms=4, capsize=3)
+    r.axhline(1.0, color=COLOR["teoria"], **LINEA["teoria"])
+    r.set_ylim(0.9, 1.1)
+    r.set_ylabel(L("Monte Carlo\n/ analítico", "Monte Carlo\n/ analytic"), fontsize=9)
     ax.axhline(E_REF, color=COLOR["secundario"], ls="-.", lw=0.9)
     ax.text(1.3e-4, 1.3, L("~1 V/m: orden medido por ALPHA a 4 K", "~1 V/m: order measured by ALPHA at 4 K"), fontsize=8)
     ax.axhline(U0 * R_WALL / 2, color=COLOR["secundario"], ls=":", lw=1.2)
     ax.text(1.3e-4, 65, L("50 V/m: umbral de pérdida", "50 V/m: loss threshold"), fontsize=8)
-    ax.set_xlabel(L(r"longitud de correlación del parche $\ell$ (mm)", r"patch correlation length $\ell$ (mm)"))
-    ax.set_ylabel(L(r"$|E(0)|_{\mathrm{rms}}$ en el centro (V/m)", r"$|E(0)|_{\mathrm{rms}}$ at the centre (V/m)"))
+    r.set_xlabel(L(r"longitud de correlación del parche $\ell$ (mm)", r"patch correlation length $\ell$ (mm)"))
+    plt.setp(ax.get_xticklabels(), visible=False)
+    ax.set_ylabel(L("campo del parche en el centro\n" r"de la trampa, $|E(0)|_{\mathrm{rms}}$ (V/m)",
+                    "patch field at the centre\n" r"of the trap, $|E(0)|_{\mathrm{rms}}$ (V/m)"))
     ax.legend(loc="lower right", fontsize=8)
+    r.text(0.99, 0.08, L("barras: ±1σ del Monte Carlo (≈ 3,5 %)", "bars: ±1σ of the Monte Carlo (≈ 3.5 %)"),
+           transform=r.transAxes, ha="right", va="bottom", fontsize=7.5)
     guardar(fig, "fig4_02_apantallamiento", CARPETA)
     guardar_datos("fig4_02_montecarlo", "ell_m,E_mc_V_m,error_V_m,E_analitico_V_m",
-                  ell_mc, E_mc, E_err, [E_centro_rms(1e-3, l) for l in ell_mc])
+                  ell_mc, E_mc, E_err, E_an)
 
 
 def fig3_transito():
