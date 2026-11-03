@@ -93,16 +93,18 @@ def fig1_parche_estatico():
     t0, Z0 = simular_rampa(Ec, 0.0, periodos_despues=1.05)
     t1, Z1 = simular_rampa(Ec, 5 * P_M, periodos_despues=1.05)
     Zs = centro_desplazado(Ec)
-    a.plot(Z0.real * 1e6, Z0.imag * 1e6, color=COLOR["teoria"], ls="-", label=L("aparece de golpe", "switched on suddenly"))
-    a.plot(Z1.real * 1e6, Z1.imag * 1e6, color=COLOR["serie3"], ls="--", label=L("aparece en 5 $P_-$", "switched on over 5 $P_-$"))
+    a.plot(Z0.real * 1e6, Z0.imag * 1e6, color=COLOR["teoria"], ls="-", label=L("el parche aparece de golpe", "patch switched on suddenly"))
+    a.plot(Z1.real * 1e6, Z1.imag * 1e6, color=COLOR["serie3"], ls="--", label=L(r"el parche aparece en 5 periodos magnetrón ($5P_-$)", r"patch switched on over 5 magnetron periods ($5P_-$)"))
     a.plot(0, 0, "o", color=COLOR["teoria"], ms=3)
     a.plot(Zs.real * 1e6, Zs.imag * 1e6, "+", color=COLOR["teoria"], ms=8, mew=1.2)
     a.annotate(L("centro de\nla trampa", "trap\ncentre"), (0, 0), (6, 4), textcoords="offset points", fontsize=8)
-    a.annotate(r"$Z^*$", (Zs.real * 1e6, Zs.imag * 1e6), (5, -11), textcoords="offset points", fontsize=9)
+    a.annotate(L("centro de\n" r"la órbita, $Z^*$", "orbit\n" r"centre, $Z^*$"), (Zs.real * 1e6, Zs.imag * 1e6), (0, -9),
+               textcoords="offset points", fontsize=8, ha="center", va="top")
     a.set_aspect("equal")
-    a.set_xlabel(r"$X$ (µm)"); a.set_ylabel(r"$Y$ (µm)")
+    a.set_xlabel(L(r"posición $X$ del centro guía (µm)", r"guiding-centre position $X$ (µm)"))
+    a.set_ylabel(L(r"posición $Y$ del centro guía (µm)", r"guiding-centre position $Y$ (µm)"))
     a.set_xlim(-95, 75)
-    a.legend(loc="lower right", fontsize=8)
+    a.legend(loc="upper center", bbox_to_anchor=(0.5, -0.24), fontsize=7.5, frameon=False)   # debajo: dentro tapaba la órbita
     a.set_title("(a)", loc="left", fontsize=10)
     # (b) radio máximo frente al campo estático
     E = np.logspace(-4, 3, 200)
@@ -158,13 +160,15 @@ def fig3_transito():
     t2, R2, th2, _, _ = ou_de_transito(semilla=4052)
     P = 2 * np.pi / W_ESC
     fig, ax = plt.subplots(figsize=tamano(2, 7.0))
-    ax.plot(t2 / P, R2, color=COLOR["secundario"], ls="--", label=L("hipótesis de tránsito (OU)", "transit hypothesis (OU)"))
-    ax.plot(t2 / P, th2, color=COLOR["teoria"], ls=":", lw=1.2, label=r"$4Dt$")
-    ax.plot(t1 / P, R1, color=COLOR["serie3"], ls="-", label=L("parche estático muestreado", "static patch, sampled axially"))
+    ax.plot(t2 / P, R2, color=COLOR["secundario"], ls="--", label=L("hipótesis de tránsito (ruido de Ornstein-Uhlenbeck)", "transit hypothesis (Ornstein-Uhlenbeck noise)"))
+    ax.plot(t2 / P, th2, color=COLOR["teoria"], ls=":", lw=1.2, label=L(r"fórmula de la difusión, $4Dt$", r"diffusion formula, $4Dt$"))
+    ax.plot(t1 / P, R1, color=COLOR["serie3"], ls="-", label=L("parche estático, muestreado por el movimiento axial", "static patch, sampled axially"))
     ax.plot(t1 / P, th1, color=COLOR["teoria"], ls=(0, (1, 3)), lw=1.0,
-            label=r"$2\langle|G_0|^2\rangle(1-\cos\omega_- t)/U_0^2$")
-    ax.set_xlabel(r"$t/P_-$")
-    ax.set_ylabel(L(r"$\langle |Z|^2\rangle$ (unidades escaladas)", r"$\langle |Z|^2\rangle$ (scaled units)"))
+            label=L(r"fórmula del parche estático, $2\langle|G_0|^2\rangle(1-\cos\omega_- t)/U_0^2$",
+                  r"static-patch formula, $2\langle|G_0|^2\rangle(1-\cos\omega_- t)/U_0^2$"))
+    ax.set_xlabel(L(r"tiempo en periodos magnetrón, $t/P_-$", r"time in magnetron periods, $t/P_-$"))
+    ax.set_ylabel(L("desplazamiento cuadrático medio\n" r"$\langle |Z|^2\rangle$ (unidades escaladas)",
+                     "mean squared displacement\n" r"$\langle |Z|^2\rangle$ (scaled units)"))
     ax.legend(loc="upper left", fontsize=8)
     guardar(fig, "fig4_03_transito", CARPETA)
     guardar_datos("fig4_03_estatico", "t_escalado,R2_sim,R2_teoria", t1, R1, th1)
@@ -195,20 +199,25 @@ def fig4_difusion():
     a1r = fig.add_subplot(gs[1, 1], sharex=a1)
     t, R2, D_th = ejemplo
     a0.plot(t * 1e3, R2 * 1e6, color=COLOR["serie3"], ls="-", label=L("simulación", "simulation"))
-    a0.plot(t * 1e3, 4 * D_th * t * 1e6, color=COLOR["teoria"], **LINEA["teoria"], label=r"$4Dt$")
-    a0.set_xlabel(r"$t$ (ms)"); a0.set_ylabel(r"$\langle |Z|^2\rangle$ (mm$^2$)")
+    a0.plot(t * 1e3, 4 * D_th * t * 1e6, color=COLOR["teoria"], **LINEA["teoria"], label=L(r"fórmula, $4Dt$", r"formula, $4Dt$"))
+    a0.set_xlabel(L(r"tiempo $t$ (ms)", r"time $t$ (ms)"))
+    a0.set_ylabel(L("desplazamiento cuadrático\nmedio " r"$\langle |Z|^2\rangle$ (mm$^2$)",
+                    "mean squared\ndisplacement " r"$\langle |Z|^2\rangle$ (mm$^2$)"))
     a0.legend(loc="upper left", fontsize=8); a0.set_title("(a)", loc="left", fontsize=10)
     xx = np.logspace(-1.3, 1.3, 200)
     a1.loglog(xx, 1 / (1 + xx**2), color=COLOR["teoria"], **LINEA["teoria"], label=L("teoría", "theory"))
     a1.plot(xs, sup, color=COLOR["serie3"], ls="none", marker="o", ms=4, label=L("simulación", "simulation"))
-    a1.set_ylabel(r"$D/D_{\mathrm{blanco}}$"); a1.legend(loc="lower left", fontsize=8)
+    a1.set_ylabel(L("difusión relativa\nal ruido blanco, " r"$D/D_{\mathrm{blanco}}$", "diffusion relative\nto white noise, " r"$D/D_{\mathrm{white}}$"),
+                  fontsize=9)
+    a1.legend(loc="lower left", fontsize=8)
     a1.set_title("(b)", loc="left", fontsize=10)
     plt.setp(a1.get_xticklabels(), visible=False)
     a1r.axhline(1.0, color=COLOR["teoria"], ls=":", lw=1.2)
     a1r.errorbar(xs, rel, yerr=rel_err, color=COLOR["serie3"], ls="none", marker="o", ms=4,
                  elinewidth=1, capsize=2.5)
     a1r.set_ylim(0.85, 1.15)
-    a1r.set_xlabel(r"$\omega_-\tau_s$"); a1r.set_ylabel(r"$D_{\mathrm{sim}}/D_{\mathrm{teo}}$")
+    a1r.set_xlabel(L("tiempo de correlación\n" r"del ruido, $\omega_-\tau_s$", "noise correlation\n" r"time, $\omega_-\tau_s$"))
+    a1r.set_ylabel(L("$D$ simulada\n/ teórica", "simulated\n/ theory $D$"), fontsize=9)
     # (c) Monte Carlo de la pérdida con ruido acelerado frente a la distribución analítica
     tp, t_med = simular_perdida(n_tray=4000, semilla=6001)
     med, med_err = mediana_bootstrap(tp, semilla=6002)
@@ -224,7 +233,8 @@ def fig4_difusion():
     txt = (L("mediana", "median") + f":\nMC {med/t_med:.3f} ± {med_err/t_med:.3f}\n"
            + L("analítica", "analytic") + f" {4*C50:.3f}")
     a2.text(0.98, 0.40, num(txt), transform=a2.transAxes, ha="right", fontsize=7.5)
-    a2.set_xlabel(r"$t/\bar t$"); a2.set_ylabel(L("densidad de probabilidad", "probability density"))
+    a2.set_xlabel(L("tiempo de pérdida\n" r"en unidades de $\bar t$", "loss time\n" r"in units of $\bar t$"))
+    a2.set_ylabel(L("densidad de probabilidad", "probability density"))
     a2.legend(loc="upper right", fontsize=7.5, handlelength=1.2)
     a2.set_title("(c)", loc="left", fontsize=10)
     guardar(fig, "fig4_04_difusion", CARPETA)

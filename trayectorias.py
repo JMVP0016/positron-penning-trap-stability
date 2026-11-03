@@ -74,8 +74,8 @@ def figura():
                          (k, r"$A_+$ = " + cifra(A_p * 1e9, "nm"))):
             eje.text(0.04, 0.96, txt, transform=eje.transAxes, ha="left", va="top", fontsize=7.5)
         a.set_title(num(f"{T:g} K"), color=c, fontsize=10)
-        a.set_xlabel(r"$t$ (ns)")
-        b.set_xlabel(r"$x$ (µm)")
+        a.set_xlabel(L(r"tiempo $t$ (ns)", r"time $t$ (ns)"))
+        b.set_xlabel(L(r"posición $x$ (µm)", r"position $x$ (µm)"))
         k.set_xlabel(L(r"$x - x_{\mathrm{cg}}$ (nm)", r"$x - x_{\mathrm{gc}}$ (nm)"))
         for eje in (b, k):
             eje.set_aspect("equal", adjustable="box")
@@ -95,8 +95,9 @@ def figura():
     # cabecera de cada fila, a la izquierda de su eje y
     filas = (L("(a) axial", "(a) axial"),
              L("(b) magnetrón\n" r"$\bar n_- = \bar n_z$", "(b) magnetron\n" r"$\bar n_- = \bar n_z$"),
-             L("(c) ciclotrón", "(c) cyclotron"))
-    etiquetas_y = (r"$z$ (µm)", r"$y$ (µm)", L(r"$y - y_{\mathrm{cg}}$ (nm)", r"$y - y_{\mathrm{gc}}$ (nm)"))
+             L("(c) ciclotrón, respecto\nal centro guía (cg)", "(c) cyclotron, about the\nguiding centre (gc)"))
+    etiquetas_y = (L(r"posición $z$ (µm)", r"position $z$ (µm)"), L(r"posición $y$ (µm)", r"position $y$ (µm)"),
+                   L(r"$y - y_{\mathrm{cg}}$ (nm)", r"$y - y_{\mathrm{gc}}$ (nm)"))
     for e, fila, ey in zip(ax[:, 0], filas, etiquetas_y):
         e.set_ylabel(ey)
         e.annotate(fila, xy=(0, 0.5), xytext=(-6, 0), xycoords=e.yaxis.label, textcoords="offset points",
