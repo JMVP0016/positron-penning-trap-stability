@@ -130,17 +130,129 @@ def mediana(D, R=R_WALL):
 
 
 # ===========================================================================
-# 4. De dónde sale S_E: canal Johnson de un electrodo segmentado
-#    S_V = 4 k_B T R / (1 + (2 pi f R C)^2)  (resistencia R del filtro y capacidad C)
-#    S_E ~ kappa^2 S_V / d^2  (kappa: fracción del voltaje que llega como campo uniforme)
-#    R, C y kappa son SUPUESTOS: hay que justificarlos con la literatura antes de usarlos.
-#    El Johnson es el ruido MÍNIMO de un circuito a temperatura T. En trampas reales suele
-#    dominar ruido técnico o electromagnético externo, que no baja al enfriar; por eso
-#    t_medio proporcional a 1/T es la mejora MÁXIMA que puede dar el enfriamiento.
+# 4. De dónde sale S_E(f_-): el ruido que llega a un electrodo segmentado
+#
+#    a) Del voltaje al campo. Si una mitad del electrodo anular fluctúa con V(t) y la otra no,
+#       el modelo 2D del cilindro (superficie.py, coeficiente B_1 = 2V/pi) da en el centro
+#           E(0) = kappa V / a,   kappa = 2/pi   ->   S_E = kappa^2 S_V / a^2
+#       Un cilindro de longitud finita da menos campo: kappa = 2/pi es una COTA SUPERIOR del
+#       acoplamiento, así que los tiempos que salen son COTAS INFERIORES.
+#
+#    b) El ruido de voltaje S_V en el electrodo a f_- tiene dos partes:
+#       - Johnson de las resistencias del filtro RC por el que se polariza el electrodo. Cada
+#         etapa está a su temperatura (ambiente, 60 K, la de la trampa). Se calcula con el
+#         circuito completo: cada resistencia es una fuente 4 k_B T R en serie y el filtro la
+#         atenúa hasta el electrodo.
+#         Valores reales de un filtro de 3 etapas (von Boehn et al., Commun. Phys. 8, 107, 2025):
+#         R = 5,0 / 5,2 / 7,1 kOhm a 300 / 60 / 5 K, C = 4,8 nF, corte ~1,2 kHz.
+#       - Interferencia electromagnética (EMI) que se acopla a los electrodos. BASE midió en el
+#         electrodo un ruido de 225 pV/sqrt(Hz) y lo atribuyó a EMI (Borchert et al., PRL 122,
+#         043201, 2019). Se midió a ~18 MHz: a 6,4 kHz se usa SOLO como orden de magnitud.
+#       Solo la última etapa del filtro está a la temperatura de la trampa. Esa es la única
+#       parte del ruido que baja al enfriar el sistema de 4 K a 0,1 K.
 # ===========================================================================
+KAPPA_MEDIO_ANILLO = 2 / np.pi
+FILTRO_REAL = {"R": (5.0e3, 5.2e3, 7.1e3), "C": (4.8e-9, 4.8e-9, 4.8e-9), "T_calientes": (300.0, 60.0)}
+FILTRO_FUERTE = {"R": (5.0e3, 5.2e3, 7.1e3), "C": (4.8e-7, 4.8e-7, 4.8e-7), "T_calientes": (300.0, 60.0)}
+#   FILTRO_FUERTE: el mismo con C x 100 (corte ~12 Hz). Es una variante SUPUESTA para representar
+#   montajes con filtrado más agresivo; no es un filtro publicado.
+SV_EMI_BASE = (225e-12) ** 2           # V^2/Hz (orden de magnitud)
+
+
+def SV_filtro(T_trampa, filtro=FILTRO_REAL, f=F_M, por_etapa=False):
+    """Ruido Johnson de un filtro RC en escalera visto en el electrodo (V^2/Hz).
+    La primera etapa está en la entrada (puesta a tierra por la fuente) y la última junto al
+    electrodo, a la temperatura de la trampa."""
+    R, C = filtro["R"], filtro["C"]
+    T = list(filtro["T_calientes"]) + [T_trampa]
+    w, n = 2 * np.pi * f, len(R)
+    Y = np.zeros((n, n), dtype=complex)            # matriz de admitancias de los nodos
+    for k in range(n):
+        g = 1 / R[k]
+        Y[k, k] += g + 1j * w * C[k]
+        if k > 0:
+            Y[k - 1, k - 1] += g
+            Y[k - 1, k] -= g
+            Y[k, k - 1] -= g
+    partes = []
+    for i in range(n):                             # fuente de 1 V en serie con R_i
+        I = np.zeros(n, dtype=complex)
+        I[i] += 1 / R[i]
+        if i > 0:
+            I[i - 1] -= 1 / R[i]
+        H = np.linalg.solve(Y, I)[-1]              # lo que llega al electrodo
+        partes.append(4 * K_B * T[i] * R[i] * abs(H) ** 2)
+    return partes if por_etapa else sum(partes)
+
+
+def SE_desde_SV(S_V, kappa=KAPPA_MEDIO_ANILLO, a=R_WALL):
+    return kappa**2 * S_V / a**2
+
+
+def escenarios(T_trampa):
+    """S_E(f_-) de los escenarios de la tesis para una temperatura de la trampa (o array)."""
+    T = np.atleast_1d(np.asarray(T_trampa, dtype=float))
+    real = np.array([SV_filtro(x, FILTRO_REAL) for x in T])
+    fuerte = np.array([SV_filtro(x, FILTRO_FUERTE) for x in T])
+    frio_real = np.array([SV_filtro(x, FILTRO_REAL, por_etapa=True)[-1] for x in T])
+    frio_fuerte = np.array([SV_filtro(x, FILTRO_FUERTE, por_etapa=True)[-1] for x in T])
+    return {
+        "filtro real (corte 1,2 kHz)": SE_desde_SV(real + SV_EMI_BASE),
+        "filtro fuerte (corte 12 Hz) + EMI": SE_desde_SV(fuerte + SV_EMI_BASE),
+        "solo la etapa fría, filtro real": SE_desde_SV(frio_real),
+        "solo la etapa fría, filtro fuerte": SE_desde_SV(frio_fuerte),
+    }
+
+
 def SE_johnson(T, R=1e6, C=1e-9, kappa=0.5, f=F_M, d=D_TRAP):
+    """Ejemplo simple de una sola resistencia a temperatura T (usado en la primera versión)."""
     S_V = 4 * K_B * T * R / (1 + (2 * np.pi * f * R * C) ** 2)
     return kappa**2 * S_V / d**2
+
+
+# ===========================================================================
+# 5. Monte Carlo de la pérdida: positrones seguidos hasta la pared
+#    Con el ruido real la pérdida tarda años y no se puede simular paso a paso. Como la
+#    supervivencia solo depende de t/t_medio, se acelera el ruido (se elige sigma para que
+#    t_medio sea de pocos cientos de periodos magnetrón) y se compara la DISTRIBUCIÓN de tiempos
+#    con la solución analítica. Lo que se valida es la forma, que vale para cualquier S_E.
+# ===========================================================================
+def simular_perdida(n_tray=4000, t_medio_periodos=300, wtau=1.0, pasos_por_periodo=50,
+                    t_max_medios=4.0, semilla=None):
+    """Devuelve (tiempos de pérdida en s, t_medio teórico en s); np.inf si no se perdió."""
+    rng = np.random.default_rng(semilla)
+    tau = wtau / W_M
+    t_med = t_medio_periodos * T_M
+    D = R_WALL**2 / (4 * t_med)
+    sigma = np.sqrt(D * B0**2 * (1 + wtau**2) / tau)     # despejado de D = sigma^2 tau / [B^2 (1 + w^2 tau^2)]
+    dt = T_M / pasos_por_periodo
+    E = sigma * (rng.normal(size=n_tray) + 1j * rng.normal(size=n_tray))
+    Z = np.zeros(n_tray, dtype=complex)
+    t_perdida = np.full(n_tray, np.inf)
+    vivos = np.ones(n_tray, dtype=bool)
+    for n in range(1, int(t_max_medios * t_med / dt) + 1):
+        E_n = paso_ou(E, dt, tau, sigma, rng)
+        Z = paso_centro_guia(Z, E, E_n, dt)
+        E = E_n
+        fuera = vivos & (np.abs(Z) >= R_WALL)
+        t_perdida[fuera] = n * dt
+        vivos &= ~fuera
+        if not vivos.any():
+            break
+    return t_perdida, t_med
+
+
+def densidad_perdida(t, D, R=R_WALL):
+    """Densidad de probabilidad del tiempo de pérdida, p(t) = -dS/dt (1/s)."""
+    x = np.atleast_1d(D * np.asarray(t, dtype=float) / R**2)
+    return (D / R**2) * (_COEF[None, :] * _J[None, :] ** 2 * np.exp(-(_J[None, :] ** 2) * x[:, None])).sum(axis=1)
+
+
+def mediana_bootstrap(tiempos, n_boot=2000, semilla=None):
+    """Mediana y su error (desviación estándar bootstrap)."""
+    rng = np.random.default_rng(semilla)
+    meds = np.median(rng.choice(tiempos, size=(n_boot, tiempos.size), replace=True), axis=1)
+    return np.median(tiempos), meds.std(ddof=1)
 
 
 # ===========================================================================
@@ -186,10 +298,21 @@ if __name__ == "__main__":
               f" media = {tiempo_medio(D_v11)/3600:.1f} h;"
               f" mediana analítica = {mediana(D_v11)/3600:.2f} h (Monte Carlo de la V11: {med_v11} h)")
 
-    print("4) Canal Johnson con valores supuestos (R = 1 MOhm, C = 1 nF, kappa = 0,5)")
+    print("4) Ruido real en el electrodo a f_- (V^2/Hz) y tiempo medio con kappa = 2/pi")
     for T in (4.0, 0.1):
-        S = SE_johnson(T)
-        print(f"   T = {T:>3} K: S_E = {S:.2e} -> media = {tiempo_medio(D_desde_SE(S))/UN_ANIO:.0f} años")
+        partes = SV_filtro(T, FILTRO_REAL, por_etapa=True)
+        print(f"   T = {T:>3} K, filtro real: etapas 300 K / 60 K / trampa = "
+              + " / ".join(f"{x:.1e}" for x in partes) + f";  EMI (BASE) = {SV_EMI_BASE:.1e}")
+    for nombre, S in escenarios([4.0, 0.1]).items():
+        t4, t01 = tiempo_medio(D_desde_SE(S)) / UN_ANIO
+        print(f"   {nombre:36s}: 4 K -> {t4:9.3g} años, 0,1 K -> {t01:9.3g} años  (cociente {t01/t4:.2f})")
+
+    print("5) Monte Carlo de la pérdida (ruido acelerado, 4000 positrones)")
+    tp, t_med = simular_perdida(semilla=777)
+    perdidos = np.isfinite(tp)
+    med, err = mediana_bootstrap(tp, semilla=778)        # los no perdidos (inf) cuentan como "más tarde"
+    print(f"   perdidos: {perdidos.mean()*100:.1f} %;  mediana / t_medio = {med/t_med:.3f} ± {err/t_med:.3f}"
+          f"  (analítica: {4*C50:.3f})")
 
     # Figura de control
     # Panel central en escala log-log: la supresión llega a 0,01 y en escala lineal esos puntos
