@@ -1,4 +1,6 @@
-numpy>=1.24
-scipy>=1.10
-matplotlib>=3.7
-pytest>=7
+# Versiones con las que se generaron los datos y las figuras de la tesis (Python 3.11.3). Con ellas, regenerar
+# los datos reproduce bit a bit los CSV de datos/.
+numpy==1.26.4
+scipy==1.11.1
+matplotlib==3.10.7
+pytest==9.1.1

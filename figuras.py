@@ -16,7 +16,7 @@ Papel de cada color en TODA la tesis (también en contraste_experimental.py y fi
 nuevas usan solo estas claves, nunca códigos #rrggbb sueltos, para que un color no cambie de significado:
     COLOR["4K"]          azul    4 K, solo cuando la figura compara temperaturas
     COLOR["01K"]         vino    0,1 K, ídem
-    COLOR["positron"]    morado  la vía de la temperatura del positrón (Ilustr. 4-7b)
+    COLOR["positron"]    morado  la vía de la temperatura del positrón (fig4_07_canales_temperatura, panel b = Ilustr. 4-8 b)
     COLOR["serie3"]      verde   la simulación o el escenario principal de la tesis (simulación, Monte Carlo,
                                  trampa simulada, filtro de tres etapas)
     COLOR["teoria"]      negro   teoría, solución analítica o referencia experimental (p. ej. ALPHA)
