@@ -132,11 +132,21 @@ def mediana(D, R=R_WALL):
 # ===========================================================================
 # 4. De dónde sale S_E(f_-): el ruido que llega a un electrodo segmentado
 #
-#    a) Del voltaje al campo. Si una mitad del electrodo anular fluctúa con V(t) y la otra no,
-#       el modelo 2D del cilindro (superficie.py, coeficiente B_1 = 2V/pi) da en el centro
-#           E(0) = kappa V / a,   kappa = 2/pi   ->   S_E = kappa^2 S_V / a^2
-#       Un cilindro de longitud finita da menos campo: kappa = 2/pi es una COTA SUPERIOR del
-#       acoplamiento, así que los tiempos que salen son COTAS INFERIORES.
+#    a) Del voltaje al campo (geometría adoptada, decisión D-T6). El electrodo anular está
+#       dividido en DOS MITADES, cada una polarizada por su propia línea (y su propio filtro),
+#       con ruidos independientes V_1(t) y V_2(t) de igual densidad espectral S_V. El modelo 2D
+#       del cilindro (superficie.py, coeficiente B_1 = 2V/pi) da en el centro un campo uniforme
+#       en la dirección que une las dos mitades:
+#           E_x(0) = kappa (V_2 - V_1) / a,   kappa = 2/pi,   E_y(0) = 0
+#       Ese ruido está polarizado: S_Ex = 2 kappa^2 S_V / a^2. Para un ruido con UNA sola
+#       componente, D = S_Ex / (8 B0^2) (la mitad que si las dos componentes tuvieran S_Ex; ver
+#       test_convencion_S_E_ruido_polarizado), así que
+#           D = kappa^2 S_V / (4 a^2 B0^2) = S_E / (4 B0^2)   con   S_E = kappa^2 S_V / a^2,
+#       donde S_E es la densidad unilateral por componente de un ruido isótropo equivalente
+#       (la convención de D_desde_SE). Si solo UNA mitad fuera ruidosa (la otra a tierra sin
+#       ruido), S_Ex = kappa^2 S_V / a^2, D sería la mitad y los tiempos se duplicarían.
+#       Un cilindro de longitud finita da menos campo (kappa_3D ~ 0,53, anexo A.2): kappa = 2/pi
+#       es una COTA SUPERIOR del acoplamiento, así que los tiempos que salen son COTAS INFERIORES.
 #
 #    b) El ruido de voltaje S_V en el electrodo a f_- tiene dos partes:
 #       - Johnson de las resistencias del filtro RC por el que se polariza el electrodo. Cada
@@ -151,7 +161,8 @@ def mediana(D, R=R_WALL):
 #       Solo la última etapa del filtro está a la temperatura de la trampa. Esa es la única
 #       parte del ruido que baja al enfriar el sistema de 4 K a 0,1 K.
 # ===========================================================================
-KAPPA_MEDIO_ANILLO = 2 / np.pi
+KAPPA_DIPOLO = 2 / np.pi              # acoplamiento dipolar 2D de cada mitad del anillo (cota superior)
+KAPPA_MEDIO_ANILLO = KAPPA_DIPOLO     # nombre antiguo, se conserva por compatibilidad
 FILTRO_REAL = {"R": (5.0e3, 5.2e3, 7.1e3), "C": (4.8e-9, 4.8e-9, 4.8e-9), "T_calientes": (300.0, 60.0)}
 FILTRO_FUERTE = {"R": (5.0e3, 5.2e3, 7.1e3), "C": (4.8e-7, 4.8e-7, 4.8e-7), "T_calientes": (300.0, 60.0)}
 #   FILTRO_FUERTE: el mismo con C x 100 (corte ~12 Hz). Es una variante SUPUESTA para representar
@@ -159,12 +170,13 @@ FILTRO_FUERTE = {"R": (5.0e3, 5.2e3, 7.1e3), "C": (4.8e-7, 4.8e-7, 4.8e-7), "T_c
 SV_EMI_BASE = (225e-12) ** 2           # V^2/Hz (orden de magnitud)
 
 
-def SV_filtro(T_trampa, filtro=FILTRO_REAL, f=F_M, por_etapa=False):
+def SV_filtro(T_trampa, filtro=FILTRO_REAL, f=F_M, por_etapa=False, T_ultima_etapa=None):
     """Ruido Johnson de un filtro RC en escalera visto en el electrodo (V^2/Hz).
     La primera etapa está en la entrada (puesta a tierra por la fuente) y la última junto al
-    electrodo, a la temperatura de la trampa."""
+    electrodo, a la temperatura de la trampa (supuesto D-T8). Con T_ultima_etapa (K) la última
+    etapa se fija a esa temperatura en lugar de seguir a la trampa (variante publicada: 5 K)."""
     R, C = filtro["R"], filtro["C"]
-    T = list(filtro["T_calientes"]) + [T_trampa]
+    T = list(filtro["T_calientes"]) + [T_trampa if T_ultima_etapa is None else T_ultima_etapa]
     w, n = 2 * np.pi * f, len(R)
     Y = np.zeros((n, n), dtype=complex)            # matriz de admitancias de los nodos
     for k in range(n):
@@ -185,17 +197,20 @@ def SV_filtro(T_trampa, filtro=FILTRO_REAL, f=F_M, por_etapa=False):
     return partes if por_etapa else sum(partes)
 
 
-def SE_desde_SV(S_V, kappa=KAPPA_MEDIO_ANILLO, a=R_WALL):
+def SE_desde_SV(S_V, kappa=KAPPA_DIPOLO, a=R_WALL):
     return kappa**2 * S_V / a**2
 
 
-def escenarios(T_trampa):
-    """S_E(f_-) de los escenarios de la tesis para una temperatura de la trampa (o array)."""
+def escenarios(T_trampa, T_ultima_etapa=None):
+    """S_E(f_-) de los escenarios de la tesis para una temperatura de la trampa (o array).
+    T_ultima_etapa=None: la última etapa del filtro sigue a la trampa (supuesto de la tesis);
+    T_ultima_etapa=5.0: variante con la última etapa a 5 K, como en el montaje publicado."""
     T = np.atleast_1d(np.asarray(T_trampa, dtype=float))
-    real = np.array([SV_filtro(x, FILTRO_REAL) for x in T])
-    fuerte = np.array([SV_filtro(x, FILTRO_FUERTE) for x in T])
-    frio_real = np.array([SV_filtro(x, FILTRO_REAL, por_etapa=True)[-1] for x in T])
-    frio_fuerte = np.array([SV_filtro(x, FILTRO_FUERTE, por_etapa=True)[-1] for x in T])
+    u = dict(T_ultima_etapa=T_ultima_etapa)
+    real = np.array([SV_filtro(x, FILTRO_REAL, **u) for x in T])
+    fuerte = np.array([SV_filtro(x, FILTRO_FUERTE, **u) for x in T])
+    frio_real = np.array([SV_filtro(x, FILTRO_REAL, por_etapa=True, **u)[-1] for x in T])
+    frio_fuerte = np.array([SV_filtro(x, FILTRO_FUERTE, por_etapa=True, **u)[-1] for x in T])
     return {
         "filtro real (corte 1,2 kHz)": SE_desde_SV(real + SV_EMI_BASE),
         "filtro fuerte (corte 12 Hz) + EMI": SE_desde_SV(fuerte + SV_EMI_BASE),

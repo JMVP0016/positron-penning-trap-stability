@@ -65,12 +65,21 @@ def guardar_datos(nombre, cabecera, *columnas):
                delimiter=",", header=cabecera, comments="", fmt="%.6e")
 
 
+T_INTERMEDIAS = (1.0, 0.3)     # temperaturas intermedias de la tesis (K), además de 4 K y 0,1 K
+
+
 def marcar_temperaturas(ax):
-    """Líneas verticales en 4 K (azul) y 0,1 K (vino), con etiqueta arriba."""
+    """Líneas verticales en 4 K (azul) y 0,1 K (vino), y en 1 K y 0,3 K (gris, más finas),
+    con etiqueta arriba. Devuelve las temperaturas marcadas."""
     for T, c, txt in ((T_4K, COLOR["4K"], "4 K"), (T_01K, COLOR["01K"], etiqueta_T("01K"))):
         ax.axvline(T, color=c, lw=1, ls=LINEA["4K" if T == T_4K else "01K"]["ls"], alpha=0.8)
         ax.text(T, 1.01, txt, color=c, fontsize=8, ha="center", va="bottom",
                 transform=ax.get_xaxis_transform())
+    for T in T_INTERMEDIAS:
+        ax.axvline(T, color=COLOR["secundario"], lw=0.8, ls=(0, (1, 2)), alpha=0.7)
+        ax.text(T, 1.01, num(f"{T:g} K"), color=COLOR["secundario"], fontsize=8, ha="center",
+                va="bottom", transform=ax.get_xaxis_transform())
+    return (T_4K, *T_INTERMEDIAS, T_01K)
 
 
 # ===========================================================================
