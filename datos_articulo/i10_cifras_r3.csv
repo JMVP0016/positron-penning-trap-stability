@@ -1,0 +1,36 @@
+magnitud,valor,unidad,condiciones,script_o_fuente,estado
+t_primer_paso_2D_Narimannezhad,4042.5,s,<r^2>=N dx^2=4Dt; t=R^2/4D,i10_microtrampa_r3.py,VERIFICADO (corrige 1011 s de r2)
+t50_primer_paso_2D_Narimannezhad,3242.5,s,mediana = 4*C50*t,i10_microtrampa_r3.py,VERIFICADO
+t_Narimannezhad_ec25,4042.5,s,"B=7 T, R=50 um, V0=1,32e6 m/s, E=20 V/m, l_c=0,1 um",i10_microtrampa.py,VERIFICADO (reproduce ~4000 s)
+k2_ef_L5mm_W5eV,3.5477e+07,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L5mm_W5eV,160.91,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L5mm_W1eV,3.185e+07,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L5mm_W1eV,147.7,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L5mm_W0.1eV,6.634e+06,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L5mm_W0.1eV,430.57,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L10mm_W5eV,1.7888e+07,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L10mm_W5eV,160.91,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L10mm_W1eV,1.7594e+07,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L10mm_W1eV,147.7,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L10mm_W0.1eV,4.4464e+06,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L10mm_W0.1eV,430.57,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L100mm_W5eV,1.8025e+06,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L100mm_W5eV,160.91,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L100mm_W1eV,1.9427e+06,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L100mm_W1eV,147.7,1,idem,i10_microtrampa.py,INFERIDO
+k2_ef_L100mm_W0.1eV,6.4108e+05,V/m^2,"positrón aislado, V_e=10 V, salto ideal",i10_microtrampa.py,INFERIDO
+omega_b_sobre_omega_m_L100mm_W0.1eV,430.57,1,idem,i10_microtrampa.py,INFERIDO
+k2_equivalente_plasma,6.265e+09,V/m^2,"omega_r=8,95e8 s^-1 x B",arXiv:1301.0030 + i10,INFERIDO
+k2_umbral_subito_eps20,8e+05,V/m^2,R=50 um,i10,VERIFICADO (fórmula)
+k2_umbral_subito_eps0.02,800,V/m^2,R=50 um,i10,VERIFICADO (fórmula)
+t_p_k2_1.0e+04,1.75e-05,s,"eps=20 V/m, súbito",i10 (analítico; integrado coincide),VERIFICADO
+t_p_k2_1.0e+05,1.7546e-05,s,"eps=20 V/m, súbito",i10 (analítico; integrado coincide),VERIFICADO
+t_p_k2_5.0e+05,1.8904e-05,s,"eps=20 V/m, súbito",i10 (analítico; integrado coincide),VERIFICADO
+t_p_k2_7.9e+05,2.5032e-05,s,"eps=20 V/m, súbito",i10 (analítico; integrado coincide),VERIFICADO
+"transito_max_sobre_teoria_L=1 cm, 5 eV",0.9999,1,omega_b/omega_-=161,transito.parche_estatico_muestreado,VERIFICADO
+"transito_max_sobre_teoria_L=10 cm, 5 eV",0.9999,1,omega_b/omega_-=161,transito.parche_estatico_muestreado,VERIFICADO
+"wz_sobre_wm_tesis (positrón, 0,5 T)",2096.9,1,,i10,VERIFICADO
+"wz_sobre_wm_microtrampa (L=10 cm, 5 eV)",160.91,1,,i10,INFERIDO
+"wz_sobre_wm_microtrampa (L=5 mm, 0,1 eV)",430.57,1,,i10,INFERIDO
+"wz_sobre_wm_ALPHA pozo 10 V (k2 = 8,7e3)",148.39,1,,i10,INFERIDO
+"wz_sobre_wm_ALPHA pozo 10 V (k2 = 1,41e4)",116.75,1,,i10,INFERIDO

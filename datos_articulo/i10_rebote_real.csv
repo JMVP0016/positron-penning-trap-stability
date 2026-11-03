@@ -1,0 +1,5 @@
+ELL,perfil,max_R2_sobre_teoria,R2_en_kP_sobre_max,G0_cuadrado_medio,veredicto
+0.1,bounce (flat well),0.99972,2.816e-23,0.12105,acotado
+0.1,harmonic,1.00008,2.802e-23,0.12461,acotado
+0.02,bounce (flat well),1.00017,2.798e-23,0.02372,acotado
+0.02,harmonic,0.99961,2.741e-23,0.03335,acotado

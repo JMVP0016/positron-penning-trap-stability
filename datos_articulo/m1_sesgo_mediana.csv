@@ -1,0 +1,5 @@
+t_medio_periodos,pasos_por_periodo,mediana_sobre_tmedio,error,desviacion_sigma,segundos
+300,25,0.82340,0.00588,3.62,9
+300,50,0.82350,0.00533,4.01,17
+300,200,0.81464,0.00646,1.94,67
+1200,50,0.81579,0.00653,2.10,66

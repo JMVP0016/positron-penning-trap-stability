@@ -1,0 +1,6 @@
+trampa,omega_z_o_omega_b_rad_s,omega_R_rad_s,cociente,orden_azimutal_minimo_resonancia_n1,nota
+"tesis (e+, 0,5 T, U0=2e4)",8.3877e+07,4.0000e+04,2097,2097,vacío criogénico; partícula aislada
+"ALPHA pozo somero (pbar, k2=10)",4.3769e+04,1.0000e+01,4377,4377,"E_crit somero 0,11 V/m < eps: pérdida por desplazamiento"
+"ALPHA pozo 10 V (pbar, k2=1,4e4)",1.6435e+06,1.4100e+04,116.6,117,
+"microtrampa, partícula aislada (5 eV, 7 T, L=10 cm, k2_ef=1,8e6)",4.1469e+07,2.5714e+05,161.3,162,"R3: k2 efectivo no nulo (A1): desplazamiento acotado, 2δ = 22 µm < 50 µm (V2), no deriva directa"
+"microtrampa, plasma 1,6e11 cm^-3 (rotación E×B)",4.1469e+07,2.0680e+08,0.2005,1,resonancias de orden bajo accesibles; régimen colectivo

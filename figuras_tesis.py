@@ -438,6 +438,7 @@ def fig9_parches_fluctuantes():
     guardar(fig, "fig4_09_parches_fluctuantes", CARPETA)
     lo_A, hi_A = banda_superficie(T, "A"); lo_B, hi_B = banda_superficie(T, "B")
     guardar_datos("fig4_09_parches", "T_K,SE_min_A,SE_max_A,SE_min_B,SE_max_B", T, lo_A, hi_A, lo_B, hi_B)
+    guardar_datos("fig4_09_montecarlo", "omega_tau,D_sim_sobre_D_teo,error", xs, rel, err)
 
 
 FIGURAS = {1: fig1_parche_estatico, 2: fig2_apantallamiento, 3: fig3_transito, 4: fig4_difusion,

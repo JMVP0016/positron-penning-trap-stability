@@ -1,0 +1,28 @@
+magnitud,valor,unidad,condiciones,script_o_fuente,estado
+Dsim_sobre_Dteo_beta0.3_wtau1.0,0.98873,1,±0.019; escalado,i3a_canal_axial.py,VERIFICADO
+Dsim_sobre_Dteo_beta1.0_wtau1.0,1.0084,1,±0.045; escalado,i3a_canal_axial.py,VERIFICADO
+Dsim_sobre_Dteo_beta1.0_wtau3.0,1.0298,1,±0.027; escalado,i3a_canal_axial.py,VERIFICADO
+Dsim_sobre_Dteo_beta2.0_wtau1.0,1.0216,1,±0.030; escalado,i3a_canal_axial.py,VERIFICADO
+pendiente_logt_logT_k1/a_tau0.01,-1.9999,1,"T 0,05-10 K",i3a,VERIFICADO (cálculo)
+pendiente_logt_logT_k1/a_tau1.0,-1.9999,1,"T 0,05-10 K",i3a,VERIFICADO (cálculo)
+pendiente_logt_logT_k1/a_tau10.0,-1.9999,1,"T 0,05-10 K",i3a,VERIFICADO (cálculo)
+pendiente_logt_logT_kpi/z0_tau0.01,-1.9992,1,"T 0,05-10 K",i3a,VERIFICADO (cálculo)
+pendiente_logt_logT_kpi/z0_tau1.0,-1.9992,1,"T 0,05-10 K",i3a,VERIFICADO (cálculo)
+pendiente_logt_logT_kpi/z0_tau10.0,-1.9992,1,"T 0,05-10 K",i3a,VERIFICADO (cálculo)
+t_canal_axial_4K_k1/a_tau0.01,53.36,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_k1/a_tau0.01,85347,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_4K_k1/a_tau0.1,533.59,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_k1/a_tau0.1,8.5346e+05,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_4K_k1/a_tau1.0,5335.9,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_k1/a_tau1.0,8.5346e+06,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_4K_k1/a_tau10.0,53359,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_k1/a_tau10.0,8.5346e+07,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_4K_kpi/z0_tau0.01,1.2349,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_kpi/z0_tau0.01,1971.5,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_4K_kpi/z0_tau0.1,12.349,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_kpi/z0_tau0.1,19715,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_4K_kpi/z0_tau1.0,123.49,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_kpi/z0_tau1.0,1.9715e+05,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_4K_kpi/z0_tau10.0,1234.9,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+t_canal_axial_01K_kpi/z0_tau10.0,1.9715e+06,años,"E0=1 V/m, una componente",i3a,INFERIDO (modelo)
+E0_igual_filtro_4K_peor_caso,0.52509,V/m,"k=pi/z0, tau_z=0,01 s",i3a,INFERIDO

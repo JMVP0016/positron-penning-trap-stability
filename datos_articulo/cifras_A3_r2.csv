@@ -1,0 +1,53 @@
+magnitud,valor,unidad,condiciones,script_o_fuente,estado
+"tasa d<rho^2>/dt, filtro real (corte 1,2 kHz)",636.8,µm²/h,"tesis, T=4.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, filtro fuerte (corte 12 Hz) + EMI",11.84,µm²/h,"tesis, T=4.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro real",64.57,µm²/h,"tesis, T=4.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro fuerte",0.0197,µm²/h,"tesis, T=4.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, filtro real (corte 1,2 kHz)",588.3,µm²/h,"tesis, T=1.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, filtro fuerte (corte 12 Hz) + EMI",11.82,µm²/h,"tesis, T=1.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro real",16.14,µm²/h,"tesis, T=1.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro fuerte",0.004924,µm²/h,"tesis, T=1.0 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, filtro real (corte 1,2 kHz)",577,µm²/h,"tesis, T=0.3 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, filtro fuerte (corte 12 Hz) + EMI",11.82,µm²/h,"tesis, T=0.3 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro real",4.843,µm²/h,"tesis, T=0.3 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro fuerte",0.001477,µm²/h,"tesis, T=0.3 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, filtro real (corte 1,2 kHz)",573.8,µm²/h,"tesis, T=0.1 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, filtro fuerte (corte 12 Hz) + EMI",11.82,µm²/h,"tesis, T=0.1 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro real",1.614,µm²/h,"tesis, T=0.1 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+"tasa d<rho^2>/dt, solo la etapa fría, filtro fuerte",0.0004924,µm²/h,"tesis, T=0.1 K, D=S_E/4B²",i2_observable.py (ruido.escenarios),INFERIDO (escenario)
+S_E máximo para t_medio >= 1 a,1.981e-13,V²m⁻²Hz⁻¹,"tesis 0,5 T, 5 mm",t=r²B²/S_E,VERIFICADO (fórmula)
+S_E máximo para t_medio >= 10 a,1.981e-14,V²m⁻²Hz⁻¹,"tesis 0,5 T, 5 mm",t=r²B²/S_E,VERIFICADO (fórmula)
+S_E máximo para t_medio >= 100 a,1.981e-15,V²m⁻²Hz⁻¹,"tesis 0,5 T, 5 mm",t=r²B²/S_E,VERIFICADO (fórmula)
+B0 trampa de análisis BASE (deducido),1.171,T,nu_c = nu_+ + nu_-,Borchert 2019 p. 2 + i2_observable_r3.py,INFERIDO (3 comprobaciones)
+nu_- trampa de análisis BASE,1.277e+04,Hz,nu_z²/2nu_+,Borchert 2019 p. 2,INFERIDO
+"cota BASE AT, conservador: deriva, tau=250 s, sigma=0,05 Hz (Fig. 2/4a)",7.721e-15,V²m⁻²Hz⁻¹,"1.171 T, a=1,8 mm, nu_-≈12.8 kHz, ~6 K","Borchert 2019 p.2, Fig.2, Fig.4a; i2_cota_BASE.md",INFERIDO (cota nueva)
+"cota BASE AT, intermedio: deriva, tau=1400 s, sigma=0,075 Hz (Fig. 2)",2.068e-15,V²m⁻²Hz⁻¹,"1.171 T, a=1,8 mm, nu_-≈12.8 kHz, ~6 K","Borchert 2019 p.2, Fig.2, Fig.4a; i2_cota_BASE.md",INFERIDO (cota nueva)
+"cota BASE AT, optimista: término estocástico, pendiente Fig. 4a, 100 % de la varianza",1.777e-16,V²m⁻²Hz⁻¹,"1.171 T, a=1,8 mm, nu_-≈12.8 kHz, ~6 K","Borchert 2019 p.2, Fig.2, Fig.4a; i2_cota_BASE.md",INFERIDO (cota nueva)
+"cota BASE AT, optimista (10 % de la varianza libre)",1.777e-17,V²m⁻²Hz⁻¹,"1.171 T, a=1,8 mm, nu_-≈12.8 kHz, ~6 K","Borchert 2019 p.2, Fig.2, Fig.4a; i2_cota_BASE.md",INFERIDO (cota nueva)
+"S_E escenario filtro real+EMI, BASE reservorio (RT)",4.574e-14,V²m⁻²Hz⁻¹,"κ=2/π, a=r, nu_-=7.02e+03 Hz",i2_observable.py,INFERIDO (escenario)
+"S_E escenario filtro real+EMI, BASE AT",6.982e-14,V²m⁻²Hz⁻¹,"κ=2/π, a=r, nu_-=1.28e+04 Hz",i2_observable.py,INFERIDO (escenario)
+"S_E escenario filtro real+EMI, Harvard e- (Hanneke 2011)",1.015e-15,V²m⁻²Hz⁻¹,"κ=2/π, a=r, nu_-=1.33e+05 Hz",i2_observable.py,INFERIDO (escenario)
+"S_E escenario filtro real+EMI, ALPHA pozo 10 V",1.889e-14,V²m⁻²Hz⁻¹,"κ=2/π, a=r, nu_-=2.24e+03 Hz",i2_observable.py,INFERIDO (escenario)
+exceso del escenario filtro real sobre la cota BASE (conservadora tau=250 s),9.043,-,"BASE AT 1,8 mm, 12,8 kHz, 1,171 T",i2_observable.py,INFERIDO
+κ_eff calibrado contra BASE (conservadora tau=250 s),0.2117,-,mantiene filtro y EMI,i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (conservadora tau=250 s, S_E∝a^-2)",197.9,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (conservadora tau=250 s, S_E∝a^-4)",1527,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+exceso del escenario filtro real sobre la cota BASE (PRINCIPAL tau=1400 s),33.76,-,"BASE AT 1,8 mm, 12,8 kHz, 1,171 T",i2_observable.py,INFERIDO
+κ_eff calibrado contra BASE (PRINCIPAL tau=1400 s),0.1096,-,mantiene filtro y EMI,i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (PRINCIPAL tau=1400 s, S_E∝a^-2)",738.9,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (PRINCIPAL tau=1400 s, S_E∝a^-4)",5701,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+exceso del escenario filtro real sobre la cota BASE (optimista),392.9,-,"BASE AT 1,8 mm, 12,8 kHz, 1,171 T",i2_observable.py,INFERIDO
+κ_eff calibrado contra BASE (optimista),0.03212,-,mantiene filtro y EMI,i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (optimista, S_E∝a^-2)",8600,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (optimista, S_E∝a^-4)",6.636e+04,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+exceso del escenario filtro real sobre la cota BASE (optimista 10 %),3929,-,"BASE AT 1,8 mm, 12,8 kHz, 1,171 T",i2_observable.py,INFERIDO
+κ_eff calibrado contra BASE (optimista 10 %),0.01016,-,mantiene filtro y EMI,i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (optimista 10 %, S_E∝a^-2)",8.6e+04,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+"t_medio tesis, escenario calibrado BASE (optimista 10 %, S_E∝a^-4)",6.636e+05,años,"0,5 T, 5 mm",i2_observable.py,INFERIDO
+w_z/w_- tesis,2097,-,"e+, 0,5 T, U0=2e4 V/m²",params.py,VERIFICADO (código)
+"w_b microtrampa Narimannezhad (5 eV, 10 cm)",4.147e+07,rad/s,"v0=1,32e6 m/s, L=10 cm","Narimannezhad 2014 p.15, Tabla II",INFERIDO
+t (ec. 24) Narimannezhad recalculado,4042,s,"B=7 T, X=50 µm, v0=1,32e6, E=20 V/m, lc=0,1 µm",Narimannezhad 2014 ec. (24) p. 15,VERIFICADO (aritmética)
+vida por aniquilación e+ con H2 (Z_eff/Z=1),1.462e+06,años,"p<1.2e-18 mbar (Sellner 2017), T_gas=6 K","Danielson 2015 ec. 78, 86",INFERIDO (cota inferior)
+vida por aniquilación e+ con H2 (Z_eff/Z=10),1.462e+05,años,"p<1.2e-18 mbar (Sellner 2017), T_gas=6 K","Danielson 2015 ec. 78, 86",INFERIDO (cota inferior)
+vida por aniquilación e+ con He (Z_eff/Z=1),6.5e+05,años,"p<2.7e-18 mbar (Sellner 2017), T_gas=6 K","Danielson 2015 ec. 78, 86",INFERIDO (cota inferior)
+vida por aniquilación e+ con He (Z_eff/Z=10),6.5e+04,años,"p<2.7e-18 mbar (Sellner 2017), T_gas=6 K","Danielson 2015 ec. 78, 86",INFERIDO (cota inferior)

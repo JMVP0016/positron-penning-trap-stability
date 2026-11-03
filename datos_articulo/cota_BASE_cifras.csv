@@ -1,0 +1,41 @@
+magnitud,valor,unidad,condiciones,script_o_fuente,estado
+nu_menos_AT,12766,Hz,nu_z^2/(2 nu_+),cota_BASE_independiente.py,VERIFICADO (cálculo)
+B0_AT,1.1714,T,desde nu_+ y nu_z,cota_BASE_independiente.py,VERIFICADO (cálculo)
+Dnu_z_mas_con_B0 de nu_c,61.601,mHz,B = 1.171 T,cota_BASE_independiente.py,VERIFICADO (cálculo)
+Dnu_z_menos_con_B0 de nu_c,44.069,µHz,B = 1.171 T,cota_BASE_independiente.py,VERIFICADO (cálculo)
+"Dnu_z_mas_con_1,945 T (imán)",37.099,mHz,B = 1.945 T,cota_BASE_independiente.py,VERIFICADO (cálculo)
+"Dnu_z_menos_con_1,945 T (imán)",26.54,µHz,B = 1.945 T,cota_BASE_independiente.py,VERIFICADO (cálculo)
+rho_q2_AT,1.1254e-15,m^2,2 hbar/(m omega_1),cota_BASE_independiente.py,VERIFICADO (cálculo)
+G_AT,3.5542e+10,Hz/m^2,"Dnu_z,- / rho_q^2",cota_BASE_independiente.py,VERIFICADO (cálculo)
+"D_max_conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)",1.4068e-15,m^2/s,convención de diferencias (A3 r2),cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)",7.7211e-15,V^2 m^-2 Hz^-1,"B0 = 1.1714 T, nu_- = 12766 Hz",cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_Allan_conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)",1.0919e-14,V^2 m^-2 Hz^-1,si sigma es desviación de Allan,cota_BASE_independiente.py,INFERIDO (cota)
+"D_max_intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)",3.7682e-16,m^2/s,convención de diferencias (A3 r2),cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)",2.0682e-15,V^2 m^-2 Hz^-1,"B0 = 1.1714 T, nu_- = 12766 Hz",cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_Allan_intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)",2.9248e-15,V^2 m^-2 Hz^-1,si sigma es desviación de Allan,cota_BASE_independiente.py,INFERIDO (cota)
+"D_max_optimista (estocástico, 100 % de la pendiente de la Fig. 4a)",3.2377e-17,m^2/s,convención de diferencias (A3 r2),cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_optimista (estocástico, 100 % de la pendiente de la Fig. 4a)",1.777e-16,V^2 m^-2 Hz^-1,"B0 = 1.1714 T, nu_- = 12766 Hz",cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_Allan_optimista (estocástico, 100 % de la pendiente de la Fig. 4a)",3.554e-16,V^2 m^-2 Hz^-1,si sigma es desviación de Allan,cota_BASE_independiente.py,INFERIDO (cota)
+"D_max_optimista (estocástico, 10 % de la varianza)",3.2377e-18,m^2/s,convención de diferencias (A3 r2),cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_optimista (estocástico, 10 % de la varianza)",1.777e-17,V^2 m^-2 Hz^-1,"B0 = 1.1714 T, nu_- = 12766 Hz",cota_BASE_independiente.py,INFERIDO (cota)
+"S_E_max_Allan_optimista (estocástico, 10 % de la varianza)",3.554e-17,V^2 m^-2 Hz^-1,si sigma es desviación de Allan,cota_BASE_independiente.py,INFERIDO (cota)
+H_filtro_nu_menos_AT,0.043874,1,f = 12766 Hz,cota_BASE_independiente.py,VERIFICADO (cálculo)
+S_E_escenario_filtro_real_AT,6.9821e-14,V^2 m^-2 Hz^-1,"kappa 2/pi, 6 K, EMI",cota_BASE_independiente.py,INFERIDO
+tasa_escenario_filtro_real_AT,183.19,µm^2/h,"B0 1,171 T",cota_BASE_independiente.py,INFERIDO
+t_medio_escenario_filtro_real_AT,2.0177,años,"a = 1,8 mm",cota_BASE_independiente.py,INFERIDO
+"tension_conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)",9.0428,1,S_pred/S_cota,cota_BASE_independiente.py,INFERIDO
+"kappa_eff_conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)",0.2117,1,,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a2_conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)",197.92,años,S_E ∝ a^-2,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a4_conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)",1527.2,años,S_E ∝ a^-4,cota_BASE_independiente.py,INFERIDO
+"tension_intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)",33.76,1,S_pred/S_cota,cota_BASE_independiente.py,INFERIDO
+"kappa_eff_intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)",0.10957,1,,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a2_intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)",738.9,años,S_E ∝ a^-2,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a4_intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)",5701.4,años,S_E ∝ a^-4,cota_BASE_independiente.py,INFERIDO
+"tension_optimista (estocástico, 100 % de la pendiente de la Fig. 4a)",392.91,1,S_pred/S_cota,cota_BASE_independiente.py,INFERIDO
+"kappa_eff_optimista (estocástico, 100 % de la pendiente de la Fig. 4a)",0.032117,1,,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a2_optimista (estocástico, 100 % de la pendiente de la Fig. 4a)",8599.6,años,S_E ∝ a^-2,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a4_optimista (estocástico, 100 % de la pendiente de la Fig. 4a)",66355,años,S_E ∝ a^-4,cota_BASE_independiente.py,INFERIDO
+"tension_optimista (estocástico, 10 % de la varianza)",3929.1,1,S_pred/S_cota,cota_BASE_independiente.py,INFERIDO
+"kappa_eff_optimista (estocástico, 10 % de la varianza)",0.010156,1,,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a2_optimista (estocástico, 10 % de la varianza)",85996,años,S_E ∝ a^-2,cota_BASE_independiente.py,INFERIDO
+"t_tesis_a4_optimista (estocástico, 10 % de la varianza)",6.6355e+05,años,S_E ∝ a^-4,cota_BASE_independiente.py,INFERIDO
