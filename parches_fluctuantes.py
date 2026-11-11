@@ -8,7 +8,7 @@ La trampa ideal (modelo de Crimin et al.) confina para siempre. La tesis toma lo
 de parche como la única fuente de pérdida. Un parche fijo solo desplaza la órbita
 (centro_guia.py); para que haya pérdida, el potencial de los parches tiene que FLUCTUAR en el
 tiempo. Este módulo junta las dos piezas que ya existen:
-  - apantallamiento (Henry, superficie.py): qué parte del potencial de la pared llega al centro;
+  - apantallamiento (superficie.py): qué parte del potencial de la pared llega al centro;
   - difusión con rotación magnetrón (ruido.py): qué hace ese campo fluctuante al centro guía.
 
 1) DEL PARCHE QUE FLUCTÚA AL RUIDO EN EL CENTRO (modelo 2D, parches de ancho l_p en la pared)
@@ -157,7 +157,7 @@ if __name__ == "__main__":
         print(f"   cota de BASE llevada a 5 mm y 6,4 kHz (alpha = {al}): S_E < {S:.1e}"
               f" -> t_medio > {tiempo_medio(D_desde_SE(S))/UN_ANIO:.1e} años")
 
-    print("3) ¿Podrían los parches de la V11 (1 V/m) fluctuar a la escala del magnetrón?")
+    print("3) ¿Podrían los parches de la versión 1 (1 V/m) fluctuar a la escala del magnetrón?")
     sig = 1 / np.sqrt(2)
     tau = 1 / W_M
     S_alta = 4 * sig**2 * tau / (1 + (2 * np.pi * BASE_F * tau) ** 2)

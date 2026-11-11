@@ -1,5 +1,5 @@
 """
-i3a_canal_axial.py — A1, ronda 2, tarea A1-2 (I3a): canal T2.
+i3a_canal_axial.py — Canal de energía axial (T2).
 
 Mecanismo: un campo de parche ESTÁTICO E0 que varía a lo largo de z (número de onda k) llega al
 centro guía promediado sobre la oscilación axial: G0 = E0 J0(k A_z). Si la energía axial E_z
@@ -13,7 +13,7 @@ autocorrelación (k_B T)^2 exp(-t/tau_z), donde tau_z = 1/gamma_z es el tiempo d
     G0 = E0 J0(beta sqrt(x)) = E0 sum_n a_n L_n(x),   a_n = (beta^2/4)^n exp(-beta^2/4) / n!
     (expansión de Laguerre: los L_n son las autofunciones del proceso de la energía, con decaimiento n/tau_z)
     S_G(f) = E0^2 sum_{n>=1} a_n^2 * 4 (tau_z/n) / [1 + (2 pi f tau_z/n)^2]     (unilateral)
-    D = S_G(f_-) / (8 B0^2)          (una sola componente; véase R5 de la ronda 1)
+    D = S_G(f_-) / (8 B0^2)          (una sola componente)
     t = r_wall^2/(4D) = 2 r_wall^2 B0^2 / S_G(f_-)
     Límite beta << 1 y w_- tau_z >> 1:  S_G ~ 4 E0^2 (beta^2/4)^2 / (w_-^2 tau_z)  ->  t ∝ tau_z / (E0^2 k^4 T^2)
 
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     print("3) Comparación con el filtro real (E0 = 1 V/m)")
     esc = escenarios([4.0, 0.1])
     tf = tiempo_medio(D_desde_SE(esc["filtro real (corte 1,2 kHz)"])) / UN_ANIO
-    print(f"   filtro real (código V12): 4 K -> {tf[0]:.2f} años; 0,1 K -> {tf[1]:.2f} años")
+    print(f"   filtro real (código de la tesis): 4 K -> {tf[0]:.2f} años; 0,1 K -> {tf[1]:.2f} años")
     for kn, k in ks.items():
         for tau in (0.01, 0.1, 1.0, 10.0):
             t4, t01 = t_anios(4.0, k, tau), t_anios(0.1, k, tau)
@@ -159,7 +159,7 @@ if __name__ == "__main__":
                       label=f"k = {kn}, τ_z = {tau:g} s")
     TT = np.logspace(np.log10(0.05), 1, 60)
     tfr = tiempo_medio(D_desde_SE(escenarios(TT)["filtro real (corte 1,2 kHz)"])) / UN_ANIO
-    ax.loglog(TT, tfr, color="k", lw=2, label="filtro real (código V12)")
+    ax.loglog(TT, tfr, color="k", lw=2, label="filtro real (código de la tesis)")
     ax.set_xlabel("temperatura T (K)")
     ax.set_ylabel("tiempo medio de pérdida (años)")
     ax.set_title("Canal axial T2 (E0 = 1 V/m)", fontsize=9)

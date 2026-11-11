@@ -1,5 +1,5 @@
 """
-make_figures_article.py — Regenerates the data and figures of the article analyses (round-3 package).
+make_figures_article.py — Regenerates the data and figures of the article analyses.
 
     MPLBACKEND=Agg python3 make_figures_article.py            # all fast analyses (~1 min)
     MPLBACKEND=Agg python3 make_figures_article.py --slow     # also kappa_3D (~8 min) and the median-bias study (~5 min)
@@ -21,9 +21,9 @@ RAPIDOS = [
     ("i10 flat-well bounce transit test", ["i10_rebote_real.py", "--salida", DAT]),
     ("I3a axial channel T2", ["i3a_canal_axial.py", "--salida", DAT]),
     ("BASE AT bound (independent, B0 = 1.171 T)", ["cota_BASE_independiente.py", "--salida", DAT]),
-    ("I5 uncertainty propagation (round 3: axial channel, 1/f EMI, kappa_3D)", ["i5_incertidumbre_r3.py", RAIZ, DAT, "20000"]),
+    ("I5 uncertainty propagation (axial channel, 1/f EMI, kappa_3D)", ["i5_incertidumbre_r3.py", RAIZ, DAT, "20000"]),
     ("filter budget per stage (I1)", ["i1_presupuesto_filtro.py", RAIZ, DAT]),
-    ("BASE AT bound and four real traps (i2, round 3)", ["i2_observable_r3.py", "--salida", DAT]),
+    ("BASE AT bound and four real traps (i2)", ["i2_observable_r3.py", "--salida", DAT]),
     ("ALPHA static-patch contrast (thesis script, figure to figures/en)", ["../contraste_experimental.py"]),
     ("extended regime map (EN)", ["fig_regimes_extended.py", "--salida", FIG]),
 ]

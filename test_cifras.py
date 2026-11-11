@@ -1,12 +1,12 @@
 """
-test_propuestos_A1.py — Pruebas PROPUESTAS por el agente A1 para que cada cifra citada en la
-tesis V12 (y en las tablas de temperaturas intermedias) quede respaldada por una prueba.
+test_cifras.py — Pruebas para que cada cifra citada en la tesis (y en las tablas de
+temperaturas intermedias) quede respaldada por una prueba.
 
-Integrada en el repositorio (tarea WP1.7) junto a test_referencia.py.
-    CODIGO_V12=/ruta/al/codigo python3 -m pytest -q test_propuestos_A1.py          (rápidas, ~5 s)
-    CODIGO_V12=/ruta/al/codigo python3 -m pytest -q -m lento test_propuestos_A1.py  (Monte Carlo, ~1-2 min)
+Se ejecuta junto a test_referencia.py.
+    CODIGO_V12=/ruta/al/codigo python3 -m pytest -q test_cifras.py          (rápidas, ~5 s)
+    CODIGO_V12=/ruta/al/codigo python3 -m pytest -q -m lento test_cifras.py  (Monte Carlo, ~1-2 min)
 
-Cada prueba indica entre corchetes la cifra y el lugar de la tesis V12 que respalda
+Cada prueba indica entre corchetes la cifra y el lugar de la tesis que respalda
 (página del PDF Tesis_V12_marcas_revision.pdf o archivo .tex).
 """
 import os
@@ -32,10 +32,10 @@ def anios(S):
 
 # =========================================================================== params / escalas
 def test_escalas_citadas_en_el_texto():
-    # [ω−/ωz ≈ 4,8e-4 y |K| ≲ 24 nm para 1 V/m; main.tex V12-115/V12-116, p. ~83]
+    # [ω−/ωz ≈ 4,8e-4 y |K| ≲ 24 nm para 1 V/m; cap. 3]
     assert W_M / W_Z == pytest.approx(4.77e-4, rel=2e-3)
     assert 1.0 / (B0 * W_Z) * 1e9 == pytest.approx(23.8, abs=0.1)
-    # [ħω+/kB ≈ 0,67 K; ħωz/kB = 6,4e-4 K; ħω−/kB ≈ 3e-7 K; V12-120]
+    # [ħω+/kB ≈ 0,67 K; ħωz/kB = 6,4e-4 K; ħω−/kB ≈ 3e-7 K]
     assert HBAR * W_Z / K_B == pytest.approx(6.407e-4, rel=1e-3)
     assert HBAR * W_M / K_B == pytest.approx(3.055e-7, rel=1e-3)
     # [ν_z = 13,35 MHz; f− = 6,37 kHz]
@@ -48,7 +48,7 @@ def test_escalas_citadas_en_el_texto():
 
 
 def test_tabla_41_debe_usar_z0_no_zwall_10mm():
-    # [Tabla 4.1 y 5.1 dicen z_wall = 10 mm; params.Z0 = 6,124 mm (V12-110, p. 80)]
+    # [Tabla 4.1 y 5.1 dicen z_wall = 10 mm; params.Z0 = 6,124 mm]
     assert Z0 * 1e3 == pytest.approx(6.124, abs=1e-3)
     assert Z0 * 1e3 != pytest.approx(10.0, abs=0.5)
 
@@ -216,9 +216,9 @@ def test_csv_analiticos_coinciden_con_el_codigo():
 @lento
 def test_convencion_S_E_ruido_polarizado():
     """Convención: D = S_E/(4B²) supone que las DOS componentes tienen S_E. Con ruido polarizado
-    (solo E_x) D = S_Ex/(8B²). Con la geometría adoptada (D-T6: dos mitades con líneas
+    (solo E_x) D = S_Ex/(8B²). Con la geometría adoptada (dos mitades con líneas
     independientes) S_Ex = 2 kappa² S_V / a², de modo que D = kappa² S_V / (4 a² B²), que es lo que
-    calcula el código (ver test_wp1.py::test_geometria_dos_mitades_independientes)."""
+    calcula el código (ver test_filtro_temperaturas.py::test_geometria_dos_mitades_independientes)."""
     from ruido import SE_ou, paso_centro_guia
     rng = np.random.default_rng(31)
     tau, s, n, dt = 1 / W_M, 1.0, 3000, 2 * np.pi / W_M / 100

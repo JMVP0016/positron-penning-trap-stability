@@ -2,7 +2,7 @@
 orbita_completa.py — Órbita completa (fuerza de Lorentz) de una carga en una trampa de Penning ideal,
 en unidades escaladas, para validar de forma independiente el modelo de centro guía de la tesis.
 
-Auditoría E1, ronda 5 (31-oct-2026). Independiente del código V12: no importa nada de él.
+Independiente de los demás módulos: no importa nada de ellos.
 
 UNIDADES ESCALADAS
     q = m = B0 = 1  ->  omega_c = 1 ;  a = r_wall = 1 ;  U0 = omega_z^2 / 2
@@ -47,7 +47,7 @@ class Trampa:
         self.w_m = 0.5 * (self.w_c - self.w_1)
         self.P_m = 2 * np.pi / self.w_m
         self.P_p = 2 * np.pi / self.w_p
-        self.w_gc = self.U0 / B0          # la frecuencia que usa el código V12 (centro_guia.W_GC)
+        self.w_gc = self.U0 / B0          # la frecuencia que usa el modelo del centro guía (centro_guia.W_GC)
 
     def resumen(self):
         return (f"w_c = {self.w_c:.6g}, w_+ = {self.w_p:.6g}, w_z = {self.w_z:.6g}, w_- = {self.w_m:.6g}"

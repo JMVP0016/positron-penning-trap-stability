@@ -1,4 +1,4 @@
-"""Fast checks of the round-3 article analyses (A1). Run: python3 -m pytest -q tests/test_articulo.py (~30 s)."""
+"""Fast checks of the article analyses. Run: python3 -m pytest -q tests/test_articulo.py (~30 s)."""
 import csv
 import os
 import subprocess

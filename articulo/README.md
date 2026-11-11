@@ -1,4 +1,4 @@
-# Article analyses (round-3 package)
+# Article analyses
 
 | script | analysis | output |
 |---|---|---|
@@ -7,10 +7,10 @@
 | `i3a_canal_axial.py` | axial channel T2 (closed form + simulation) | `i3a_canal_axial.*` |
 | `i4_kappa3d.py` | 3D dipolar coupling kappa (finite differences) | `i4_kappa3d.csv` |
 | `cota_BASE_independiente.py` | S_E bound from BASE AT axial stability, B0 = 1.171 T | `cota_BASE_*.csv` |
-| `i5_incertidumbre.py` | uncertainty propagation (agent A2) | `i5_*.csv/pdf` |
-| `fig4_10_alpha.py` | static-patch contrast with ALPHA (agent A3) | `fig4_10_alpha.*` |
+| `i5_incertidumbre_r3.py` | uncertainty propagation | `i5_*.csv/pdf` |
+| `i1_presupuesto_filtro.py` | filter noise budget per stage | `i1_*.csv` |
 | `fig_regimes_extended.py` | extended regime map (T2, surface as bound, gas note) | `fig_regimes_extended.pdf` |
 | `m1_sesgo_mediana.py` | median bias of the loss Monte Carlo | `m1_sesgo_mediana.csv` |
-| `i2_observable_PENDIENTE_R3-1.py` | A3 round-2 version, **known error in B_AT**; replace with the corrected A3 version | — |
+| `i2_observable_r3.py` | BASE AT bound and four real traps | `i2_*.csv` |
 
 Run everything with `python3 make_figures_article.py` (add `--slow` for kappa_3D and the median study).

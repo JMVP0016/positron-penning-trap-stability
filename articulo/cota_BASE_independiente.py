@@ -1,15 +1,14 @@
 """
-cota_BASE_independiente.py — A1, ronda 3, tarea A1-1(b).
+cota_BASE_independiente.py — Cota de ruido inferida de BASE.
 
 Recálculo independiente de la cota de S_E(nu_-) que sale de la estabilidad axial de la trampa de
-análisis (AT) de BASE (Borchert et al. 2019, arXiv:1901.09860). Lo hice sin ver los resultados de
-A3 en la ronda 3. Solo reutilizo de la ronda 2 la definición de las 4 variantes (A3 r2,
-i2_cota_BASE.md), y escribo las fórmulas desde cero.
+análisis (AT) de BASE (Borchert et al. 2019, arXiv:1901.09860). Es un
+cálculo independiente del de i2_observable_r3.py: solo comparte la definición de las 4 variantes.
 
 Datos publicados [VERIFICADO en arXiv:1901.09860 (ar5iv), 30 oct. 2026]:
   nu_+ = 17,845 MHz; nu_z ≈ 675 kHz; B2 = 272 kT/m^2; Dnu_z,+ = 62(4) mHz; Dnu_z,- = 40(3) µHz;
   imán de 1,945 T; radio interior de la AT 1,8 mm; Dnu_z = h nu_+/(4 pi^2 m nu_z) (B2/B0) [(n+ + 1/2) + (nu_-/nu_+)(n- + 1/2) + ...].
-Datos leídos de las figuras (A3 r2; [VERIFICAR] contra las figuras, no están en el texto):
+Datos leídos de las figuras del artículo (no están en el texto):
   sigma_nuz(250 s) ≈ 0,05 Hz; sigma_nuz(1400 s) ≈ 0,075 Hz; Fig. 4a: ≈ 0,48 Hz con rho_- = 65 µm (recta).
 
 Uso: python3 cota_BASE_independiente.py [--codigo RUTA] [--salida CARPETA]   (determinista, < 5 s)
@@ -37,7 +36,7 @@ HORA = 3600.0
 
 NUP, NUZ, B2 = 17.845e6, 675e3, 272e3
 DNU_P_PUB, DNU_M_PUB = 62e-3, 40e-6
-B_IMAN, A_AT, T_AT = 1.945, 1.8e-3, 6.0     # T_AT ≈ 6 K: la misma suposición de A3 r2 [INFERIDO]
+B_IMAN, A_AT, T_AT = 1.945, 1.8e-3, 6.0     # T_AT ≈ 6 K: suposición [INFERIDO]
 cif = []
 
 
@@ -69,7 +68,7 @@ print("   omega_1 sale de frecuencias medidas, no de B0: G y D no dependen de B0
 c("rho_q2_AT", rq2, "m^2", "2 hbar/(m omega_1)", "VERIFICADO (cálculo)")
 c("G_AT", G, "Hz/m^2", "Dnu_z,- / rho_q^2", "VERIFICADO (cálculo)")
 
-print("3) Cotas de D (4 variantes de A3 r2; dos convenciones para sigma)")
+print("3) Cotas de D (4 variantes; dos convenciones para sigma)")
 pend = 0.48 / 65e-6
 var = [("conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)", "deriva", 0.05, 250.0, 1.0),
        ("intermedia (deriva, tau = 1400 s, sigma = 0,075 Hz)", "deriva", 0.075, 1400.0, 1.0),
@@ -78,7 +77,7 @@ var = [("conservadora (deriva, tau = 250 s, sigma = 0,05 Hz)", "deriva", 0.05, 2
 
 
 def D_cota(tipo, s, tau, frac, conv):
-    """conv = 'dif': sigma = desviación de la diferencia de medias adyacentes (convención de A3 r2);
+    """conv = 'dif': sigma = desviación de la diferencia de medias adyacentes ;
        conv = 'allan': sigma = desviación de Allan (diferencia / sqrt 2).
     Deriva: nu_z sube a = 4 G D por segundo; diferencia de medias adyacentes = a tau.
     Estocástico: d(rho^2) = 4D dt + 2 rho sqrt(2D) dW -> var(dif. de medias) = (2/3) tau G^2 8 D rho^2."""
@@ -98,7 +97,7 @@ for nom, tipo, s, tau, frac in var:
     tasa = 4 * D * HORA * 1e12
     filas.append((nom, D, Da, SE, tasa))
     print(f"   {nom:62s}: D <= {D:.3e} m^2/s (Allan: {Da:.3e});  4D = {tasa:.3g} µm^2/h;  S_E = 4 B0^2 D <= {SE:.3e}")
-    c(f"D_max_{nom}", D, "m^2/s", "convención de diferencias (A3 r2)", "INFERIDO (cota)")
+    c(f"D_max_{nom}", D, "m^2/s", "convención de diferencias", "INFERIDO (cota)")
     c(f"S_E_max_{nom}", SE, "V^2 m^-2 Hz^-1", f"B0 = {B0:.4f} T, nu_- = {num:.0f} Hz", "INFERIDO (cota)")
     c(f"S_E_max_Allan_{nom}", 4 * B0**2 * Da, "V^2 m^-2 Hz^-1", "si sigma es desviación de Allan", "INFERIDO (cota)")
 
@@ -145,7 +144,7 @@ for nom, D, Da, SE, tasa in filas:
     c(f"t_tesis_a4_{nom}", t4, "años", "S_E ∝ a^-4", "INFERIDO")
 print("   Nota: el traslado no reescala la frecuencia (12,8 kHz en la AT frente a 6,37 kHz en la tesis).")
 
-print("6) Comparación con A6 r2 §1.1")
+print("6) Comparación con i2_observable_r3.py")
 A6 = {"conservadora": (7.7e-15, 16, 0.16, 2.0e2, 1.5e3), "intermedia": (2.1e-15, 60, 0.08, 7.4e2, 5.7e3),
       "optimista (estocástico, 100": (1.8e-16, 7e2, 0.02, 8.6e3, 6.6e4)}
 comp = []

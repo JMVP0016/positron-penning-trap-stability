@@ -1,9 +1,9 @@
 """
-test_orbita_completa.py — Propuesta de prueba para el repositorio de la tesis (auditoría E1, ronda 5).
+test_orbita_completa.py — Pruebas de la órbita completa.
 
-Valida el modelo de centro guía de la V12 contra la ÓRBITA COMPLETA (fuerza de Lorentz) en unidades
+Valida el modelo de centro guía contra la ÓRBITA COMPLETA (fuerza de Lorentz) en unidades
 escaladas (omega_c/omega_z = 14,3; omega_z/omega_- = 28,5) con el propagador exacto de la parte lineal.
-Copiar junto con orbita_completa.py; corre en unos segundos:  python3 -m pytest -q test_orbita_completa.py
+Corre en unos segundos:  python3 -m pytest -q test_orbita_completa.py
 """
 import numpy as np
 import pytest

@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     from figuras import COLOR, LINEA, guardar, tamano, usar_estilo
 
-    Ec = 1.0 * np.exp(1j * 0.7)          # 1 V/m (el valor de la V11) en una dirección cualquiera
+    Ec = 1.0 * np.exp(1j * 0.7)          # 1 V/m (el valor de la versión 1) en una dirección cualquiera
     delta = abs(centro_desplazado(Ec))
     print("1) Campo uniforme de 1 V/m que aparece de golpe")
     t, Z = simular_rampa(Ec, 0.0, periodos_despues=3)

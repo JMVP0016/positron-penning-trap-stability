@@ -1,7 +1,7 @@
 """
-transito.py — Prueba numérica de la hipótesis de tránsito de la V11.
+transito.py — Prueba numérica de la hipótesis de tránsito de la versión 1.
 
-LA HIPÓTESIS (V11)
+LA HIPÓTESIS (versión 1)
 ------------------
 El positrón "recorre" parches de tamaño l_c a su velocidad térmica v0, así que encontraría un
 campo nuevo cada tau = l_c / v0. El campo que siente sería un ruido de memoria corta (OU) y
@@ -11,7 +11,7 @@ POR QUÉ FALLA PARA UN POSITRÓN ATRAPADO
 ---------------------------------------
 El positrón no avanza por la superficie: oscila en z y vuelve al MISMO punto cada periodo
 axial T_z. Si el parche no cambia, el campo que siente es periódico, E(t + T_z) = E(t), y se
-puede escribir como serie de Fourier (derivación de Henry, sección 3.2):
+puede escribir como serie de Fourier (derivación de la tesis, sección 3.2):
     E(t) = G_0 + sum_{n != 0} G_n exp(i n w_z t)
 - G_0 (el promedio sobre una oscilación) es un campo fijo: solo desplaza la órbita a Z* = -G_0/U0
   (centro_guia.py). El centro guía describe un círculo: <|Z|^2> = 2 <|G_0|^2> (1 - cos w_- t) / U0^2.
@@ -23,7 +23,7 @@ UNIDADES ESCALADAS
 ------------------
 Con los parámetros reales, w_z / w_- ~ 2000 y habría que integrar millones de pasos. Aquí se usa
 w_- = 1, B0 = 1, U0 = 1 y w_z = 50 * w_-. El resultado no depende de esa razón mientras sea
-mucho mayor que 1 (la teoría lo dice y Henry lo deriva en 3.2).
+mucho mayor que 1 (la teoría lo dice y la tesis lo deriva en 3.2).
 
 Uso:  python transito.py
 """
@@ -76,7 +76,7 @@ def parche_estatico_muestreado(n_tray=1000, n_periodos=40, pasos_axial=64, semil
 
 
 def ou_de_transito(n_tray=4000, n_periodos=40, n_lotes=8, semilla=None):
-    """La hipótesis de la V11: el mismo campo (<|E|^2> = 1) como OU con tau = ELL / v_axial."""
+    """La hipótesis de la versión 1: el mismo campo (<|E|^2> = 1) como OU con tau = ELL / v_axial."""
     rng = np.random.default_rng(semilla)
     v = A_Z * W_Z / np.sqrt(2)                        # velocidad axial cuadrática media
     tau = ELL / v

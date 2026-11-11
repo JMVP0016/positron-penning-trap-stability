@@ -12,10 +12,10 @@ hbar*omega. A una temperatura T, la ocupación media sigue la distribución de B
 Para el ciclotrón, hbar w_+ / k_B = 0,67 K: a 4 K es clásico (n ~ 5,5) y a 0,1 K queda
 congelado (n ~ 1e-3). El axial (hbar w_z / k_B = 0,64 mK) y el magnetrón siguen clásicos.
 
-AMPLITUD COHERENTE CON LA ENERGÍA (corrige la V11)
+AMPLITUD COHERENTE CON LA ENERGÍA (corrige la versión 1)
     A = sqrt( 2 hbar (n + 1/2) / (m w_ef) ),   w_ef = w_1 (ciclotrón y magnetrón), w_z (axial)
 El término 1/2 es el punto cero: ningún oscilador cuántico tiene amplitud menor que
-sqrt(hbar / (m w_1)) = 36 nm en el ciclotrón. La V11 daba 1,786 nm a 0,1 K, que es imposible.
+sqrt(hbar / (m w_1)) = 36 nm en el ciclotrón. La versión 1 daba 1,786 nm a 0,1 K, que es imposible.
 
 MAGNETRÓN: n_- = n_z es una HIPÓTESIS: es el límite del enfriamiento por bandas laterales
 axial-magnetrón (Brown y Gabrielse, 1986). Sin ese acoplamiento el magnetrón no se termaliza.
@@ -121,7 +121,7 @@ if __name__ == "__main__":
             Acl = amplitud_clasica(T, w_e, w_ef)
             print(f"     {nombre:10s}: n = {n:10.3e}   A = {A*1e9:10.1f} nm   (clásica: {Acl*1e9:10.1f} nm)")
     print(f"   radio de punto cero del ciclotrón: {radio_punto_cero(W_1)*1e9:.1f} nm"
-          f" (la V11 daba 1,786 nm a 0,1 K)")
+          f" (la versión 1 daba 1,786 nm a 0,1 K)")
 
     print("3) Canal de la temperatura del positrón (promedio axial, k = 1/r_wall)")
     for T in (4.0, 0.1):

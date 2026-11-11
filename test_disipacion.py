@@ -42,7 +42,7 @@ def test_formula_frente_a_monte_carlo():
 
 
 def test_fdt_general_fuente_termica():
-    """Ronda 5 (E3-01): U = |E_-(r_wall)|/(k_B T_b) para toda fuente térmica; el filtro lo cumple con T_ef."""
+    """U = |E_-(r_wall)|/(k_B T_b) para toda fuente térmica; el filtro lo cumple con T_ef."""
     from disipacion import U_termico, factor_fdt_termico, escenarios_con_disipacion, Ein
     assert float(U_termico(4.0)) == pytest.approx(725.3, rel=1e-3)
     assert float(factor_fdt_termico(4.0)) == pytest.approx(1 / 101.2, rel=5e-3)

@@ -10,6 +10,11 @@ makes the magnetron radius diffuse.
 
 Versión en español: [README_es.md](README_es.md).
 
+## What is new in version 2.0.1
+
+Only code comments and the names of two test files were tidied. The calculations and the results are identical
+to version 2.0.0.
+
 ## What is new in version 2.0.0
 
 Version 1.0.0 modelled patch potentials as an Ornstein–Uhlenbeck field whose correlation time was set by the
@@ -78,7 +83,7 @@ reference environment.
 
 All Monte Carlo simulations use fixed seeds. In the reference environment, regenerating the data reproduces the CSV
 files in `datos/` bit for bit (the last column of `datos_articulo/m1_sesgo_mediana.csv` records run times and changes
-on every run). The tag `v12-tesis-cifras` marks the code version behind every number in the thesis; `v2.0.0` is this
+on every run). The tag `v12-tesis-cifras` marks the code version behind every number in the thesis; `v2.0.1` is this
 release.
 
 ## Authors

@@ -1,7 +1,6 @@
 """
-cifras_canonicas.py — Versión de máquina de la tabla de cifras canónicas (plan final §6.1 y A7 §3):
+cifras_canonicas.py — Tabla de las cifras que citan la tesis y el artículo:
 escribe datos/cifras_canonicas.csv con las columnas id, magnitud, valor, unidad, script, tesis, articulo, estado.
-Implementación de referencia de la tarea WP1.13 (ronda 4, agente 1); los autores deciden.
 
     python3 temperaturas.py && MPLBACKEND=Agg python3 make_figures_article.py --slow   # una vez
     MPLBACKEND=Agg python3 figuras_tesis.py 9                                          # crea datos/fig4_09_montecarlo.csv
@@ -112,7 +111,7 @@ fila(10, "Microtrampa (Narimannezhad 2014)", f"{float(i10['t_Narimannezhad_ec25'
      "articulo/i10_microtrampa_r3.py", "F.1", "§3.5", "VERIFICADO (salida de articulo/)")
 fila(11, "Prueba de tránsito", "ω_z/ω₋ = 10/50/200/2097 → 2,3/0,19/0,01/0,00 %; microtrampa "
      f"{f(1 - float(i10['transito_max_sobre_teoria_L=10 cm, 5 eV']), 1)} y 1,6×10⁻⁴", "",
-     "transito.py (razones 10-2097: ronda_1/anexos_A1/auditoria/chequeo_transito.py); articulo/i10_microtrampa_r3.py",
+     "transito.py (razones 10-2097: chequeo_transito.py); articulo/i10_microtrampa_r3.py",
      "§4.3; F.1", "§4.2", "VERIFICADO (salida de chequeo_transito.py, no integrada en el repositorio)")
 res = {r["trampa"]: float(r["wz_sobre_wm"]) for r in csv_filas("i10_resonancias_r3.csv")}
 fila(12, "Resonancias", f"l ≳ {f(W_Z / W_M, 1)} (trampa de referencia); ALPHA {min(v for k, v in res.items() if 'ALPHA' in k):.0f}–"
@@ -122,7 +121,7 @@ fila(12, "Resonancias", f"l ≳ {f(W_Z / W_M, 1)} (trampa de referencia); ALPHA 
 
 # ------------------------------------------------------------------ 13-17: difusión y verificación
 fila(13, "Difusión", f"D = S_E(f₋)/(4B₀²); t̄ = r²B₀²/S_E; C₅₀ = {fd(C50, 4)}; t₅₀ = {fd(4 * C50, 3)} t̄ (sin disipación; con ella ≈ 0,96 t̄ si U ≈ 100)", "", "ruido.py",
-     "cap. 2 (A7-3); §4.4", "§2.4–2.5")
+     "cap. 2; §4.4", "§2.4–2.5")
 sup = np.loadtxt(os.path.join(DAT, "fig4_04_supresion.csv"), delimiter=",", skiprows=1)
 fila(14, "Verificación de D", "D_sim/D_teo = " + " / ".join(fd(x, 3) for x in sup[:, 2]) +
      f" (±{fd(sup[:, 3].min(), 3)}–{fd(sup[:, 3].max(), 3)}); supresión {f(sup[-1, 1], 2)} a ω₋τ_s = {sup[-1, 0]:.0f}", "",
@@ -204,7 +203,7 @@ k3 = [r for r in csv_filas("i4_kappa3d.csv") if r["caso"].startswith("hiperbolic
 kb = float(next(r for r in k3 if r["caso"] == "hiperbolica_base" and r["n_malla_por_a"] == "80")["kappa"])
 kv = [float(r["kappa"]) for r in k3]
 fila(28, "κ", f"2/π (cota 2D, dos mitades); κ_3D = {fd(kb, 3)} (variantes {fd(min(kv), 3)}–{fd(max(kv), 3)}); "
-     f"factor {fd((2 / np.pi / kb)**2, 2)}", "", "ruido.py; articulo/i4_kappa3d.py", "§3 (V12-111); A.2", "§2.4; Tabla 2",
+     f"factor {fd((2 / np.pi / kb)**2, 2)}", "", "ruido.py; articulo/i4_kappa3d.py", "§3; A.2", "§2.4; Tabla 2",
      "VERIFICADO (salida de articulo/)")
 ax = csv_dict("i3a_cifras.csv")
 pend = [float(v) for k, v in ax.items() if k.startswith("pendiente")]
@@ -219,7 +218,7 @@ fila(29, "Canal de energía axial", f"t̄ ∝ τ_z/(E₀²k⁴T²); pendiente {f
 i5 = {(r["canal"], r["EMI"], r["ultima_etapa"], r["con_T2"]): r for r in csv_filas("i5_resumen_r3.csv")}
 c, tot = i5[("circuitos", "plana", "T", "False")], i5[("total A", "plana", "T", "True")]
 p_min = min(float(r["P_ge_1"]) for r in i5.values())
-fila(30, "Propagación de incertidumbres (I5 r3)", f"P[≥ 1] = {p_min:.0f} ({int(float(c['muestras']))} muestras); circuitos "
+fila(30, "Propagación de incertidumbres", f"P[≥ 1] = {p_min:.0f} ({int(float(c['muestras']))} muestras); circuitos "
      f"{fd(float(c['cociente_p5']), 2)}–{fd(float(c['cociente_p95']), 2)}; total + canal axial {fd(float(tot['cociente_p50']), 2)} "
      f"({fd(float(tot['cociente_p5']), 2)}–{fd(float(tot['cociente_p95']), 1)}), mediana {fd(float(tot['t4K_p50']), 1)} años; "
      f"{fd(float(tot['frac_T2_domina_4K']) * 100, 1)} %; mediana de circuitos con κ_3D {float(c['t4K_p50']):.0f} años", "",
@@ -263,8 +262,8 @@ tB = [anios(SE_cota_BASE(1.43) * x / 7.5) for x in (7.5, 7.5 + 3.4, 7.5 - 2.8)] 
 fila(37, "Mínimo compatible con BASE a 17,8 MHz", f"{f(tB[0], 3)} años ({f(tB[1], 3)}–{f(tB[2], 3)} con la barra de error; α = 1,43)",
      "años", "parches_fluctuantes.SE_cota_BASE", "A.2", "Fig. 5 (banda)", "VERIFICADO (código) + LITERATURA (barra de Borchert 2019)")
 fila(38, "Modelo preliminar (solo §4.3 y anexo E)", "t₅₀ = 78,20 h (4 K) / 12,37 h (0,1 K); 6,32 = √40 por construcción "
-     f"(√(4/0,1) = {fd(np.sqrt(40), 2)})", "h", "código V11 (v11/)", "§4.3 (una vez); anexo E", "No va al artículo", "VERIFICADO (V11)")
-fila(39, "Pruebas automáticas", "número exacto del tag: ver `python3 -m pytest -q` (en el ensayo de la ronda 4: 9 + 31 + 9 + 5 + 2 = 56)",
+     f"(√(4/0,1) = {fd(np.sqrt(40), 2)})", "h", "código de la versión 1 (v11/)", "§4.3 (una vez); anexo E", "No va al artículo", "VERIFICADO (versión 1)")
+fila(39, "Pruebas automáticas", "número exacto del tag: ver `python3 -m pytest -q` (79 pruebas)",
      "", "pytest", "anexo C", "Data avail. y §5.3", "VERIFICAR al etiquetar")
 
 if __name__ == "__main__":

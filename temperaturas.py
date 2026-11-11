@@ -1,6 +1,5 @@
 """
-temperaturas.py — Tablas de la tesis para las temperaturas analizadas (implementación de
-referencia de la tarea WP1.6; base: ronda_1/anexos_A1/tabla_temperaturas.py).
+temperaturas.py — Tablas de la tesis para las temperaturas analizadas.
 
     python3 temperaturas.py            # escribe datos/temperaturas_*.csv y tablas/tabla_*.tex (< 2 s)
 
@@ -12,7 +11,7 @@ salvo donde se indica):
   4.2  Localización: ocupaciones, amplitudes con punto cero y energías (n_- = n_z, magnetrón
        reenfriado por bandas laterales; cuantico.py).
   4.3  Permanencia: t_medio y mediana por fuente de ruido (ruido.py, parches_fluctuantes.py),
-       con la variante de la última etapa del filtro a 5 K (D-T8).
+       con la variante de la última etapa del filtro a 5 K.
   4.4  Separación de las dos temperaturas (2x2): positrón a T con electrodos a 4 K, y positrón
        a 4 K con electrodos a T (escenario del filtro de tres etapas).
   A.4  Barrido de 9 temperaturas: 0,05; 0,1; 0,2; 0,3; 0,5; 1; 2; 4; 10 K.

@@ -10,6 +10,11 @@ difundir el radio del magnetrón.
 
 English version: [README.md](README.md).
 
+## Qué cambia en la versión 2.0.1
+
+Solo se ordenaron los comentarios del código y los nombres de dos archivos de pruebas. Los cálculos y los
+resultados son idénticos a los de la versión 2.0.0.
+
 ## Qué cambia en la versión 2.0.0
 
 La versión 1.0.0 modelaba los potenciales de parche como un campo de Ornstein–Uhlenbeck con un tiempo de correlación
@@ -79,7 +84,7 @@ idénticos.
 Todas las simulaciones Monte Carlo usan semillas fijas: en el entorno de referencia, regenerar los datos reproduce bit
 a bit los CSV de `datos/` (la última columna de `datos_articulo/m1_sesgo_mediana.csv` guarda tiempos de ejecución y
 cambia en cada corrida). El tag `v12-tesis-cifras` marca la versión del código de la que sale cada cifra de la tesis;
-`v2.0.0` es esta publicación.
+`v2.0.1` es esta publicación.
 
 ## Autores
 

@@ -1,14 +1,14 @@
 """
-fig_regimes_extended.py — A1, ronda 3, tarea A1-3 (R3-2d, I3d): mapa de regímenes ampliado.
+fig_regimes_extended.py — Mapa de regímenes ampliado.
 
 Es la figura fig4_08 (ruido S_E(f_-) en abscisas, campo estático |E| en ordenadas) con estos añadidos:
-  - canal axial T2 (A1 r2, i3a): su densidad equivalente isótropa es S_eq = S_G/2, porque el canal
+  - canal axial T2 (i3a_canal_axial.py): su densidad equivalente isótropa es S_eq = S_G/2, porque el canal
     es de una sola componente (D = S_G/(8 B0^2) = S_eq/(4 B0^2)). Como S_G ∝ E0^2, en este mapa es
     una franja de pendiente 2 entre (k = 1/a, tau_z = 1 s) y (k = pi/z0, tau_z = 0,01 s), a 4 K; a 0,1 K
     se dibuja la línea del peor caso;
   - ruido de superficie SOLO como cota: banda mín-máx de los escenarios A y B a 4 K (M8), sin curva central;
-  - gas residual: solo una anotación con la cota de presión de Sellner 2017 (vía A3 r2). Sin cifra de
-    aniquilación, porque Z_eff está pendiente de verificar (A3).
+  - gas residual: solo una anotación con la cota de presión de Sellner 2017. Sin cifra de
+    aniquilación, porque Z_eff no está verificado.
 Idioma: FIG_IDIOMA=en (por defecto, punto decimal) o FIG_IDIOMA=es, como el mecanismo del parche de A4.
 Estilo (3 nov.): el de la tesis (estilo.mplstyle y la paleta de figuras.py), con letra legible, los rótulos de
 las regiones dentro del mapa y la leyenda de las fuentes de ruido debajo. La cota del gas residual va en la
@@ -62,7 +62,7 @@ TXT = {
 
 
 def S_G_por_E0cuad(T, k, tau, nmax=30):
-    """S_G(f_-)/E0^2 del canal T2 (forma cerrada de Laguerre, A1 r2 i3a_canal_axial.py)."""
+    """S_G(f_-)/E0^2 del canal T2 (forma cerrada de Laguerre, i3a_canal_axial.py)."""
     beta = k * np.sqrt(2 * K_B * T / (M_E * W_Z**2))
     b = beta**2 / 4
     a = np.array([b**n * np.exp(-b) / factorial(n) for n in range(nmax + 1)])

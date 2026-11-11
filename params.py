@@ -30,7 +30,7 @@ RHO0 = 5e-3                # radio interior del anillo (m)
 R_WALL = RHO0              # radio de pérdida usado en la tesis (m)
 
 # Semialtura hasta las tapas. En una trampa hiperbólica no es libre: sale de d y rho0.
-# Con d = rho0 = 5 mm da 6,12 mm (la V11 fijaba z_wall = 10 mm, que no es coherente).
+# Con d = rho0 = 5 mm da 6,12 mm (la versión 1 fijaba z_wall = 10 mm, que no es coherente).
 Z0 = np.sqrt(2 * D_TRAP**2 - RHO0**2 / 2)
 
 # Curvatura del potencial cuadrupolar: phi(r, z) = U0 (z^2 - r^2/2)

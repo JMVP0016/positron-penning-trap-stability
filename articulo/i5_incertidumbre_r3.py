@@ -1,7 +1,7 @@
-"""I5 ampliada (ronda 3, A2-3): canal axial T2, EMI dependiente de la frecuencia y kappa_3D.
+"""i5_incertidumbre_r3.py — Propagación de incertidumbres: canal axial T2, EMI dependiente de la frecuencia y kappa_3D.
 Uso: python3 -I i5_incertidumbre_r3.py RUTA_COPIA_CODIGO [carpeta_salida] [N]
-Semilla fija 20261031. Determinista. Base: ronda_2/anexos_A2_r2/i5_incertidumbre.py.
-Canal T2: forma cerrada de A1 (ronda_2/anexos_A1_r2/i3a_canal_axial.py, funciones S_G y beta_de, copiadas aquí
+Semilla fija 20261031. Determinista.
+Canal T2: forma cerrada de i3a_canal_axial.py (funciones S_G y beta_de, copiadas aquí
 literalmente); t_T2 = 2 r^2 B0^2 / S_G(f_-) (una componente).
 EMI: 'plana' (la de la tesis; idéntica en f_- a una 1/f anclada en f_-) y '1/f desde 17,8 MHz'
 (S_EMI(f_-) = S_EMI * 17,8 MHz / f_-; aplicada en el electrodo, sin filtrar: variante pesimista)."""
@@ -38,7 +38,7 @@ T_HI, T_LO = 4.0, 0.1
 F_EMI = 17.845e6
 anios = lambda S: tiempo_medio(D_desde_SE(S)) / UN_ANIO
 
-# ---- canal T2 (copia literal de A1 r2, i3a_canal_axial.py) ----
+# ---- canal T2 (copia literal de i3a_canal_axial.py) ----
 def coef_laguerre(beta, nmax=40):
     b = beta**2 / 4
     return np.array([b**n * np.exp(-b) / factorial(n) for n in range(nmax + 1)])
@@ -55,8 +55,8 @@ def SE_equiv_T2(T, k, tau, E0):
 t_def = anios(escenarios(T_HI)["filtro real (corte 1,2 kHz)"])[0]
 lo, hi = banda_superficie(np.array([T_HI]), "A")
 t_T2 = R_WALL**2 * B0**2 / SE_equiv_T2(T_HI, np.pi / Z0, 0.01, 1.0) / UN_ANIO
-print(f"Prueba r2: filtro real 4 K = {t_def:.3f} a (4,48); sup. A 4 K = {anios(hi)[0]:.0f}-{anios(lo)[0]:.3g} a (858-1,29e6)")
-print(f"Prueba A1-2: T2 a 4 K con k = pi/z0, tau_z = 0,01 s, E0 = 1 V/m: {t_T2:.2f} a (A1: 1,2)")
+print(f"Prueba: filtro real 4 K = {t_def:.3f} a (4,48); sup. A 4 K = {anios(hi)[0]:.0f}-{anios(lo)[0]:.3g} a (858-1,29e6)")
+print(f"Prueba: T2 a 4 K con k = pi/z0, tau_z = 0,01 s, E0 = 1 V/m: {t_T2:.2f} a (i3a: 1,2)")
 assert abs(t_def - 4.48) < 0.01 and abs(anios(hi)[0] - 858) < 2 and abs(t_T2 - 1.2) < 0.1
 
 def logu(a, b, n): return np.exp(rng.uniform(np.log(a), np.log(b), n))

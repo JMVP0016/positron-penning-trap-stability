@@ -1,5 +1,5 @@
 """
-i10_rebote_real.py — A1, ronda 3, tarea A1-2 (R3-2b).
+i10_rebote_real.py — Prueba de tránsito con rebote en un pozo plano.
 
 Prueba de tránsito con el REBOTE de un pozo de fondo plano (velocidad constante y reflexión en los
 extremos, z(t) en onda triangular) en lugar de la oscilación armónica de transito.py.

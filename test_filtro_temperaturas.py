@@ -1,10 +1,10 @@
 """
-test_wp1.py — Pruebas de las tareas del paquete WP1 (implementación de referencia de la ronda 4).
+test_filtro_temperaturas.py — Pruebas de la geometría del acoplamiento, del filtro y de las tablas de temperaturas.
 
-    python3 -m pytest -q test_wp1.py          (desde la carpeta del proyecto; unos 10 s)
+    python3 -m pytest -q test_filtro_temperaturas.py          (desde la carpeta del proyecto; unos 10 s)
 
-1.2  Geometría del acoplamiento (D-T6): anillo en dos mitades con líneas independientes.
-1.3  Variante de la última etapa del filtro a 5 K (D-T8).
+1.2  Geometría del acoplamiento: anillo en dos mitades con líneas independientes.
+1.3  Variante de la última etapa del filtro a 5 K.
 1.5  Marcas de 4; 1; 0,3 y 0,1 K en las figuras que barren la temperatura.
 1.6  temperaturas.py: tablas 4.2, 4.3, 4.4 y A.4 con 1 K y 0,3 K.
 """
@@ -52,7 +52,7 @@ def test_alias_kappa_dipolo():
 
 
 def test_geometria_dos_mitades_independientes():
-    """D-T6: con dos mitades de ruidos independientes (mismo S_V), E_x = kappa (V2 - V1)/a y
+    """Con dos mitades de ruidos independientes (mismo S_V), E_x = kappa (V2 - V1)/a y
     D = kappa^2 S_V / (4 a^2 B0^2), que es lo que calcula el código: D_desde_SE(SE_desde_SV(S_V))."""
     from ruido import KAPPA_DIPOLO, D_desde_SE, SE_desde_SV, SE_ou
     k = KAPPA_DIPOLO / R_WALL

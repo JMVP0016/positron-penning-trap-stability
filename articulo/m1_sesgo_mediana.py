@@ -1,5 +1,5 @@
 """
-m1_sesgo_mediana.py — A1, ronda 3, tarea A1-4 (R3-2e): sesgo de la mediana del Monte Carlo de pérdida.
+m1_sesgo_mediana.py — Sesgo de la mediana del Monte Carlo de pérdida.
 
 ruido.simular_perdida (copia sin modificar) comprueba la pared solo al final de cada paso, y el ruido
 tiene memoria tau = 1/w_- (w_- tau = 1). Hay dos fuentes de sesgo positivo:

@@ -1,6 +1,6 @@
-"""WP1.9 de Henry: contraste estático ALPHA y equilibrio ciclotrón de Peil.
+"""contraste_experimental.py — Contraste estático con ALPHA y equilibrio ciclotrón de Peil y Gabrielse.
 
-Colocar junto a params.py y centro_guia.py. No genera archivos al importarse.
+No genera archivos al importarse.
 FIG_IDIOMA=es|en; FIG_CARPETA=carpeta de figuras relativa a este archivo,
 o absoluta. Los CSV se guardan en datos/ junto a este archivo.
 

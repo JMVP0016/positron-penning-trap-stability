@@ -1,5 +1,5 @@
 """
-i4_kappa3d.py — A1, ronda 2, tarea A1-3 (I4): factor de acoplamiento dipolar kappa en 3D.
+i4_kappa3d.py — Factor de acoplamiento dipolar kappa en 3D.
 
 Componente azimutal m = 1 del potencial: phi = f(r, z) cos(theta), con
     f_rr + f_r/r - f/r^2 + f_zz = 0.

@@ -1,4 +1,4 @@
-# Data and code availability (draft, A1 round 3)
+# Data and code availability (draft)
 
 All results in this article were produced with the Python code that accompanies it. The code is
 archived at [Zenodo DOI to be added after deposit] and mirrored at [repository URL to be added].

@@ -1,7 +1,7 @@
 """
-i2_observable_r3.py — Agente 3, ronda 3 (corrige B0 y nu_- de BASE AT; ver A6 r2 §1.1) (I2, I10(b) numérico, I3(b)). Determinista, < 5 s.
+i2_observable_r3.py — Cota de BASE AT y cuatro trampas reales. Determinista, < 5 s.
 
-Importa los módulos V12 (copia verificada con md5) sin modificarlos.
+Importa los módulos del modelo sin modificarlos.
 Uso:  MPLBACKEND=Agg python3 i2_observable.py   -> imprime todo y escribe
       i2_trampas_reales.csv, i10b_criterio.csv, cifras_A3_r2.csv en la carpeta de salida.
 
@@ -9,8 +9,8 @@ Uso:  MPLBACKEND=Agg python3 i2_observable.py   -> imprime todo y escribe
 (b) Cota de S_E(nu_-) a partir de la estabilidad axial de BASE AT (Borchert et al. 2019).
 (c) Cuatro trampas reales con el escenario «filtro real + EMI» y lo observado.
 (d) Escenario calibrado contra BASE.
-I10(b) Cocientes de frecuencia del criterio de validez.
-I3(b) Vida por aniquilación con el gas residual acotado por BASE.
+Cocientes de frecuencia del criterio de validez.
+Vida por aniquilación con el gas residual acotado por BASE.
 """
 import csv
 import os
@@ -73,7 +73,7 @@ for t_obj in (1.0, 10.0, 100.0):
 # =============================================================================================
 print("\n" + "=" * 90 + "\n(b) Cota de S_E(nu_-) desde la estabilidad axial de BASE AT\n" + "=" * 90)
 A_AT, NUP_AT, NUZ_AT = 1.8e-3, 17.845e6, 675e3    # Borchert 2019, p. 2 (diámetro 3,6 mm; nu_+; nu_z)
-# R3: B0 de la AT NO es el del imán (1,945 T): se deduce de nu_+ (ninguna publicación da B0 de la AT explícitamente).
+# B0 de la AT NO es el del imán (1,945 T): se deduce de nu_+ (ninguna publicación da B0 de la AT explícitamente).
 NUM_AT = NUZ_AT**2 / (2 * NUP_AT)                 # nu_- ≈ nu_z^2 / (2 nu_+)
 B_AT = 2 * np.pi * (NUP_AT + NUM_AT) * M_P / Q_E  # nu_c = nu_+ + nu_-
 B2_AT = 272e3                                     # T/m², p. 2
@@ -114,7 +114,7 @@ for etiqueta, D in casos_b:
     cifra(f"cota BASE AT, {etiqueta}", 4 * B_AT**2 * D, "V²m⁻²Hz⁻¹", f"{B_AT:.3f} T, a=1,8 mm, nu_-≈{NUM_AT/1e3:.1f} kHz, ~6 K",
           "Borchert 2019 p.2, Fig.2, Fig.4a; i2_cota_BASE.md", "INFERIDO (cota nueva)")
 S_BASE_CONS = 4 * B_AT**2 * casos_b[0][1]
-S_BASE_PRINC = 4 * B_AT**2 * casos_b[1][1]   # R3: cota principal = deriva con tau = 1400 s
+S_BASE_PRINC = 4 * B_AT**2 * casos_b[1][1]   # cota principal = deriva con tau = 1400 s
 S_BASE_OPT = 4 * B_AT**2 * casos_b[2][1]
 print("  D no depende de B0 (rho_q² usa omega_1 medido); S_E = 4 B0² D sí: factor (1,171/1,945)² =", f"{(B_AT/1.945)**2:.4f}")
 
@@ -152,7 +152,7 @@ def S_max_supervivencia(B, r, t_exp, n_part, P=0.05):
     return 4 * B**2 * D, D
 
 
-k2_alpha = 1.41e4      # V/m² (pozo de 10 V, modelo del anillo de 2 cm; ronda 1); empírico 8,7e3
+k2_alpha = 1.41e4      # V/m² (pozo de 10 V, modelo del anillo de 2 cm); empírico 8,7e3
 trampas = [
     # nombre, partícula, masa, B, r, nu_-, T, U0/k2, observación, fuente_param
     ("BASE reservorio (RT)", "pbar", M_P, 1.946, 4.5e-3, 7.02e3, 6.0, None,
@@ -162,7 +162,7 @@ trampas = [
     ("Harvard e- (Hanneke 2011)", "e-", M_E, 5.36, 4.5e-3, 133e3, 0.1, None,
      "un electrón «meses»; magnetrón enfriado por bandas laterales", "Hanneke 2011 Tabla I (p. 5) y sec. II.C"),
     ("ALPHA pozo 10 V", "pbar", M_P, 1.0, 0.022, k2_alpha / (2 * np.pi * 1.0), 4.0, k2_alpha,
-     "pbar confinados «horas»", "Baker 2024 p. 2 y Fig. 1; k2 del modelo del anillo (ronda 1)"),
+     "pbar confinados «horas»", "Baker 2024 p. 2 y Fig. 1; k2 del modelo del anillo"),
 ]
 filas = []
 for nombre, part, m, B, r, fm, T, k2, obs, fuente in trampas:
@@ -240,9 +240,9 @@ for etiqueta, S_cota in (("conservadora tau=250 s", S_BASE_CONS), ("PRINCIPAL ta
           "i2_observable.py", "INFERIDO")
 
 # =============================================================================================
-# I10(b) Cocientes de frecuencia para el criterio de validez
+# Cocientes de frecuencia para el criterio de validez
 # =============================================================================================
-print("\n" + "=" * 90 + "\nI10(b) Frecuencias: rebote/axial frente a rotación\n" + "=" * 90)
+print("\n" + "=" * 90 + "\nFrecuencias: rebote/axial frente a rotación\n" + "=" * 90)
 E0 = 8.8541878128e-12
 crit = []
 wz_t, wm_t = W_Z, W_M
@@ -254,9 +254,9 @@ v0, Ltubo = 1.32e6, 0.10                 # Narimannezhad 2014, p. 15 y Tabla II
 wb = 2 * np.pi * v0 / (2 * Ltubo)
 n_pl = 1.6e17                            # m^-3, resumen
 wE = Q_E * n_pl / (2 * E0 * 7.0)
-K2_MICRO = 1.8e6   # V/m², k2 efectivo calculado por A1 r2 (zona de reflexión), confirmado por A6 r2 §1.2
+K2_MICRO = 1.8e6   # V/m², k2 efectivo (zona de reflexión), de i10_microtrampa_r3.py
 crit.append(["microtrampa, partícula aislada (5 eV, 7 T, L=10 cm, k2_ef=1,8e6)", wb, K2_MICRO / 7.0, wb / (K2_MICRO / 7.0), 0.0,
-             "R3: k2 efectivo no nulo (A1): desplazamiento acotado, 2δ = 22 µm < 50 µm (V2), no deriva directa"])
+             "k2 efectivo no nulo: desplazamiento acotado, 2δ = 22 µm < 50 µm (V2), no deriva directa"])
 crit.append(["microtrampa, plasma 1,6e11 cm^-3 (rotación E×B)", wb, wE, wb / wE, 0.0,
              "resonancias de orden bajo accesibles; régimen colectivo"])
 for et, wz, wm, rat, _, nota in crit:
@@ -276,9 +276,9 @@ cifra("t (ec. 24) Narimannezhad recalculado", 7.0**2 * (50e-6) ** 2 * 1.32e6 / (
       "B=7 T, X=50 µm, v0=1,32e6, E=20 V/m, lc=0,1 µm", "Narimannezhad 2014 ec. (24) p. 15", "VERIFICADO (aritmética)")
 
 # =============================================================================================
-# I3(b) Gas residual: aniquilación del positrón
+# Gas residual: aniquilación del positrón
 # =============================================================================================
-print("\n" + "=" * 90 + "\nI3(b) Aniquilación con el gas residual acotado por BASE\n" + "=" * 90)
+print("\n" + "=" * 90 + "\nAniquilación con el gas residual acotado por BASE\n" + "=" * 90)
 for gas, p_mbar, Z in (("H2", 1.2e-18, 2), ("He", 2.7e-18, 2)):
     for Tg in (6.0, 300.0):
         n = p_mbar * 100 / (K_B * Tg)

@@ -1,4 +1,4 @@
-"""I1 (ronda 2): presupuesto del ruido por etapa del filtro RC de 3 etapas a f- y en frecuencia.
+"""i1_presupuesto_filtro.py — Presupuesto del ruido por etapa del filtro RC de 3 etapas a f- y en frecuencia.
 Uso: python3 -I i1_presupuesto_filtro.py RUTA_COPIA_CODIGO [carpeta_salida]
 Reproduce ruido.SV_filtro (por_etapa=True) y además devuelve |H_i(f)|, la transferencia de cada
 fuente de Johnson (en serie con R_i) hasta el electrodo. Determinista."""

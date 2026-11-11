@@ -13,7 +13,7 @@ Con deriva y difusión a la vez, el tiempo medio de primer paso desde el centro 
     t_medio = Ein(U) / (2 lambda),   Ein(U) = gamma_E + ln U + E1(U),   U = lambda r_wall^2 / (2 D)
 U = |E_-(r_wall)| / (k_B T_ef), con T_ef = S_V / (4 k_B Re Z). Sin disipación (U -> 0), t_medio = r^2/(4D).
 
-GENERALIZACIÓN (auditoría de la ronda 5, E3-01): no es exclusivo del filtro. Toda fuente de ruido en
+GENERALIZACIÓN: no es exclusivo del filtro. Toda fuente de ruido en
 equilibrio a T_b (resistencia, superficie en equilibrio, eje con su detector) lleva su disipación con
     U = |E_-(r_wall)| / (k_B T_b) = 0,25 eV / (k_B T_b) ~ 2901 K / T_b,
 sea cual sea el acoplamiento, y entonces t_medio = t0 * Ein(U)/U con t0 = r^2/(4D) el de solo ruido:

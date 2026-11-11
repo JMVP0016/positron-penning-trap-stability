@@ -1,4 +1,4 @@
-"""Controles de WP1.9: física, estado compartido y archivos de salida."""
+"""Pruebas del contraste experimental: física, estado compartido y archivos de salida."""
 import os
 from pathlib import Path
 import subprocess

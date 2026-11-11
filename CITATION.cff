@@ -11,8 +11,8 @@ authors:
   - family-names: "Manobanda Muzo"
     given-names: "Henry David"
     affiliation: "Escuela Superior Politécnica de Chimborazo"
-version: "2.0.0"
-date-released: "2026-11-03"
+version: "2.0.1"
+date-released: "2026-11-10"
 license: Apache-2.0
 repository-code: "https://github.com/JMVP0016/positron-penning-trap-stability"
 doi: "10.5281/zenodo.22652850"

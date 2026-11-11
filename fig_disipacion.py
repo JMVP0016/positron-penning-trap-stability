@@ -1,6 +1,6 @@
 """
 fig_disipacion.py — Figura del anexo F: tiempo medio de pérdida con y sin la disipación que el teorema
-de fluctuación-disipación asocia al ruido térmico (decisión D-T19; ronda 5).
+de fluctuación-disipación asocia al ruido térmico.
 
     python fig_disipacion.py                                      # figures/figF_disipacion.pdf y .png
     FIG_IDIOMA=en FIG_CARPETA=figures/en python fig_disipacion.py  # etiquetas en inglés

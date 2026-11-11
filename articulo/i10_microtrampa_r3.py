@@ -1,10 +1,8 @@
 """
-i10_microtrampa_r3.py — A1, ronda 3: versión corregida de i10_microtrampa.py (ronda 2).
-Único cambio de física: la conversión D <-> t de la sec. 1 (fe de erratas del «1011 s»).
-Original: A1, ronda 2, tarea A1-1 (I10a y parte numérica de I10b).
+i10_microtrampa_r3.py — Microtrampa de Narimannezhad et al. con el modelo de centro guía.
 
 La estimación de Narimannezhad et al. (arXiv:1301.0030, sec. III.1.6, ecs. 21-25) se recalcula con
-el modelo del centro guía de la tesis V12.
+el modelo del centro guía de la tesis.
 
 Parámetros publicados (arXiv:1301.0030):
   B = 7 T; R_w = 50 µm; tubo central a tierra de 5 mm a 10 cm (10 cm es la longitud de diseño);
@@ -115,7 +113,7 @@ def regimen(k2, eps, R=RW):
 
 
 def t_p(k2, eps, Bf=B, R=RW):
-    """Tiempo hasta la pared con un campo que aparece de golpe (A3 r1 §4.3)."""
+    """Tiempo hasta la pared con un campo que aparece de golpe."""
     d = eps / k2
     return np.inf if 2 * d < R else (2 * Bf / k2) * np.arcsin(R / (2 * d))
 

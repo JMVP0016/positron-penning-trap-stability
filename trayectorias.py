@@ -1,7 +1,6 @@
 """
 trayectorias.py — Ilustración 4-7 (fig:res-trayectorias): el movimiento del positrón en las cuatro
-temperaturas del cuerpo de la tesis, 4; 1; 0,3 y 0,1 K (tarea 1.10 del WP1). Base:
-codigo/v11_figs/regenerar_fig4_08_09.py del proyecto LaTeX, que solo dibujaba 0,1 K.
+temperaturas del cuerpo de la tesis, 4; 1; 0,3 y 0,1 K.
 
     python3 trayectorias.py                                      # figures/fig4_06b_trayectorias.pdf y .png
     FIG_IDIOMA=en FIG_CARPETA=figures/en python3 trayectorias.py  # etiquetas en inglés
@@ -18,7 +17,7 @@ cuantico.tabla_modos: son las de la Ilustr. 4-6 y las de datos/temperaturas_cuer
 Colores de las columnas como en marcar_temperaturas: 4 K azul, 0,1 K vino, 1 K y 0,3 K gris.
 El nombre fig4_06b deja el archivo entre fig4_06_modos (Ilustr. 4-6) y fig4_07_canales_temperatura
 (Ilustr. 4-8). Los datos se guardan en datos/trayectorias_amplitudes.csv, sin el prefijo fig4_0 para que no
-entre en la comprobación md5 de los 10 CSV de la V12 (receta del WP1). No modifica ningún otro archivo.
+entre en la comprobación md5 de los 10 CSV de las figuras. No modifica ningún otro archivo.
 """
 import matplotlib.pyplot as plt
 import numpy as np

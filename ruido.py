@@ -132,7 +132,7 @@ def mediana(D, R=R_WALL):
 # ===========================================================================
 # 4. De dónde sale S_E(f_-): el ruido que llega a un electrodo segmentado
 #
-#    a) Del voltaje al campo (geometría adoptada, decisión D-T6). El electrodo anular está
+#    a) Del voltaje al campo (geometría adoptada). El electrodo anular está
 #       dividido en DOS MITADES, cada una polarizada por su propia línea (y su propio filtro),
 #       con ruidos independientes V_1(t) y V_2(t) de igual densidad espectral S_V. El modelo 2D
 #       del cilindro (superficie.py, coeficiente B_1 = 2V/pi) da en el centro un campo uniforme
@@ -173,7 +173,7 @@ SV_EMI_BASE = (225e-12) ** 2           # V^2/Hz (orden de magnitud)
 def SV_filtro(T_trampa, filtro=FILTRO_REAL, f=F_M, por_etapa=False, T_ultima_etapa=None):
     """Ruido Johnson de un filtro RC en escalera visto en el electrodo (V^2/Hz).
     La primera etapa está en la entrada (puesta a tierra por la fuente) y la última junto al
-    electrodo, a la temperatura de la trampa (supuesto D-T8). Con T_ultima_etapa (K) la última
+    electrodo, a la temperatura de la trampa (supuesto del modelo). Con T_ultima_etapa (K) la última
     etapa se fija a esa temperatura en lugar de seguir a la trampa (variante publicada: 5 K)."""
     R, C = filtro["R"], filtro["C"]
     T = list(filtro["T_calientes"]) + [T_trampa if T_ultima_etapa is None else T_ultima_etapa]
@@ -309,9 +309,9 @@ if __name__ == "__main__":
           f" = {tiempo_medio(D_ref)/UN_ANIO:.0f} años")
     print(f"   S_E que da una media de un año: {SE_desde_D(R_WALL**2/(4*UN_ANIO)):.2e} V^2 m^-2 Hz^-1")
     for etiqueta, D_v11, med_v11 in (("4 K", 1.816e-11, 78.20), ("0,1 K", 1.149e-10, 12.37)):
-        print(f"   V11 {etiqueta}: S_E implícito = {SE_desde_D(D_v11):.2e};"
+        print(f"   versión 1 {etiqueta}: S_E implícito = {SE_desde_D(D_v11):.2e};"
               f" media = {tiempo_medio(D_v11)/3600:.1f} h;"
-              f" mediana analítica = {mediana(D_v11)/3600:.2f} h (Monte Carlo de la V11: {med_v11} h)")
+              f" mediana analítica = {mediana(D_v11)/3600:.2f} h (Monte Carlo de la versión 1: {med_v11} h)")
 
     print("4) Ruido real en el electrodo a f_- (V^2/Hz) y tiempo medio con kappa = 2/pi")
     for T in (4.0, 0.1):
