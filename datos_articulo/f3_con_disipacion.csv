@@ -1,0 +1,7 @@
+ultima_etapa,magnitud,p5,mediana,p95,minimo,fraccion_mayor_o_igual_1
+T,cociente sin disipación,1.04394,1.18784,2.06972,1.01613,1
+T,cociente con disipación,1.00979,1.03159,1.11091,1.00524,1
+T,"t(4 K) con disipación, años",0.175635,1.21935,11.9149,0.13703,nan
+5K,cociente sin disipación,1,1,1,1,1
+5K,cociente con disipación,1,1,1,1,1
+5K,"t(4 K) con disipación, años",0.175187,1.20697,11.7745,0.136726,nan

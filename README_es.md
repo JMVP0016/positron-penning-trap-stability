@@ -10,6 +10,22 @@ difundir el radio del magnetrón.
 
 English version: [README.md](README.md).
 
+## Qué cambia en la versión 2.0.2
+
+Cambios hechos por las observaciones del tribunal de la tesis. Ningún resultado de la tesis cambia y las 79
+pruebas son las mismas.
+
+- `articulo/fig_regimes_extended.py`: el mapa de regímenes marca el criterio temporal t* = 1 año, llama
+  determinista a la pérdida por el campo estático, ubica el circuito de tres etapas con disipación en su ruido
+  equivalente S_eq y explica cada símbolo en la leyenda (versión en español con `FIG_IDIOMA=es`: Ilustración 4-9
+  de la tesis).
+- `orbita_completa.py`: el comentario de Boris dice ahora que el paso de Cayley conserva la norma en la rotación
+  magnética pura, pero gira 2 arctan(ω_c Δt/2) por paso en lugar de ω_c Δt.
+- `figuras_verificacion.py` (nuevo): las cuatro figuras de verificación del anexo B (error de fase de Boris,
+  convergencia con el paso temporal, tiempo medio con disipación y órbita completa frente al centro guía).
+  `ruido.simular_difusion` acepta un `dt` opcional para la prueba de convergencia; su valor por defecto no cambia.
+- `articulo/f3_con_disipacion.py` (nuevo): la propagación de incertidumbres del anexo F.3 repetida con disipación.
+
 ## Qué cambia en la versión 2.0.1
 
 Solo se ordenaron los comentarios del código y los nombres de dos archivos de pruebas. Los cálculos y los
@@ -58,6 +74,8 @@ Entorno de referencia: Python 3.11.3 con las versiones fijadas en `requirements.
 | `python3 fig_disipacion.py` | tiempo de pérdida con y sin disipación | `figures/figF_disipacion.*` |
 | `python3 cifras_canonicas.py` | cada cifra que cita la tesis, con el guion que la produce | `datos/cifras_canonicas.csv` |
 | `python3 make_figures_article.py --slow` | análisis del artículo (≈ 4 min) | `datos_articulo/`, `figures_articulo/` |
+| `python3 figuras_verificacion.py` | figuras de verificación del anexo B (≈ 30 s) | `figures/verif_*`, `datos/verif_*.csv` |
+| `FIG_IDIOMA=es python3 articulo/fig_regimes_extended.py --salida figures` | mapa de regímenes de la tesis (Ilustración 4-9) | `figures/fig_regimes_extended_es.*` |
 
 Con `FIG_IDIOMA=en FIG_CARPETA=figures/en` delante de la orden, las figuras salen con las etiquetas en inglés. Con
 `SOURCE_DATE_EPOCH=1798761600`, los PDF llevan una fecha interna fija y, en el entorno de referencia, se regeneran
@@ -84,7 +102,7 @@ idénticos.
 Todas las simulaciones Monte Carlo usan semillas fijas: en el entorno de referencia, regenerar los datos reproduce bit
 a bit los CSV de `datos/` (la última columna de `datos_articulo/m1_sesgo_mediana.csv` guarda tiempos de ejecución y
 cambia en cada corrida). El tag `v12-tesis-cifras` marca la versión del código de la que sale cada cifra de la tesis;
-`v2.0.1` es esta publicación.
+`v2.0.2` es esta publicación.
 
 ## Autores
 

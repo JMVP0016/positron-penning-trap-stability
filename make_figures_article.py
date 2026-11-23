@@ -22,6 +22,7 @@ RAPIDOS = [
     ("I3a axial channel T2", ["i3a_canal_axial.py", "--salida", DAT]),
     ("BASE AT bound (independent, B0 = 1.171 T)", ["cota_BASE_independiente.py", "--salida", DAT]),
     ("I5 uncertainty propagation (axial channel, 1/f EMI, kappa_3D)", ["i5_incertidumbre_r3.py", RAIZ, DAT, "20000"]),
+    ("annex F.3 propagation with dissipation (circuits)", ["f3_con_disipacion.py", RAIZ, DAT, "20000"]),
     ("filter budget per stage (I1)", ["i1_presupuesto_filtro.py", RAIZ, DAT]),
     ("BASE AT bound and four real traps (i2)", ["i2_observable_r3.py", "--salida", DAT]),
     ("ALPHA static-patch contrast (thesis script, figure to figures/en)", ["../contraste_experimental.py"]),
