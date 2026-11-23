@@ -18,7 +18,7 @@ nuevas usan solo estas claves, nunca códigos #rrggbb sueltos, para que un color
     COLOR["4K"]          azul    4 K, solo cuando la figura compara temperaturas
     COLOR["01K"]         vino    0,1 K, ídem
     COLOR["positron"]    morado  la vía de la temperatura del positrón (fig4_07_canales_temperatura, panel b = Ilustr. 4-8 b)
-                                 y el canal axial, que depende de su oscilación axial (mapa de regímenes, Ilustr. 4-11)
+                                 y el canal axial, que depende de su oscilación axial (mapa de regímenes, Ilustr. 4-9)
     COLOR["serie3"]      verde   la simulación o el escenario principal de la tesis (simulación, Monte Carlo,
                                  trampa simulada, filtro de tres etapas)
     COLOR["teoria"]      negro   teoría, solución analítica o referencia experimental (p. ej. ALPHA)

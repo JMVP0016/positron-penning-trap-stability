@@ -63,7 +63,7 @@ def SE_desde_D(D):
     return 4 * B0**2 * D
 
 
-def simular_difusion(tau, sigma=1 / np.sqrt(2), n_tray=4000, n_lotes=8, n_periodos=150, semilla=None):
+def simular_difusion(tau, sigma=1 / np.sqrt(2), n_tray=4000, n_lotes=8, n_periodos=150, semilla=None, dt=None):
     """Simula n_tray centros guía con ruido OU y estima D con la pendiente de <|Z|^2>.
 
     sigma = 1/sqrt(2) V/m por componente equivale a E_rms = 1 V/m. La ecuación es lineal,
@@ -71,10 +71,13 @@ def simular_difusion(tau, sigma=1 / np.sqrt(2), n_tray=4000, n_lotes=8, n_period
     Las trayectorias se reparten en n_lotes independientes: D sale de cada lote y la
     dispersión entre lotes da la barra de error. semilla=None usa una semilla distinta en
     cada llamada; nunca reutilices la misma semilla para comparar dos casos.
+    dt=None usa el paso de la tesis, min(T_M/200, tau/20); otro valor sirve para la prueba de
+    convergencia temporal de figuras_verificacion.py.
     Devuelve (t, <|Z|^2>, D_simulado, error_de_D).
     """
     rng = np.random.default_rng(semilla)
-    dt = min(T_M / 200, tau / 20)            # resuelve la rotación y la memoria del ruido
+    if dt is None:
+        dt = min(T_M / 200, tau / 20)        # resuelve la rotación y la memoria del ruido
     n_pasos = int(n_periodos * T_M / dt)
     E = sigma * (rng.normal(size=n_tray) + 1j * rng.normal(size=n_tray))   # ruido ya estacionario
     Z = np.zeros(n_tray, dtype=complex)      # todos parten del centro de la trampa

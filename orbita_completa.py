@@ -88,7 +88,9 @@ def boris(tr, x0, v0, dt, n_pasos, E_ext=None, G=0.0, Gz=0.0, registrar=1, callb
                    [0.0, 0.0, -q_m * Gz]])
     I3 = np.eye(3)
     Ainv = np.linalg.inv(I3 - 0.5 * dt * Mv)
-    Cay = Ainv @ (I3 + 0.5 * dt * Mv)      # transformada de Cayley (rotación exacta si G = Gz = 0)
+    Cay = Ainv @ (I3 + 0.5 * dt * Mv)      # transformada de Cayley: conservación de norma para la rotación
+    #                                       magnética pura (G = Gz = 0); gira 2 arctan(w_c dt/2) por paso,
+    #                                       no w_c dt (error relativo ~ (w_c dt)^2/12; figuras_verificacion.py)
     t_reg, X_reg, V_reg = [0.0], [x.copy()], [np.array(v0, float).copy()]
     for n in range(n_pasos):
         t = n * dt
