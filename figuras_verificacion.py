@@ -3,7 +3,7 @@ figuras_verificacion.py — Figuras de las comprobaciones numéricas del anexo B
 
     python figuras_verificacion.py          # las cuatro figuras (unos 5 minutos)
     python figuras_verificacion.py 1 3      # solo las figuras 1 y 3
-    FIG_IDIOMA=en python figuras_verificacion.py
+    FIG_IDIOMA=en FIG_CARPETA=figures/en python figuras_verificacion.py
 
 Cada figura se guarda en figures/ (PDF y PNG) y sus datos en datos/ (CSV). No cambia ningún
 resultado de la tesis: solo muestra, con semillas fijas, comprobaciones que el código ya hace.
@@ -28,10 +28,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.ticker import FuncFormatter
 
-from figuras import COLOR, LINEA, guardar, tamano, usar_estilo
+from figuras import FormatoComa, COLOR, LINEA, guardar, tamano, usar_estilo
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 IDIOMA = os.environ.get("FIG_IDIOMA", "es")
+CARPETA = os.environ.get("FIG_CARPETA", "figures")   # con FIG_IDIOMA=en conviene FIG_CARPETA=figures/en
 
 
 def L(es, en):
@@ -40,11 +41,10 @@ def L(es, en):
 
 
 def coma(ax, eje="y"):
-    """Separador decimal de las marcas de un eje lineal: coma en español."""
+    """Separador decimal de las marcas de un eje lineal: coma en español (figuras.FormatoComa)."""
     if IDIOMA == "en":
         return
-    f = FuncFormatter(lambda v, _: f"{v:g}".replace(".", ","))
-    (ax.yaxis if eje == "y" else ax.xaxis).set_major_formatter(f)
+    (ax.yaxis if eje == "y" else ax.xaxis).set_major_formatter(FormatoComa())
 
 
 def guardar_datos(nombre, cabecera, *columnas):
@@ -75,23 +75,24 @@ def fig1_boris_fase():
     err_teo = 1 - 2 * np.arctan(wdt / 2) / wdt
     guardar_datos("verif_boris_fase", "wc_dt,theta_num,error_rel_num,error_rel_teo,desvio_norma_1000pasos",
                   wdt, theta, err_num, err_teo, norma)
-    fig, (a, b) = plt.subplots(1, 2, figsize=tamano(2, 6.0))
+    fig, (a, b) = plt.subplots(1, 2, figsize=tamano(2, 7.5))
     a.loglog(wdt, err_teo, color=COLOR["teoria"], ls="-", lw=1.0,
-             label=L(r"$1-2\arctan(\omega_c\Delta t/2)/(\omega_c\Delta t)$", r"$1-2\arctan(\omega_c\Delta t/2)/(\omega_c\Delta t)$"))
-    a.loglog(wdt, wdt**2 / 12, color=COLOR["teoria"], **LINEA["teoria"], label=r"$(\omega_c\Delta t)^2/12$")
+             label=L(r"expresión exacta, $1-2\arctan(\omega_c\Delta t/2)/(\omega_c\Delta t)$", r"exact expression, $1-2\arctan(\omega_c\Delta t/2)/(\omega_c\Delta t)$"))
+    a.loglog(wdt, wdt**2 / 12, color=COLOR["teoria"], **LINEA["teoria"], label=L(r"aproximación, $(\omega_c\Delta t)^2/12$", r"approximation, $(\omega_c\Delta t)^2/12$"))
     a.loglog(wdt, err_num, "o", color=COLOR["serie3"], ms=4, label=L("matriz de Cayley del código", "Cayley matrix of the code"))
     a.set_xlabel(L(r"paso adimensional $\omega_c\Delta t$", r"dimensionless step $\omega_c\Delta t$"))
-    a.set_ylabel(L("error relativo de fase por paso", "relative phase error per step"))
-    a.legend(fontsize=7.5, loc="lower right"); a.set_title("(a)", loc="left", fontsize=10)
-    b.loglog(wdt, np.maximum(norma, 1e-17), "s", color=COLOR["secundario"], ms=4)
-    b.axhline(np.finfo(float).eps * 1000, color=COLOR["teoria"], **LINEA["teoria"])
-    b.text(1.2e-3, np.finfo(float).eps * 1000 * 1.6, L(r"$10^3\,\epsilon_{\mathrm{máq}}$", r"$10^3\,\epsilon_{\mathrm{mach}}$"), fontsize=8)
+    a.set_ylabel(L("error relativo de fase\n" r"por paso $(\theta-\theta_{\mathrm{num}})/\theta$", "relative phase error\n" r"per step $(\theta-\theta_{\mathrm{num}})/\theta$"), fontsize=9)
+    a.legend(fontsize=7.5, loc="upper center", bbox_to_anchor=(0.5, -0.33)); a.set_title("(a)", loc="left", fontsize=10)
+    b.loglog(wdt, np.maximum(norma, 1e-17), "o", color=COLOR["serie3"], ms=4, label=L("matriz de Cayley del código", "Cayley matrix of the code"))
+    b.axhline(np.finfo(float).eps * 1000, color=COLOR["secundario"], ls=":", lw=1.2,
+              label=L("mil veces el épsilon de máquina", "1000 times machine epsilon"))
     b.set_ylim(1e-17, 1e-10)
     b.set_xlabel(L(r"paso adimensional $\omega_c\Delta t$", r"dimensionless step $\omega_c\Delta t$"))
-    b.set_ylabel(L(r"$\left|\,|\mathbf{v}_{1000}|/|\mathbf{v}_0|-1\right|$", r"$\left|\,|\mathbf{v}_{1000}|/|\mathbf{v}_0|-1\right|$"))
+    b.set_ylabel(L("desviación de la norma\n" r"tras mil pasos $\left|\,|\mathbf{v}_{1000}|/|\mathbf{v}_0|-1\right|$", "deviation of the norm\n" r"after 1000 steps $\left|\,|\mathbf{v}_{1000}|/|\mathbf{v}_0|-1\right|$"), fontsize=9)
+    b.legend(fontsize=7.5, loc="upper center", bbox_to_anchor=(0.5, -0.33))
     b.set_title("(b)", loc="left", fontsize=10)
     fig.tight_layout()
-    guardar(fig, "verif_boris_fase")
+    guardar(fig, "verif_boris_fase", CARPETA)
     print(f"  Boris: error relativo de fase {err_num[0]:.2e} con w_c dt = 1e-3 y {err_num[-1]:.3f} con w_c dt = 1;"
           f" desvío máximo de la norma tras 1000 pasos = {norma.max():.1e}")
 
@@ -114,7 +115,7 @@ def fig2_convergencia_dt():
     fig, a = plt.subplots(figsize=tamano(1, 6.0))
     a.axhline(1.0, color=COLOR["teoria"], **LINEA["teoria"], label=L("teoría", "theory"))
     a.errorbar(1 / divisores, rel, yerr=err, fmt="o", color=COLOR["serie3"], ms=4, capsize=2,
-               label=L("simulación", "simulation"))
+               label=L("simulación (barras: ±1σ)", "simulation (bars: ±1σ)"))
     a.axvline(1 / 200, color=COLOR["secundario"], lw=0.8, ls="--")
     a.text(1 / 200 * 1.08, 0.955, L("paso usado\nen la tesis", "step used\nin the thesis"), fontsize=7.5, color=COLOR["secundario"])
     a.set_xscale("log")
@@ -122,12 +123,13 @@ def fig2_convergencia_dt():
     a.set_xticklabels([("1/" + f"{n:g}").replace(".", "," if IDIOMA != "en" else ".") for n in divisores])
     a.minorticks_off()
     a.set_ylim(0.93, 1.07)
-    a.set_xlabel(L(r"paso $\Delta t/T_-$", r"step $\Delta t/T_-$"))
-    a.set_ylabel(r"$D_{\mathrm{sim}}/D_{\mathrm{teo}}$")
-    coma(a, "y")
+    a.set_xlabel(L(r"paso de integración $\Delta t/P_-$", r"integration step $\Delta t/P_-$"))
+    a.set_ylabel(L(r"cociente de difusión $D_{\mathrm{sim}}/D_{\mathrm{teo}}$", r"diffusion ratio $D_{\mathrm{sim}}/D_{\mathrm{theo}}$"))
+    a.set_yticks([0.95, 1.0, 1.05])
+    a.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{v:.2f}" if IDIOMA == "en" else f"{v:.2f}".replace(".", ",")))
     a.legend(fontsize=7.5, loc="upper right")
     fig.tight_layout()
-    guardar(fig, "verif_convergencia_dt")
+    guardar(fig, "verif_convergencia_dt", CARPETA)
     print("  convergencia: D_sim/D_teo = " + ", ".join(f"{r:.3f}±{e:.3f} (dt=T/{n:g})" for r, e, n in zip(rel, err, divisores)))
 
 
@@ -146,16 +148,17 @@ def fig3_disipacion():
     guardar_datos("verif_disipacion", "U,t_medio_sim_lambda,error,t_medio_teo_lambda", Us, media, err, teo)
     UU = np.logspace(-0.3, 2.3, 200)
     fig, a = plt.subplots(figsize=tamano(1, 6.0))
-    a.loglog(UU, Ein(UU) / 2, color=COLOR["teoria"], ls="-", lw=1.0, label=r"$\mathrm{Ein}(U)/(2\lambda)$")
+    a.loglog(UU, Ein(UU) / 2, color=COLOR["teoria"], ls="-", lw=1.0, label=L(r"con disipación, $\bar t=\mathrm{Ein}(U)/(2\lambda)$", r"with dissipation, $\bar t=\mathrm{Ein}(U)/(2\lambda)$"))
     a.loglog(UU, UU / 2, color=COLOR["teoria"], **LINEA["teoria"],
-             label=L(r"sin disipación, $R^2/(4D)$", r"no dissipation, $R^2/(4D)$"))
+             label=L(r"sin disipación, $\bar t=r_{\mathrm{wall}}^2/(4D)$", r"no dissipation, $\bar t=r_{\mathrm{wall}}^2/(4D)$"))
     a.errorbar(Us, media, yerr=err, fmt="o", color=COLOR["serie3"], ms=4, capsize=2,
                label=L("Monte Carlo, 4000 trayectorias", "Monte Carlo, 4000 trajectories"))
-    a.set_xlabel(L(r"$U=\lambda R^2/(2D)$", r"$U=\lambda R^2/(2D)$"))
-    a.set_ylabel(L(r"tiempo medio $\lambda\,\bar t$", r"mean time $\lambda\,\bar t$"))
+    a.set_xlabel(L(r"parámetro de disipación $U=\lambda r_{\mathrm{wall}}^2/(2D)$", r"dissipation parameter $U=\lambda r_{\mathrm{wall}}^2/(2D)$"))
+    a.set_ylabel(L("tiempo medio en unidades\n" r"de $1/\lambda$, $\lambda\,\bar t$", "mean time in units\n" r"of $1/\lambda$, $\lambda\,\bar t$"))
+    a.set_ylim(top=300)
     a.legend(fontsize=7.5, loc="upper left")
     fig.tight_layout()
-    guardar(fig, "verif_disipacion")
+    guardar(fig, "verif_disipacion", CARPETA)
     print("  disipación: sim/teo = " + ", ".join(f"{m/t:.3f} (U={U:g})" for m, t, U in zip(media, teo, Us)))
 
 
@@ -176,10 +179,10 @@ def fig4_orbita_completa():
     n, Xs = propagar(Phi, None, X0, int(1.2 * TR.P_m / dt), None, registrar=20)
     Xs = np.array(Xs)[:, 0, :]
     r = np.hypot(Xs[:, 0], Xs[:, 1]) / (E0 / TR.U0)
-    a.plot(n * dt / TR.P_m, r, color=COLOR["serie3"], lw=0.8, label=L("órbita completa", "full orbit"))
+    a.plot(n * dt / TR.P_m, r, color=COLOR["serie3"], lw=1.4, label=L("órbita completa", "full orbit"))
     a.axhline(2.0, color=COLOR["teoria"], **LINEA["teoria"], label=L(r"centro guía, $2\delta$", r"guiding centre, $2\delta$"))
-    a.set_xlabel(L(r"tiempo $t/T_-$", r"time $t/T_-$")); a.set_ylabel(r"$|u|/\delta$")
-    coma(a, "x"); coma(a, "y"); a.legend(fontsize=7, loc="lower right"); a.set_title("(a)", loc="left", fontsize=10)
+    a.set_xlabel(L(r"tiempo $t/P_-$", r"time $t/P_-$")); a.set_ylabel(L(r"distancia al eje $r/\delta$", r"distance from the axis $r/\delta$"))
+    coma(a, "x"); coma(a, "y"); a.legend(fontsize=7.5, loc="lower center", bbox_to_anchor=(0.43, 0.0), handlelength=1.5); a.set_title("(a)", loc="left", fontsize=10)
     max_a = r.max()
 
     # (b) ritmos con disipación E_x = -G v_x
@@ -196,9 +199,9 @@ def fig4_orbita_completa():
              label=L(r"teoría, $qG\omega_+/(2m\omega_1)$", r"theory, $qG\omega_+/(2m\omega_1)$"))
     b.loglog(Gs, cre, "o", color=COLOR["serie3"], ms=4, label=L("crecimiento del magnetrón", "magnetron growth"))
     b.loglog(Gs, dec, "s", color=COLOR["secundario"], ms=4, label=L("decaimiento del ciclotrón", "cyclotron decay"))
-    b.set_xlabel(L(r"coeficiente de reacción $G$", r"reaction coefficient $G$"))
-    b.set_ylabel(L("ritmo (unidades escaladas)", "rate (scaled units)"))
-    b.set_ylim(5e-8, 30); b.legend(fontsize=6.5, loc="upper left"); b.set_title("(b)", loc="left", fontsize=10)
+    b.set_xlabel(L(r"coeficiente de reacción $G/B_0$", r"reaction coefficient $G/B_0$"))
+    b.set_ylabel(L("ritmo de crecimiento o de\n" r"decaimiento (unidades de $\omega_c$)", "growth or decay rate\n" r"(units of $\omega_c$)"), fontsize=9)
+    b.set_ylim(5e-8, 1e4); b.set_yticks([1e-6, 1e-4, 1e-2, 1e0, 1e2, 1e4]); b.legend(fontsize=7.5, loc="upper left"); b.set_title("(b)", loc="left", fontsize=10)
 
     # (c) difusión con ruido OU isótropo, w_- tau = 1
     sigma, tau, sub, N = 1e-4, 1 / TR.w_m, 50, 4000
@@ -215,12 +218,12 @@ def fig4_orbita_completa():
     R2 = np.array([np.mean(np.abs(TR.modos(*u_v(X))[1]) ** 2) for X in Xs])
     D_cg = sigma**2 * tau / (TR.B0**2 * (1 + (TR.w_m * tau) ** 2))
     D_oc = D_cg * (TR.w_c / TR.w_1) ** 2
-    c.plot(t / TR.P_m, R2 / (4 * D_oc * TR.P_m), color=COLOR["serie3"], lw=0.9, label=L("órbita completa", "full orbit"))
+    c.plot(t / TR.P_m, R2 / (4 * D_oc * TR.P_m), color=COLOR["serie3"], lw=1.4, label=L("órbita completa", "full orbit"))
     c.plot(t / TR.P_m, t / TR.P_m, color=COLOR["teoria"], **LINEA["teoria"],
-           label=L(r"$4D\,(\omega_c/\omega_1)^2\,t$", r"$4D\,(\omega_c/\omega_1)^2\,t$"))
-    c.set_xlabel(L(r"tiempo $t/T_-$", r"time $t/T_-$"))
-    c.set_ylabel(L(r"$\langle|u_-|^2\rangle$ en unidades de $4D_{\mathrm{oc}}T_-$", r"$\langle|u_-|^2\rangle$ in units of $4D_{\mathrm{fo}}T_-$"))
-    c.legend(fontsize=7, loc="upper left"); c.set_title("(c)", loc="left", fontsize=10)
+           label=L(r"fórmula, $4D\,(\omega_c/\omega_1)^2\,t$", r"formula, $4D\,(\omega_c/\omega_1)^2\,t$"))
+    c.set_xlabel(L(r"tiempo $t/P_-$", r"time $t/P_-$"))
+    c.set_ylabel(L("desplazamiento cuadrático medio\n" r"$\langle|u_-|^2\rangle/[4D(\omega_c/\omega_1)^2P_-]$", "mean squared displacement\n" r"$\langle|u_-|^2\rangle/[4D(\omega_c/\omega_1)^2P_-]$"), fontsize=9)
+    c.legend(fontsize=7.5, loc="upper left"); c.set_title("(c)", loc="left", fontsize=10)
 
     # (d) ruido térmico de las dos mitades del anillo + disipación, U = 30
     lam_obj, U, N = 0.005, 30.0, 4000
@@ -244,17 +247,17 @@ def fig4_orbita_completa():
     propagar(Phi, Ld, np.zeros((N, 6)), int(15 * t_teo / dtd), rng, registrar=10**9, alfin=vigilar)
     ts = np.sort(tp / t_teo)
     S = 1 - np.arange(1, N + 1) / N
-    d.plot(ts, S, color=COLOR["serie3"], lw=0.9, label=L("órbita completa", "full orbit"))
+    d.plot(ts, S, color=COLOR["serie3"], lw=1.4, label=L("órbita completa", "full orbit"))
     d.axvline(np.mean(tp) / t_teo, color=COLOR["serie3"], lw=0.8, ls="--", label=L("media simulada", "simulated mean"))
-    d.axvline(1.0, color=COLOR["teoria"], **LINEA["teoria"], label=r"$\mathrm{Ein}(U)/(2\lambda)$")
+    d.axvline(1.0, color=COLOR["teoria"], **LINEA["teoria"], label=L("teoría,\n" r"$\bar t_{\mathrm{teo}}=\mathrm{Ein}(U)/(2\lambda)$", "theory,\n" r"$\bar t_{\mathrm{theo}}=\mathrm{Ein}(U)/(2\lambda)$"))
     d.set_xlim(0.5, 1.6)
-    d.set_xlabel(L(r"tiempo $t/\bar t_{\mathrm{teo}}$ ($U=30$)", r"time $t/\bar t_{\mathrm{theo}}$ ($U=30$)"))
-    d.set_ylabel(L("fracción confinada", "fraction confined"))
+    d.set_xlabel(L(r"tiempo $t/\bar t_{\mathrm{teo}}$", r"time $t/\bar t_{\mathrm{theo}}$"))
+    d.set_ylabel(L(r"fracción confinada $S(t)$", r"confined fraction $S(t)$"))
     coma(d, "x"); coma(d, "y")
-    d.legend(fontsize=6.5, loc="lower left"); d.set_title("(d)", loc="left", fontsize=10)
+    d.legend(fontsize=7.5, loc="upper right", title=r"$U=30$", title_fontsize=7.5, handlelength=1.5, borderaxespad=0.2); d.set_title("(d)", loc="left", fontsize=10)
 
     fig.tight_layout()
-    guardar(fig, "verif_orbita_completa")
+    guardar(fig, "verif_orbita_completa", CARPETA)
     guardar_datos("verif_orbita_completa_ritmos", "G,crecimiento_magnetron,teoria_magnetron,decaimiento_ciclotron,teoria_ciclotron",
                   Gs, cre, TR.q * Gs * TR.w_m / (2 * TR.m * TR.w_1), dec, TR.q * Gs * TR.w_p / (2 * TR.m * TR.w_1))
     guardar_datos("verif_orbita_completa_difusion", "t_sobre_T_menos,R2_sobre_4DT", t / TR.P_m, R2 / (4 * D_oc * TR.P_m))

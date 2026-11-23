@@ -332,10 +332,9 @@ if __name__ == "__main__":
     print(f"   perdidos: {perdidos.mean()*100:.1f} %;  mediana / t_medio = {med/t_med:.3f} ± {err/t_med:.3f}"
           f"  (analítica: {4*C50:.3f})")
 
-    # Figura de control
-    # Panel central en escala log-log: la supresión llega a 0,01 y en escala lineal esos puntos
-    # quedarían pegados al cero con barras invisibles. Debajo, el cociente simulación/teoría
-    # con sus barras de error, que es donde se ve si la simulación coincide con la fórmula.
+    # Figura de control (convención de la tesis). Panel central en escala log-log: la supresión llega a
+    # 0,01 y en escala lineal esos puntos quedarían pegados al cero. Debajo, el cociente simulación/teoría.
+    from figuras import coma
     usar_estilo()
     fig = plt.figure(figsize=tamano(2, 6.2))
     gs = fig.add_gridspec(2, 3, height_ratios=(2.2, 1))
@@ -344,26 +343,33 @@ if __name__ == "__main__":
     a1r = fig.add_subplot(gs[1, 1], sharex=a1)
     a2 = fig.add_subplot(gs[:, 2])
     t, R2, D_th = ejemplo
-    a0.plot(t * 1e3, R2 * 1e6, color=COLOR["4K"], ls="-", label="simulación")
-    a0.plot(t * 1e3, 4 * D_th * t * 1e6, color=COLOR["teoria"], **LINEA["teoria"], label=r"$4Dt$")
-    a0.set_xlabel(r"$t$ (ms)"); a0.set_ylabel(r"$\langle |Z|^2\rangle$ (mm$^2$)")
-    a0.legend(loc="upper left", fontsize=8)
+    a0.plot(t * 1e3, R2 * 1e6, color=COLOR["serie3"], ls="-", label="simulación")
+    a0.plot(t * 1e3, 4 * D_th * t * 1e6, color=COLOR["teoria"], **LINEA["teoria"], label=r"fórmula, $4Dt$")
+    a0.set_xlabel(r"tiempo $t$ (ms)")
+    a0.set_ylabel("desplazamiento cuadrático\nmedio " r"$\langle |Z|^2\rangle$ (mm$^2$)")
+    coma(a0, "y")
+    a0.legend(loc="upper left", fontsize=8); a0.set_title("(a)", loc="left", fontsize=10)
     xx = np.logspace(-1.3, 1.3, 200)
     a1.loglog(xx, 1 / (1 + xx**2), color=COLOR["teoria"], **LINEA["teoria"], label="teoría")
-    a1.plot(xs, ratios, color=COLOR["4K"], ls="none", marker="o", ms=4, label="simulación")
-    a1.set_ylabel(r"$D/D_{\mathrm{blanco}}$")
-    a1.legend(loc="lower left", fontsize=8)
+    a1.plot(xs, ratios, color=COLOR["serie3"], ls="none", marker="o", ms=4, label="simulación")
+    a1.set_ylabel("difusión relativa\nal ruido blanco, " r"$D/D_{\mathrm{blanco}}$", fontsize=9)
+    a1.legend(loc="lower left", fontsize=8); a1.set_title("(b)", loc="left", fontsize=10)
     plt.setp(a1.get_xticklabels(), visible=False)
     a1r.axhline(1.0, color=COLOR["teoria"], ls=":", lw=1.2)
-    a1r.errorbar(xs, rel, yerr=rel_err, color=COLOR["4K"], ls="none", marker="o", ms=4,
+    a1r.errorbar(xs, rel, yerr=rel_err, color=COLOR["serie3"], ls="none", marker="o", ms=4,
                  elinewidth=1, capsize=2.5, capthick=1)
     a1r.set_ylim(0.9, 1.1)
-    a1r.set_xlabel(r"$\omega_-\tau_s$"); a1r.set_ylabel(r"$D_{\mathrm{sim}}/D_{\mathrm{teo}}$")
+    coma(a1r, "y")
+    a1r.set_xlabel("tiempo de correlación\n" r"del ruido, $\omega_-\tau_s$")
+    a1r.set_ylabel("cociente\n" r"$D_{\mathrm{sim}}/D_{\mathrm{teo}}$", fontsize=9)
     tt = np.linspace(0, 3, 400)              # en unidades de la media
-    a2.plot(tt, _S_adim(tt / 4), color=COLOR["4K"], ls="-")
-    a2.axvline(4 * C50, color=COLOR["secundario"], ls="--", lw=1)
-    a2.axvline(1.0, color=COLOR["teoria"], ls=":", lw=1.2)
-    a2.text(4 * C50 - 0.05, 0.92, "mediana", ha="right", fontsize=8)
-    a2.text(1.05, 0.92, "media", fontsize=8)
-    a2.set_xlabel(r"$t/\bar t$"); a2.set_ylabel(r"$S(t)$")
+    a2.plot(tt, _S_adim(tt / 4), color=COLOR["teoria"], ls="-", label="analítica")
+    a2.axvline(4 * C50, color=COLOR["secundario"], ls="--", lw=1, label="mediana")
+    a2.axvline(1.0, color=COLOR["secundario"], ls=":", lw=1.2, label="media")
+    a2.set_xlabel("tiempo en unidades\n" r"del tiempo medio, $t/\bar t$")
+    a2.set_ylabel(r"fracción confinada $S(t)$")
+    coma(a2, "y")
+    a2.legend(loc="upper right", fontsize=7.5, handlelength=1.4, borderaxespad=0.2)
+    a2.set_xticks([0, 1, 2, 3])
+    a2.set_title("(c)", loc="left", fontsize=10)
     guardar(fig, "control_ruido")

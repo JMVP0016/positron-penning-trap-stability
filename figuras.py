@@ -29,6 +29,8 @@ Tamaños de IOP: tamano(2) = 15 cm (dos columnas, por defecto), tamano(1) = 8,5 
 import os
 
 import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.ticker import Formatter
 
 _DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -70,6 +72,23 @@ def usar_estilo(oscuro=False):
             "xtick.color": "#c3c2b7", "ytick.color": "#c3c2b7", "grid.color": "#2c2c2a",
             "axes.prop_cycle": plt.cycler(color=[COLOR["4K"], COLOR["01K"], COLOR["serie3"]]),
         })
+
+
+class FormatoComa(Formatter):
+    """Marcas de un eje lineal con coma decimal y el mismo número de decimales en todas (0,0; 0,5; 1,0)."""
+
+    def __call__(self, v, pos=None):
+        marcas = [x for x in getattr(self, "locs", []) if np.isfinite(x)] or [v]
+        dec = max(len(np.format_float_positional(round(x, 6), trim="-").partition(".")[2]) for x in marcas)
+        return f"{v:.{dec}f}".replace(".", ",").replace("-", "\u2212")
+
+
+def coma(ax, eje="y", idioma=None):
+    """Separador decimal de un eje lineal: coma en español (por defecto) y punto con FIG_IDIOMA=en."""
+    idioma = idioma or os.environ.get("FIG_IDIOMA", "es")
+    if idioma == "en":
+        return
+    (ax.yaxis if eje == "y" else ax.xaxis).set_major_formatter(FormatoComa())
 
 
 def guardar(fig, nombre, carpeta="figures"):

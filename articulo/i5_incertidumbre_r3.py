@@ -11,7 +11,7 @@ import numpy as np
 sys.path.insert(0, sys.argv[1])
 import matplotlib; matplotlib.use("Agg")
 import matplotlib.pyplot as plt
-IDIOMA = os.environ.get("FIG_IDIOMA", "en")          # "es" para la tesis (anexo F.3), "en" para el artículo
+IDIOMA = os.environ.get("FIG_IDIOMA", "en")          # "en" para el artículo; la figura del anexo F.3 de la tesis sale de fig_F3_incertidumbres.py
 _ES = {"total A + T2, flat EMI": "total A + canal axial, EMI plana",
        "total B + T2, flat EMI": "total B + canal axial, EMI plana",
        "total A + T2, 1/f EMI": "total A + canal axial, EMI 1/f",
@@ -113,7 +113,7 @@ q2 = circ(T_LO, 0, "T", "plana") / circ(T_HI, 0, "T", "plana"); kap[0] = kap0
 print(f"kappa se cancela: {q1:.12f} vs {q2:.12f}")
 
 # ---- figura de cocientes (histogramas) ----
-fig, ax = plt.subplots(figsize=(6.6, 3.6)); bins = np.logspace(-0.01, 2.6, 90)
+fig, ax = plt.subplots(figsize=(6.6, 3.6)); bins = np.logspace(-0.01, 3.4, 120)
 for key, ls, lab in ((("total A", "plana", "T", True), "-", "total A + T2, flat EMI"),
                      (("total B", "plana", "T", True), "--", "total B + T2, flat EMI"),
                      (("total A", "1/f", "T", True), ":", "total A + T2, 1/f EMI"),

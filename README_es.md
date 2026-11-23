@@ -10,6 +10,25 @@ difundir el radio del magnetrón.
 
 English version: [README.md](README.md).
 
+## Qué cambia en la versión 2.0.4
+
+Los cálculos y los datos no cambian y las 79 pruebas pasan. Cambian los rótulos de las figuras y se añaden dos
+guiones de figuras.
+
+- Figuras de control (`centro_guia.py`, `ruido.py`, `superficie.py`), de verificación (`figuras_verificacion.py`) y
+  de disipación (`fig_disipacion.py`): cada eje lleva nombre, símbolo y unidad; las leyendas explican todos los
+  símbolos sin tapar los datos; los colores siguen la paleta de `figuras.py`, con azul y vino solo para comparar
+  4 K con 0,1 K; el periodo magnetrón se escribe P₋ y el radio de pérdida r_wall. `figuras_verificacion.py` acepta
+  `FIG_CARPETA`, así la versión en inglés ya no sobrescribe la española.
+- `figuras.py`: `coma()` escribe las marcas de los ejes lineales con coma decimal y el mismo número de decimales.
+- `fig_F3_incertidumbres.py` (nuevo): cociente t̄(T)/t̄(4 K) con su mediana y los percentiles 5–95, con el mismo
+  cálculo y la misma semilla que `articulo/i5_incertidumbre_r3.py`.
+- `fig_flujo_codigo.py` (nuevo): diagrama de flujo del cálculo, con el módulo que realiza cada paso.
+- `articulo/i5_incertidumbre_r3.py`: el histograma de cocientes llega ahora hasta 10^3,4; antes terminaba en
+  10^2,6 y el canal axial, con cocientes cercanos a 1600, quedaba acumulado en el borde.
+- `figures/control_transito.*` se regeneró con `transito.py`: la copia anterior venía de una versión previa de la
+  paleta de colores; los datos son los mismos.
+
 ## Qué cambia en la versión 2.0.3
 
 Los resultados anteriores no cambian y las 79 pruebas pasan. La versión 2.0.2 contiene los mismos cambios.
@@ -74,6 +93,9 @@ Entorno de referencia: Python 3.11.3 con las versiones fijadas en `requirements.
 | `python3 cifras_canonicas.py` | cada cifra que cita la tesis, con el guion que la produce | `datos/cifras_canonicas.csv` |
 | `python3 make_figures_article.py --slow` | análisis del artículo (≈ 4 min) | `datos_articulo/`, `figures_articulo/` |
 | `python3 figuras_verificacion.py` | figuras de verificación del anexo B (≈ 30 s) | `figures/verif_*`, `datos/verif_*.csv` |
+| `python3 centro_guia.py` (y `ruido.py`, `superficie.py`) | comprobaciones de cada módulo y su figura de control | `figures/control_*` |
+| `python3 fig_F3_incertidumbres.py` | propagación de incertidumbres: t̄(T)/t̄(4 K) con mediana y percentiles 5–95 (≈ 15 s) | `figures/figF3_incertidumbres.*` |
+| `python3 fig_flujo_codigo.py` | diagrama de flujo del cálculo | `figures/met_01_flujo_codigo.*` |
 | `FIG_IDIOMA=es python3 articulo/fig_regimes_extended.py --salida figures` | mapa de regímenes de la tesis (Ilustración 4-9) | `figures/fig_regimes_extended_es.*` |
 
 Con `FIG_IDIOMA=en FIG_CARPETA=figures/en` delante de la orden, las figuras salen con las etiquetas en inglés. Con
@@ -101,7 +123,7 @@ idénticos.
 Todas las simulaciones Monte Carlo usan semillas fijas: en el entorno de referencia, regenerar los datos reproduce bit
 a bit los CSV de `datos/` (la última columna de `datos_articulo/m1_sesgo_mediana.csv` guarda tiempos de ejecución y
 cambia en cada corrida). El tag `v12-tesis-cifras` marca la versión del código de la que sale cada cifra de la tesis;
-`v2.0.3` es esta publicación.
+`v2.0.4` es esta publicación.
 
 ## Autores
 

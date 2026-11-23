@@ -51,15 +51,22 @@ def figura():
     curvas = ((1, 2, COLOR["serie3"], L("filtro de tres etapas + EMI", "three-stage filter + EMI")),
               (3, 4, COLOR["secundario"], L("filtro de 12 Hz + EMI", "12 Hz filter + EMI")),
               (5, 6, COLOR["teoria"], L("filtro entero a $T$ (sin EMI)", "whole filter at $T$ (no EMI)")))
+    from matplotlib.legend_handler import HandlerTuple
+    from matplotlib.lines import Line2D
+    manejadores, etiquetas = [], []
     for i_sin, i_con, c, nombre in curvas:
-        a.loglog(d[:, 0], d[:, i_sin], color=c, ls="-", lw=1.6, label=nombre + L(", sin disipación", ", no dissipation"))
-        a.loglog(d[:, 0], d[:, i_con], color=c, ls="--", lw=1.6, label=nombre + L(", con disipación", ", with dissipation"))
+        a.loglog(d[:, 0], d[:, i_sin], color=c, ls="-", lw=1.6)
+        a.loglog(d[:, 0], d[:, i_con], color=c, ls="--", lw=1.6)
+        manejadores.append((Line2D([], [], color=c, ls="-", lw=1.6), Line2D([], [], color=c, ls="--", lw=1.6)))
+        etiquetas.append(nombre)
     a.set_xlabel(L(r"temperatura del sistema $T$ (K)", r"system temperature $T$ (K)"))
     a.set_ylabel(L(r"tiempo medio de pérdida $\bar t$ (años)", r"mean loss time $\bar t$ (years)"))
     a.set_ylim(0.1, 1e4)
     a.set_title("(a)", loc="left", fontsize=10)
-    fig.legend(*a.get_legend_handles_labels(), loc="outside lower center", ncol=3, fontsize=6.5,
-               columnspacing=1.4, handlelength=2.4, frameon=False)
+    fig.legend(manejadores, etiquetas, handler_map={tuple: HandlerTuple(ndivide=None, pad=0.6)},
+               loc="outside lower center", ncol=3, fontsize=7.5, columnspacing=1.6, handlelength=3.6, frameon=False,
+               title=L("Panel (a): línea continua, sin disipación; discontinua, con disipación",
+                       "Panel (a): solid line, no dissipation; dashed line, with dissipation"), title_fontsize=7.5)
     # (b) cociente general para una fuente térmica a T_b
     b.loglog(d[:, 0], d[:, 7], color=COLOR["teoria"], ls="-", lw=1.6)
     for Tk, k, mk in ((T_4K, "4K", "o"), (T_01K, "01K", "s")):
@@ -68,7 +75,8 @@ def figura():
         b.annotate(f"1/{1 / fk:.0f}", (Tk, fk), textcoords="offset points", xytext=(6, -14) if k == "4K" else (6, -12),
                    fontsize=8, color=COLOR[k])
     b.set_xlabel(L(r"temperatura de la fuente de ruido $T_b$ (K)", r"noise-source temperature $T_b$ (K)"))
-    b.set_ylabel(L(r"$\bar t$ con disipación / $\bar t$ sin disipación", r"$\bar t$ with / without dissipation"))
+    b.set_ylabel(L("cociente de tiempos medios,\n" r"$\bar t$ con disipación / $\bar t$ sin disipación",
+                   "mean-time ratio,\n" r"$\bar t$ with / without dissipation"))
     formula = r"$\mathrm{Ein}(U)/U$,  $U = 2901\ \mathrm{K}/T_b$"
     b.text(0.22, 0.80, L("fuente térmica:\n", "thermal source:\n") + formula,
            transform=b.transAxes, fontsize=7.5, va="bottom", ha="left",

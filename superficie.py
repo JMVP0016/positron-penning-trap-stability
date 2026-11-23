@@ -109,17 +109,18 @@ if __name__ == "__main__":
         print(f"   l = {ell*1e6:7.1f} µm: para 1 V/m (valor de la versión 1) V_rms = {V_rms_necesario(1.0, ell):.2e} V;"
               f" para 50 V/m (pérdida) V_rms = {V_rms_necesario(U0*R_WALL/2, ell):.2e} V")
 
-    # Figura de control
+    # Figura de control (convención de la tesis)
     usar_estilo()
     ells = np.logspace(-7, -2.3, 60)
     fig, ax = plt.subplots()
-    for Vr, c, ls in ((1e-3, COLOR["serie1"], "-"), (1e-2, COLOR["serie2"], "--")):
-        ax.loglog(ells * 1e3, [E_centro_rms(Vr, l) for l in ells], color=c, ls=ls, label=f"$V_{{rms}}$ = {Vr*1e3:.0f} mV")
-    ax.axhline(1.0, color=COLOR["teoria"], ls="--", lw=1)
-    ax.text(1.3e-4, 1.25, "1 V/m: valor usado en la versión 1", fontsize=8)
-    ax.axhline(U0 * R_WALL / 2, color=COLOR["teoria"], ls=":", lw=1.2)
-    ax.text(1.3e-4, 62, "50 V/m: umbral de pérdida", fontsize=8)
+    for Vr, ls in ((1e-3, "-"), (1e-2, "--")):
+        ax.loglog(ells * 1e3, [E_centro_rms(Vr, l) for l in ells], color=COLOR["teoria"], ls=ls,
+                  label=f"$V_{{\\mathrm{{rms}}}}$ = {Vr*1e3:.0f} mV")
+    ax.axhline(1.0, color=COLOR["secundario"], ls="-.", lw=0.9)
+    ax.text(1.3e-4, 1.3, "1 V/m: orden del campo medido en ALPHA", fontsize=8)
+    ax.axhline(U0 * R_WALL / 2, color=COLOR["secundario"], ls=":", lw=1.2)
+    ax.text(1.3e-4, 65, "50 V/m: umbral de pérdida", fontsize=8)
     ax.set_xlabel(r"longitud de correlación del parche $\ell$ (mm)")
-    ax.set_ylabel(r"$|E(0)|_{rms}$ en el centro (V/m)")
-    ax.legend(loc="lower right")
+    ax.set_ylabel("campo del parche en el centro\n" r"de la trampa, $|E(0)|_{\mathrm{rms}}$ (V/m)")
+    ax.legend(loc="lower right", title="potencial eficaz superficial", title_fontsize=8, fontsize=9)
     guardar(fig, "control_superficie")

@@ -10,6 +10,24 @@ makes the magnetron radius diffuse.
 
 Versión en español: [README_es.md](README_es.md).
 
+## What is new in version 2.0.4
+
+Calculations and data are unchanged and the 79 tests pass. Figure labels change and two figure scripts are added.
+
+- Control figures (`centro_guia.py`, `ruido.py`, `superficie.py`), verification figures (`figuras_verificacion.py`)
+  and the dissipation figure (`fig_disipacion.py`): every axis carries a name, a symbol and a unit; legends explain
+  every symbol without covering the data; colours follow the palette in `figuras.py`, with blue and wine reserved
+  for comparing 4 K with 0.1 K; the magnetron period is written P₋ and the loss radius r_wall.
+  `figuras_verificacion.py` accepts `FIG_CARPETA`, so the English version no longer overwrites the Spanish one.
+- `figuras.py`: `coma()` writes the tick labels of linear axes with a decimal comma and the same number of decimals.
+- `fig_F3_incertidumbres.py` (new): the ratio t̄(T)/t̄(4 K) with its median and 5th–95th percentiles, using the
+  same calculation and seed as `articulo/i5_incertidumbre_r3.py`.
+- `fig_flujo_codigo.py` (new): flowchart of the calculation, with the module that performs each step.
+- `articulo/i5_incertidumbre_r3.py`: the histogram of ratios now extends to 10^3.4; it used to stop at 10^2.6, so
+  the axial channel, with ratios near 1600, piled up at the edge.
+- `figures/control_transito.*` was regenerated with `transito.py`: the previous copy came from an earlier version of
+  the colour palette; the data are the same.
+
 ## What is new in version 2.0.3
 
 Previous results are unchanged and the 79 tests pass. Version 2.0.2 contains the same changes.
@@ -73,6 +91,9 @@ Reference environment: Python 3.11.3 with the versions pinned in `requirements.t
 | `python3 cifras_canonicas.py` | every number quoted in the thesis, with the script that produces it | `datos/cifras_canonicas.csv` |
 | `python3 make_figures_article.py --slow` | analyses for the article (≈ 4 min) | `datos_articulo/`, `figures_articulo/` |
 | `python3 figuras_verificacion.py` | verification figures of annex B (≈ 30 s) | `figures/verif_*`, `datos/verif_*.csv` |
+| `python3 centro_guia.py` (and `ruido.py`, `superficie.py`) | checks of each module and its control figure | `figures/control_*` |
+| `python3 fig_F3_incertidumbres.py` | uncertainty propagation: t̄(T)/t̄(4 K) with median and 5th–95th percentiles (≈ 15 s) | `figures/figF3_incertidumbres.*` |
+| `python3 fig_flujo_codigo.py` | flowchart of the calculation | `figures/met_01_flujo_codigo.*` |
 | `FIG_IDIOMA=es python3 articulo/fig_regimes_extended.py --salida figures` | regime map of the thesis (Figure 4-9) | `figures/fig_regimes_extended_es.*` |
 
 Prefix a command with `FIG_IDIOMA=en FIG_CARPETA=figures/en` to get the same figures with English labels. With
@@ -99,7 +120,7 @@ reference environment.
 
 All Monte Carlo simulations use fixed seeds. In the reference environment, regenerating the data reproduces the CSV
 files in `datos/` bit for bit (the last column of `datos_articulo/m1_sesgo_mediana.csv` records run times and changes
-on every run). The tag `v12-tesis-cifras` marks the code version behind every number in the thesis; `v2.0.3` is this
+on every run). The tag `v12-tesis-cifras` marks the code version behind every number in the thesis; `v2.0.4` is this
 release.
 
 ## Authors
