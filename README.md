@@ -12,7 +12,7 @@ Versión en español: [README_es.md](README_es.md).
 
 ## What is new in version 2.0.2
 
-Changes made for the thesis examiners' report. No result of the thesis changes and the 79 tests are the same.
+Changes made after the review of the thesis. No result of the thesis changes and the 79 tests are the same.
 
 - `articulo/fig_regimes_extended.py`: the regime map marks the time criterion t* = 1 yr, calls the static-field
   loss deterministic, places the three-stage circuit with dissipation at its equivalent noise S_eq and explains every

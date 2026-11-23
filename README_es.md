@@ -12,7 +12,7 @@ English version: [README.md](README.md).
 
 ## Qué cambia en la versión 2.0.2
 
-Cambios hechos por las observaciones del tribunal de la tesis. Ningún resultado de la tesis cambia y las 79
+Cambios hechos tras la revisión de la tesis. Ningún resultado de la tesis cambia y las 79
 pruebas son las mismas.
 
 - `articulo/fig_regimes_extended.py`: el mapa de regímenes marca el criterio temporal t* = 1 año, llama
